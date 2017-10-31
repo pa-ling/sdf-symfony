@@ -1,0 +1,289 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Application\Sonata\MediaBundle\Entity\Media;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Termine
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class CranioTermine
+{
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="titel", type="string", length=128)
+     */
+    private $kursName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="terminName1", type="string", length=20, nullable=true)
+     */
+    private $termineName1;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="terminName2", type="string", length=20, nullable=true)
+     */
+    private $termineName2;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="terminName3", type="string", length=20, nullable=true)
+     */
+    private $termineName3;
+
+    /**
+     * @var Media
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"})
+     * @ORM\JoinColumns({
+     *     @ORM\JoinColumn(name="termine1", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $termine1;
+
+    /**
+     * @var Media
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"})
+     * @ORM\JoinColumns({
+     *     @ORM\JoinColumn(name="termine2", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $termine2;
+
+    /**
+     * @var Media
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"})
+     * @ORM\JoinColumns({
+     *     @ORM\JoinColumn(name="termine3", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $termine3;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="link", type="string", length=1024, nullable=true)
+     */
+    private $link;
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set kursName
+     *
+     * @param string $kursName
+     *
+     * @return Termine
+     */
+    public function setKursName($kursName)
+    {
+        $this->kursName = $kursName;
+
+        return $this;
+    }
+
+    /**
+     * Get kursName
+     *
+     * @return string
+     */
+    public function getKursName()
+    {
+        return $this->kursName;
+    }
+
+    /**
+     * Set termine1
+     *
+     * @param string $termine1
+     *
+     * @return Termine
+     */
+    public function setTermine1($termine1)
+    {
+        $this->termine1 = $termine1;
+
+        return $this;
+    }
+
+    /**
+     * Get termine1
+     *
+     * @return string
+     */
+    public function getTermine1()
+    {
+        return $this->termine1;
+    }
+
+    /**
+     * Set termine2
+     *
+     * @param string $termine2
+     *
+     * @return Termine
+     */
+    public function setTermine2($termine2)
+    {
+        $this->termine2 = $termine2;
+
+        return $this;
+    }
+
+    /**
+     * Get termine2
+     *
+     * @return string
+     */
+    public function getTermine2()
+    {
+        return $this->termine2;
+    }
+
+    /**
+     * Set termine3
+     *
+     * @param string $termine3
+     *
+     * @return Termine
+     */
+    public function setTermine3($termine3)
+    {
+        $this->termine3 = $termine3;
+
+        return $this;
+    }
+
+    /**
+     * Get termine3
+     *
+     * @return string
+     */
+    public function getTermine3()
+    {
+        return $this->termine3;
+    }
+
+    /**
+     * Set link
+     *
+     * @param string $link
+     *
+     * @return Termine
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    /**
+     * Get link
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * Set termineName1
+     *
+     * @param string $termineName1
+     *
+     * @return Termine
+     */
+    public function setTermineName1($termineName1)
+    {
+        $this->termineName1 = $termineName1;
+
+        return $this;
+    }
+
+    /**
+     * Get termineName1
+     *
+     * @return string
+     */
+    public function getTermineName1()
+    {
+        return $this->termineName1;
+    }
+
+    /**
+     * Set termineName2
+     *
+     * @param string $termineName2
+     *
+     * @return Termine
+     */
+    public function setTermineName2($termineName2)
+    {
+        $this->termineName2 = $termineName2;
+
+        return $this;
+    }
+
+    /**
+     * Get termineName2
+     *
+     * @return string
+     */
+    public function getTermineName2()
+    {
+        return $this->termineName2;
+    }
+
+    /**
+     * Set termineName3
+     *
+     * @param string $termineName3
+     *
+     * @return Termine
+     */
+    public function setTermineName3($termineName3)
+    {
+        $this->termineName3 = $termineName3;
+
+        return $this;
+    }
+
+    /**
+     * Get termineName3
+     *
+     * @return string
+     */
+    public function getTermineName3()
+    {
+        return $this->termineName3;
+    }
+}

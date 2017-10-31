@@ -1,0 +1,93 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+    encoders:
+            Application\Sonata\UserBundle\Entity\User: bcrypt
+
+    acl:
+            connection: default
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        in_memory:
+            memory: ~
+        #sub
+        fos_userbundle:
+                    #id: fos_user.user_manager #sub
+            id: fos_user.user_provider.username
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:       # hier kann noch ein fehler kommen
+            pattern:    /(.*)
+            anonymous: true
+            access_denied_url: /
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: security.csrf.token_manager
+                #login_path: /secure/login
+                check_path: /secure/login
+                use_referer: true
+                failure_path: /secure/login
+                always_use_default_target_path: true
+                default_target_path: /#news
+            logout:
+                path:     /logout
+                target:   /
+
+        secure:
+            pattern:    /secure(.*)
+            anonymous: true
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: security.csrf.token_manager
+                login_path: /secure/login
+                check_path: /secure/login
+                failure_path: /secure/login
+                use_referer: true
+                always_use_default_target_path: true
+                default_target_path: /
+            logout:
+                path:     /logout
+                target:   /
+
+        admin:
+            pattern:            /admin(.*)
+            context:            user
+            form_login:
+                provider:       fos_userbundle
+                csrf_provider:  security.csrf.token_manager
+                login_path:     /admin/login
+                use_forward:    false
+                check_path:     /admin/login_check
+                failure_path:   /admin/login
+            logout:
+                path:           /admin/logout
+                target:         /
+
+
+    role_hierarchy:
+        ROLE_USER:              []
+        ROLE_STAFF:             [ROLE_USER]
+        ROLE_MODERATOR:         [ROLE_STAFF]
+        ROLE_ADMIN:             [ROLE_MODERATOR]
+        ROLE_SUPER_ADMIN:       [ROLE_ADMIN]
+
+
+    access_decision_manager:
+            strategy: unanimous
+
+    access_control:
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY } #requires_channel: https
+        - { path: ^/secure/login$, role: IS_AUTHENTICATED_ANONYMOUSLY } #requires_channel: https
+
+        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        - { path: ^/admin/, role: ROLE_STAFF } #requires_channel: https
+        - { path: ^/secure/, role: ROLE_USER } #requires_channel: https
+        - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY } #requires_channel: https

@@ -1,0 +1,12 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: localhost
+    database_port: null
+    database_name: sdf
+    database_user: root
+    database_password: root
+    mailer_transport: smtp
+    mailer_host:
+    mailer_user:
+    mailer_password:
+    secret: d8094948df9ef2610710673f0609eb34b4

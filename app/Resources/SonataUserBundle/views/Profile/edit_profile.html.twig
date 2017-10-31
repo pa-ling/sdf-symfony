@@ -1,0 +1,57 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section class="main-section contact" id="contact">
+        <h2>Dein Profil</h2><br>
+        <h6>
+            Hier kannst du deine Profil ändern.
+        </h6><br>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 wow fadeInUp delay-05s">
+                    <div class="form ">
+                        <form action="{{ path('sonata_user_profile_edit') }}" method="POST">
+                            {{ form_label(form.gender, 'Geschlecht') }}
+                            {{ form_widget(form.gender, { 'attr': {'class': 'input-text'} }) }}
+
+                            {{ form_label(form.firstname, 'Vorname') }}
+                            {{ form_widget(form.firstname, { 'attr': {'class': 'input-text'} }) }}
+
+                            {{ form_label(form.lastname, 'Nachname') }}
+                            {{ form_widget(form.lastname, { 'attr': {'class': 'input-text'} }) }}
+
+                            {{ form_label(form.dateOfBirth, 'Geburtstag') }}
+                            {{ form_widget(form.dateOfBirth, { 'attr': {'class': 'input-text'} }) }}
+
+                            {{ form_label(form.biography, 'Biographie') }}
+                            {{ form_widget(form.biography, { 'attr': {'class': 'input-text'} }) }}
+
+                            {{ form_label(form.locale, 'Ort') }}
+                            {{ form_widget(form.locale, { 'attr': {'class': 'input-text'} }) }}
+
+                            {{ form_label(form.phone, 'Telephone') }}
+                            {{ form_widget(form.phone, { 'attr': {'class': 'input-text'} }) }}
+
+
+
+                            <input class="input-btn" type="submit" value="Ändern">
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

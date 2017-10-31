@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section class="main-section contact">
+        <h2>Login</h2><br>
+        <h6>
+            {% if message %}
+                    {{ message }}
+            {% endif %}
+            {%- if app.user -%}
+                Herzlich willkommen bei Inomt&nbsp;<b style="    color: #FF9900;">{{- app.user.username -}}</b>!
+            {%- endif -%}</span>
+        </h6><br>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-5 wow fadeInUp delay-05s">
+                    <div class="form ">
+                       <form action="{{ path('login') }}" method="post">
+                           <input type="hidden" name="_csrf_token"value="{{ csrf_token('authenticate') }}">
+                           <label for="username">Name:</label>
+                           <input type="text" id="username" name="_username" class="input-text"/>
+                           <label for="password">Passwort:</label>
+                           <input type="password" id="password" name="_password" class="input-text"/>
+                           <input class="input-btn" type="submit" value="login">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-5 wow fadeInUp delay-05s text-center" style="margin-top: 20px;">
+                    Du bist noch nicht registriert? Registriere dich <a href="{{ path('user_registration') }}">jetzt.</a>
+                </div>
+                <div class="col-lg-6 col-sm-5 wow fadeInUp delay-05s text-center" style="margin-top: 20px;">
+                    Passwort vergessen? Klick <a href="{{ path('fos_user_resetting_request') }}">hier.</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+

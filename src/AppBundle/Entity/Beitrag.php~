@@ -1,0 +1,232 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Application\Sonata\MediaBundle\Entity\Media;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Beitrag
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class Beitrag
+{
+
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="titel", type="string", length=255)
+     */
+    private $titel;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="date", type="string", length=255)
+     */
+    private $date;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content", type="string", length=1024)
+     */
+    private $content;
+
+    /**
+     * @var Media
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"})
+     * @ORM\JoinColumns({
+     *     @ORM\JoinColumn(name="image1", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $image1;
+
+    /**
+     * @var Media
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"})
+     * @ORM\JoinColumns({
+     *     @ORM\JoinColumn(name="image2", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $image2;
+
+    /**
+     * @var Media
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"})
+     * @ORM\JoinColumns({
+     *     @ORM\JoinColumn(name="image3", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $image3;
+
+
+
+    /**
+     * Set titel
+     *
+     * @param string $titel
+     *
+     * @return Beitrag
+     */
+    public function setTitel($titel)
+    {
+        $this->titel = $titel;
+
+        return $this;
+    }
+
+    /**
+     * Get titel
+     *
+     * @return string
+     */
+    public function getTitel()
+    {
+        return $this->titel;
+    }
+
+    /**
+     * Set date
+     *
+     * @param string $date
+     *
+     * @return Beitrag
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return string
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     *
+     * @return Beitrag
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Set image1
+     *
+     * @param string $image1
+     *
+     * @return Beitrag
+     */
+    public function setImage1($image1)
+    {
+        $this->image1 = $image1;
+
+        return $this;
+    }
+
+    /**
+     * Get image1
+     *
+     * @return string
+     */
+    public function getImage1()
+    {
+        return $this->image1;
+    }
+
+    /**
+     * Set image2
+     *
+     * @param string $image2
+     *
+     * @return Beitrag
+     */
+    public function setImage2($image2)
+    {
+        $this->image2 = $image2;
+
+        return $this;
+    }
+
+    /**
+     * Get image2
+     *
+     * @return string
+     */
+    public function getImage2()
+    {
+        return $this->image2;
+    }
+
+    /**
+     * Set image3
+     *
+     * @param string $image3
+     *
+     * @return Beitrag
+     */
+    public function setImage3($image3)
+    {
+        $this->image3 = $image3;
+
+        return $this;
+    }
+
+    /**
+     * Get image3
+     *
+     * @return string
+     */
+    public function getImage3()
+    {
+        return $this->image3;
+    }
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}

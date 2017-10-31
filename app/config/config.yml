@@ -1,0 +1,226 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: @AppBundle/Resources/config/admin.yml }
+
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+
+parameters:
+    locale: en
+    document_directory: '%kernel.root_dir%/../web/uploads/internal'
+
+framework:
+    translator: ~
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    #serializer:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  en
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+    fragments:      ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+        #closure:
+        #    jar: "%kernel.root_dir%/Resources/java/compiler.jar"
+        #yui_css:
+        #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path:     "%kernel.root_dir%/data/inomtdata/db.opt"
+        #sub
+        types:
+                    json: Sonata\Doctrine\Types\JsonType
+
+    orm:
+         default_entity_manager: default
+         auto_generate_proxy_classes: "%kernel.debug%"
+         resolve_target_entities:
+            Symfony\Component\Security\Core\User\UserInterface: Application\Sonata\UserBundle\Entity\User
+         naming_strategy: doctrine.orm.naming_strategy.underscore
+         auto_mapping: true
+
+doctrine_phpcr:
+    session:
+        backend:
+            type: doctrinedbal
+            # optional parameters for Jackalope
+            parameters:
+                jackalope.factory:                Jackalope\Factory
+                jackalope.check_login_on_server:  false
+                jackalope.disable_stream_wrapper: false
+                jackalope.auto_lastmodified:      true
+                # see below for how to configure the backend of your choice
+        workspace: default
+        username:  admin
+        password:  admin
+        # tweak options for Jackalope (all versions)
+        options:
+            jackalope.fetch_depth: 1
+    odm:
+        auto_mapping: false
+        mappings:
+            SonataMediaBundle:
+                prefix: Sonata\MediaBundle\PHPCR
+
+sonata_user:
+    security_acl: true
+    manager_type: orm # can be orm or mongodb
+
+# Aufteilung des Dashbords
+sonata_block:
+    default_contexts: [admin]
+    blocks:
+        sonata.admin.block.search_result:
+            contexts: [admin]
+        # Enable the SonataAdminBundle block
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+        sonata.block.service.text:
+            contexts:   [admin]
+        sonata.block.service.rss:
+            contexts:   [admin]
+        #sub
+        sonata.user.block.menu:    # used to display the menu in profile pages
+        sonata.user.block.account: # used to display menu option (login option)
+        sonata.block.service.text: # used to if you plan to use Sonata user routes
+
+
+sonata_admin:
+    title:      SDF
+    #title_logo: bundles/app/images/fancy_acme_logo.png
+
+    security:
+            handler: sonata.admin.security.handler.role
+
+    dashboard:
+            blocks:
+                -
+                    position: left
+                    type: sonata.admin.block.admin_list
+                -
+                    position: right
+                    type: sonata.block.service.text
+                    settings:
+                        content: >
+                            <h2>Welcome to Admin</h2><br>
+
+
+    templates:
+        # other configuration options
+        search:              SonataAdminBundle:Core:search.html.twig
+        search_result_block: SonataAdminBundle:Block:block_search_result.html.twig
+
+fos_user:
+    db_driver:      orm
+    firewall_name:  main
+    user_class:     Application\Sonata\UserBundle\Entity\User
+
+    from_email:
+        address:        tobiasdumke89@gmail.com
+        sender_name:    SDF-Admin
+
+    registration:
+        confirmation:
+            enabled: true
+            from_email:
+                address:        tobiasdumke89@gmail.com
+                sender_name:    Admin
+
+
+    group:
+        group_class:   Application\Sonata\UserBundle\Entity\Group
+        group_manager: sonata.user.orm.group_manager
+
+    service:
+        user_manager: sonata.user.orm.user_manager
+
+sonata_media:
+    default_context: default
+    db_driver: doctrine_orm # or doctrine_mongodb, doctrine_phpcr
+    contexts:
+        default:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+            providers:
+               # - sonata.media.provider.dailymotion
+               # - sonata.media.provider.youtube
+                - sonata.media.provider.image
+                - sonata.media.provider.file
+
+            formats:
+                small: { height: 400,  quality: 90}
+                nav: { width: 250,  quality: 90}
+                navsec: { height: 166,  quality: 90}
+
+    providers:
+        image:
+            allowed_extensions: ['jpg', 'png', 'gif', 'jpeg']
+            allowed_mime_types: ['image/pjpeg','image/jpeg','image/png','image/x-png', 'image/gif']
+
+        file:
+            service:    sonata.media.provider.file
+            resizer:    false
+            filesystem: sonata.media.filesystem.local
+            cdn:        sonata.media.cdn.server
+            generator:  sonata.media.generator.default
+            thumbnail:  sonata.media.thumbnail.format
+            allowed_extensions: ['pdf', 'txt', 'rtf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pttx', 'odt', 'odg', 'odp', 'ods', 'odc', 'odf', 'odb', 'csv', 'xml','rar','zip']
+            allowed_mime_types: ['application/pdf', 'application/x-pdf', 'application/rtf', 'text/html', 'text/rtf', 'text/plain']
+
+    cdn:
+        server:
+            path: /uploads/media # http://media.sonata-project.org/
+
+    filesystem:
+        local:
+            directory:  %kernel.root_dir%/../uploads/media
+            create:     false
+
+services:
+   twig.extension.text:
+       class: Twig_Extensions_Extension_Text
+       tags:
+           - { name: twig.extension }
+

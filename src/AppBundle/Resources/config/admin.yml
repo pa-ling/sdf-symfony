@@ -1,0 +1,14 @@
+services:
+
+    sonata.admin.home:
+        class: AppBundle\Admin\HomeAdmin
+        tags:
+            - name: sonata.admin
+              manager_type: orm
+              group: "Beiträge"
+              label: "Home"
+              label_catalogue: "AppBundle"
+        arguments:
+            - ~
+            - AppBundle\Entity\Home
+            - ~

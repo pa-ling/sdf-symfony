@@ -1,0 +1,23 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Herzult\Bundle\ForumBundle\Model\Post as BasePost;
+use Doctrine\ORM\Mapping as ORM;
+/**
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Herzult\Bundle\ForumBundle\Entity\PostRepository")
+ */
+abstract class Post extends BasePost
+{
+    /**
+     * @ORM\ManyToOne(targetEntity="Topic")
+     */
+    protected $topic;
+
+    public function getAuthorName()
+    {
+        return 'anonymous';
+    }
+
+}

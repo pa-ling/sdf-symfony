@@ -1,0 +1,25 @@
+{% block body %}
+    <section class="main-section contact">
+        <h2>PASSWORT VERGESSEN</h2><br>
+        <h6>
+            Gebe einfach einen Namen oder deine Email-Adresse ein und wir schicken dir eine Mail in der du ein Passwort ändern kannst.
+        </h6>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-5 wow fadeInUp delay-05s">
+                    <div class="form ">
+                        <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" >
+                            {% if invalid_username is defined %}
+                                <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}, 'FOSUserBundle') }}</p>
+                            {% endif %}
+                            <label for="username">Nutzername oder Email-Adresse:</label>
+                            <input type="text" id="username" name="username" required="required" class="input-text" />
+                            <input class="input-btn" type="submit" value="Absenden" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

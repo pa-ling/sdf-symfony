@@ -1,0 +1,15 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Herzult\Bundle\ForumBundle\Model\Category as BaseCategory;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Herzult\Bundle\ForumBundle\Entity\CategoryRepository")
+ */
+abstract class Category extends BaseCategory
+{
+
+}
