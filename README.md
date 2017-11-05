@@ -6,7 +6,7 @@ sdf-symfony
 * mysql (recommended: +mysql Workbench)
 
 ## Installation ##
-git clone https://github.com/pa-ling/sdf-symfony.git
+git clone https://github.com/pa-ling/sdf-symfony.git  
 composer install  
 php app/console doctrine:database:create  
 php app/console doctrine:schema:update --force  
