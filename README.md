@@ -14,8 +14,7 @@ php app/console fos:user:create adminuser --super-admin
 php app/console fos:user:activate adminuser  
 
 ## Execution ##
-php app/console server:run
-http://localhost:8000
-http://localhost:8000/login
-http://localhost:8000/admin/dashboard
-
+php app/console server:run  
+http://localhost:8000  
+http://localhost:8000/login  
+http://localhost:8000/admin/dashboard  
