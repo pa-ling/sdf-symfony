@@ -11,7 +11,6 @@ composer install
 php app/console doctrine:database:create  
 php app/console doctrine:schema:update --force  
 php app/console fos:user:create adminuser --super-admin  
-php app/console fos:user:activate adminuser  
 
 ## Execution ##
 php app/console server:run  
