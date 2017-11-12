@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	{% for item in basketItems %}
+		<h3>{{item}} <button type="button">X</button> </h3>
+	{% endfor %}
+
+	<br>
+	<input type="text" name="fname"><button type="button">+</button> 
+
+{% endblock %}
