@@ -21,9 +21,19 @@ class BasketController extends Controller
     {        
         $basketItems = $this->getCookieContent($request->cookies->get('basket'));
 
-        $response = $this->render('default/basket.html.twig' , array(
-            'basketItems' => $basketItems
-        ));;
+        // $addForm = $this->createForm($task)
+        //     ->setAction($this->generateUrl('PostBasket'))
+        //     ->setMethod('POST')
+        //     ->add('item', TextType::class)
+        //     ->getForm();
+
+        $response = $this->render(
+            'default/basket.html.twig',
+            array(
+                'basketItems' => $basketItems,
+                /*'addForm' => $addForm*/
+            )
+        );
 
         return $response;
     }
@@ -34,24 +44,26 @@ class BasketController extends Controller
      */
     public function addBasketItem(Request $request, $id)
     {
-        //TODO: check in database if id exists
-        //TODO: ids have to be unique in the basket
-
         $response = new Response();
-        $response->setStatusCode(Response::HTTP_OK);
+        //TODO: check in database if id exists
 
         $basketItems = $this->getCookieContent($request->cookies->get('basket'));
-
         if (!$basketItems)
         {
-            $basketItems = array($id);
+            $basketItems = array();
+        }
+
+        $basketItemKey = array_search($id, $basketItems);
+        if (!$basketItemKey)
+        {
+            array_push($basketItems, $id);
+            $response->setStatusCode(Response::HTTP_OK);
+            $response->headers->setCookie($this->createCookie($basketItems, "basket"));
         }
         else
         {
-            array_push($basketItems, $id);
+            $response->setStatusCode(Response::HTTP_PRECONDITION_FAILED);
         }
-
-        $response->headers->setCookie($this->createCookie($basketItems, "basket"));
 
         return $response;
     }
