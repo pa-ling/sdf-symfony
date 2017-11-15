@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <section>
+        <h2>Fotografen Test</h2>
+        <div class="text-center">Alle Fotografen auf einem Blick.</div>
+    </section>
+
+    <section><!--main-section team-start-->
+        <div class="container">
+            <h2>Liste aller Fotografen</h2>
+            <div class="text-center"> Hier sind alle Fotografen kompakt aufgelistet. </div>
+            <h6></h6>
+
+            {% for item in fotografenAll %}
+
+                {% if (loop.index % 4) >= 0 %}
+                    {% if (loop.index % 4) == 1 %}
+                    <div>
+                    {% endif %}
+                        <div>
+                            <h3>{{ item.vorname }}</h3>
+                            <h3>{{ item.name }}</h3>
+                            <h3>{{ item.shortdescr }}</h3>
+                            <h3>{{ item.longdescr }}</h3>
+                        </div>
+                    {% if (loop.index % 4) == 0 or (loop.index) == (loop.last)%}
+                    </div>
+                    {% endif %}
+                {% else %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
