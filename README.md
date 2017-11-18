@@ -31,8 +31,8 @@ sdf-symfony
 
 ## Tests
 - run all tests in the Util directory <br/>
-    `./vendor/bin/phpunit tests/AppBundle/Util`
+    `./vendor/bin/phpunit -c app/ tests/AppBundle/Util --debug`
 - run tests for the Calculator class <br/>
-    `./vendor/bin/phpunit tests/AppBundle/Util/CalculatorTest.php`
+    `./vendor/bin/phpunit -c app/ tests/AppBundle/Util/CalculatorTest.php --debug`
 - run all tests for the entire Bundle <br/>
-    `./vendor/bin/phpunit tests/AppBundle/`
+    `./vendor/bin/phpunit -c app/ tests/AppBundle/ --debug`
