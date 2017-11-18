@@ -1,11 +1,11 @@
 sdf-symfony
 =====
 
-## Requirements ## 
+## Requirements
 * php 5.6 (+pdo, +gd)
 * mysql (recommended: +mysql Workbench)
 
-## Installation ##
+## Installation
 - Clone Repo</br>
   `git clone https://github.com/pa-ling/sdf-symfony.git`
 - Install Composer</br>
@@ -19,10 +19,20 @@ sdf-symfony
 - Create upload media folder & set permission to 755</br>
   `mkdir uploads && mkdir uploads/media && chmod 755 uploads/*`
 
-## Execution ##
-- Run </br>
-  `php bin/console server:run` 
+## Running
+- Start <br/>
+    `php bin/console server:start`
+- Stop <br/>
+    `php bin/console server:stop`
+- Run <br/>
+    `php bin/console server:run`
 - Open in browser</br>
-  `http://localhost:8000`</br>
-  `http://localhost:8000/login`</br>
-  `http://localhost:8000/admin/dashboard`
+  `http://localhost:8000`
+
+## Tests
+- run all tests in the Util directory <br/>
+    `./vendor/bin/phpunit tests/AppBundle/Util`
+- run tests for the Calculator class <br/>
+    `./vendor/bin/phpunit tests/AppBundle/Util/CalculatorTest.php`
+- run all tests for the entire Bundle <br/>
+    `./vendor/bin/phpunit tests/AppBundle/`
