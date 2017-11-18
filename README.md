@@ -6,10 +6,12 @@ sdf-symfony
 * mysql (recommended: +mysql Workbench)
 
 ## Installation
-- Clone Repo</br>
+- Clone this Repo</br>
   `git clone https://github.com/pa-ling/sdf-symfony.git`
 - Install Composer</br>
-  `composer install` 
+  `composer install`<br>
+  If you have memory issue, use this command <br>
+  `composer install -dmemory_limit=1G`
 - Create DB</br>
   `php bin/console doctrine:database:create` 
 - Update DB Schema</br>
@@ -30,9 +32,13 @@ sdf-symfony
   `http://localhost:8000`
 
 ## Tests
-- run all tests in the Util directory <br/>
+- Run all tests in the Util directory <br/>
     `./vendor/bin/phpunit -c app/ tests/AppBundle/Util --debug`
-- run tests for the Calculator class <br/>
+- Run tests for the Calculator class <br/>
     `./vendor/bin/phpunit -c app/ tests/AppBundle/Util/CalculatorTest.php --debug`
-- run all tests for the entire Bundle <br/>
+- Run all tests for the entire Bundle <br/>
     `./vendor/bin/phpunit -c app/ tests/AppBundle/ --debug`
+
+## Extra
+- Run after install bundle <br/>
+    `php bin/console cache:clear`
