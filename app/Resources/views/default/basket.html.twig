@@ -3,7 +3,30 @@
 {% block body %}
 
 	{% for item in basketItems %}
-		<h3>{{item}} <button type="button">X</button> </h3>
+		<h3>{{item}} <button onclick=deleteBasketItem("{{item}}")>X</button></h3>
 	{% endfor %}
+
+	 <input id="basketId"><button onclick=addBasketItem()>+</button>
+
+	<script>
+		function addBasketItem() {
+			var request = new XMLHttpRequest();
+			var item = document.getElementById("basketId").value;
+			request.open("POST", "basket/" + item);
+			request.addEventListener('load', function(event) {
+				window.location.reload();
+			})
+			request.send();
+		}
+
+		function deleteBasketItem(item) {
+			var request = new XMLHttpRequest();
+			request.open("DELETE", "basket/" + item);
+			request.addEventListener('load', function(event) {
+				window.location.reload();
+			})
+			request.send();
+		}
+	</script>
 	
 {% endblock %}

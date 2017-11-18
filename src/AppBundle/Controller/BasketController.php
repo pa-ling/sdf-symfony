@@ -21,25 +21,17 @@ class BasketController extends Controller
     {        
         $basketItems = $this->getCookieContent($request->cookies->get('basket'));
 
-        // $addForm = $this->createForm($task)
-        //     ->setAction($this->generateUrl('PostBasket'))
-        //     ->setMethod('POST')
-        //     ->add('item', TextType::class)
-        //     ->getForm();
-
-        $response = $this->render(
+        return $this->render(
             'default/basket.html.twig',
             array(
-                'basketItems' => $basketItems,
-                /*'addForm' => $addForm*/
+                'basketItems' => $basketItems
             )
         );
 
-        return $response;
     }
 
     /**
-     * @Route("/basket/{id}", name="PostBasket")
+     * @Route("/basket/{id}", name="postBasket")
      * @Method({"POST"})
      */
     public function addBasketItem(Request $request, $id)
@@ -69,7 +61,7 @@ class BasketController extends Controller
     }
 
     /**
-     * @Route("/basket/{id}", name="DeleteBasket")
+     * @Route("/basket/{id}", name="deleteBasket")
      * @Method({"DELETE"})
      */
     public function deleteBasketItem(Request $request, $id)
