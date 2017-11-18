@@ -97,11 +97,6 @@ doctrine_phpcr:
         # tweak options for Jackalope (all versions)
         options:
             jackalope.fetch_depth: 1
-    odm:
-        auto_mapping: false
-        mappings:
-            SonataMediaBundle:
-                prefix: Sonata\MediaBundle\PHPCR
 
 sonata_user:
     security_acl: true
