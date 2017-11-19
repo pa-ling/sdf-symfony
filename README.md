@@ -7,15 +7,15 @@ sdf-symfony
 - Composer
 
 ## Pre Installation
-- Create Database.
+- Create Database(Optional).
+- Clone this Repo:</br>
+  `git clone https://github.com/pa-ling/sdf-symfony.git`
 - Configuration: <br>
   - Create file app/config/parameters.yml or copy from app/config/parameters.yml.dist and rename it.
   - Set all your local paremeters.
   
 ## Installation
-- Clone this Repo:</br>
-  `git clone https://github.com/pa-ling/sdf-symfony.git`
-- Install Composer:</br>
+- Install Packages:</br>
   `composer install`<br>
   If you have memory issue, use this command:<br>
   `composer install -dmemory_limit=1G`<br>
