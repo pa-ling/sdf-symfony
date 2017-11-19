@@ -4,7 +4,6 @@
 /app/logs/*
 /build/
 /vendor/
-/bin/
 /composer.phar
 /uploads/*
 /app/config/parameters.yml
