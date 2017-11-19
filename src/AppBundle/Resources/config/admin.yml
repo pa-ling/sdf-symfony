@@ -12,3 +12,16 @@ services:
             - ~
             - AppBundle\Entity\Home
             - ~
+
+    sonata.admin.fotografen:
+            class: AppBundle\Admin\FotografenAdmin
+            tags:
+                - name: sonata.admin
+                  manager_type: orm
+                  group: "Fotografen"
+                  label: "Fotografen"
+                  label_catalogue: "AppBundle"
+            arguments:
+                - ~
+                - AppBundle\Entity\Fotografen
+                - ~
