@@ -17,25 +17,36 @@
 
     <script href="{{ asset('js/memenu.js') }}"></script>
     <script href="{{ asset('js/jquery.easydropdown.js') }}"></script> #}
-
     {% stylesheets '@bootstrap_css' %}
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
     {% endstylesheets %}
+    <style>
+        body {
+        min-height: 2000px;
+        padding-top: 70px;
+    }    
+    </style>
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/style.css') }}">
+    <script href="{{ asset('js/simpleCart.min.js') }}"></script>
+    {# <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/memenu.css') }}"> #}
+
+    {# <script href="{{ asset('js/memenu.js') }}"></script> #}
+    <script href="{{ asset('js/jquery.easydropdown.js') }}"></script>
+
 </head>
 
-{% block header %}
-    {%- include 'header.html.twig' -%}
-{% endblock %}
-
+<body>
 {% block nav %}
     {%- include 'nav.html.twig' -%}
 {% endblock %}
-<body>
-    {% block body %}
-    {% endblock %}
 
+{# {% block nav %}
+    {%- include 'nav.html.twig' -%}
+{% endblock %} #}
+{% block body %}
+{% endblock %}
     {% javascripts '@jquery' '@bootstrap_js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
+            <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 </body>
     {% block footer %}
