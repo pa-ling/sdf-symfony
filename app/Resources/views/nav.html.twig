@@ -1,6 +1,6 @@
 {% block nav %}
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-custom navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -14,7 +14,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Popular Brands <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Popular Brands <span class="caret"></span></a>
               <ul class="dropdown-menu">
                     <li><a href="products.html">499 Store</a></li>
                     <li><a href="products.html">Fastrack</a></li>
@@ -27,7 +27,7 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Style Zone<span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Style Zone<span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="products.html">Shoes</a></li>
                     <li><a href="products.html">Watches</a></li>
@@ -38,7 +38,7 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shop<span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shop<span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="products.html">New Arrivals</a></li>
                     <li><a href="products.html">Blazers</a></li>
@@ -54,19 +54,29 @@
           <ul class="nav navbar-nav navbar-right">
             {% if app.user %}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hallo <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hallo {{ app.user.username }}!<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">My Profile</a></li>
                         <li><a href="#">My Dashboard</a></li>
-                        <li><a href="#">My Basket</a></li>
+                        <li><a href="#">My Shopping Cart</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="/logout">Logout</a></li>
                     </ul>
                 </li>
             {% else %}
-                <li><a href="/login">Login</span></a></li>
+                <li><a href="/login" class="nav-dropdown">Login</span></a></li>
             {% endif %}
-            
+            <li>
+                <div class="cart box_1">
+                    <a href="checkout.html">
+                        <div class="total">
+                            <span class="simpleCart_total"></span></div>
+                        <img src="{{ asset('images/cart-1.png') }}" alt="" />
+                    </a>
+                    <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
+                    <div class="clearfix"> </div>
+                </div>
+            </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

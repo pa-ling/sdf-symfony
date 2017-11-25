@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+ <div class="body">
     <div class="container">
         <!--prdt-starts-->
         <div class="prdt">
@@ -175,50 +176,6 @@
         </div>
     </div>
     <!--product-end-->
-    <!--information-starts-->
-    <div class="information">
-        <div class="container">
-            <div class="infor-top">
-                <div class="col-md-3 infor-left">
-                    <h3>Follow Us</h3>
-                    <ul>
-                        <li><a href="#"><span class="fb"></span><h6>Facebook</h6></a></li>
-                        <li><a href="#"><span class="twit"></span><h6>Twitter</h6></a></li>
-                        <li><a href="#"><span class="google"></span><h6>Google+</h6></a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 infor-left">
-                    <h3>Information</h3>
-                    <ul>
-                        <li><a href="#"><p>Specials</p></a></li>
-                        <li><a href="#"><p>New Products</p></a></li>
-                        <li><a href="#"><p>Our Stores</p></a></li>
-                        <li><a href="contact.html"><p>Contact Us</p></a></li>
-                        <li><a href="#"><p>Top Sellers</p></a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 infor-left">
-                    <h3>My Account</h3>
-                    <ul>
-                        <li><a href="account.html"><p>My Account</p></a></li>
-                        <li><a href="#"><p>My Credit slips</p></a></li>
-                        <li><a href="#"><p>My Merchandise returns</p></a></li>
-                        <li><a href="#"><p>My Personal info</p></a></li>
-                        <li><a href="#"><p>My Addresses</p></a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 infor-left">
-                    <h3>Store Information</h3>
-                    <h4>The company name,
-                        <span>Lorem ipsum dolor,</span>
-                        Glasglow Dr 40 Fe 72.</h4>
-                    <h5>+955 123 4567</h5>
-                    <p><a href="mailto:example@email.com">contact@example.com</a></p>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        {# </div> #}
-    </div>
 
     <div id="" style="margin-top: 0px; height: 90px;"></div>
     {% for item in homeAll %}
@@ -261,4 +218,5 @@
             </section>
         {% endif %}
     {% endfor %}
+</div>
 {% endblock %}

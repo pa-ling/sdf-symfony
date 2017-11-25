@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/signing.css') }}">
+{% endblock %}
 
+{% block body %}
+<div class="small-body">
         <h2>Registrierung</h2><br>
 
 
@@ -12,6 +16,6 @@
                 {{ form_row(form.plainPassword.second) }}
 
                 {{ form_end(form) }}
-
+</body>
 
 {% endblock %}
