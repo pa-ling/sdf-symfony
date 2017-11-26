@@ -6,8 +6,9 @@
 
 {% block body %}
 <div class="small-body">
-        <h2>Registrierung</h2><br>
+    <div class="container">
 
+        <h2>Registrierung</h2><br>
 
                 {{ form_start(form) }}
                 {{ form_row(form.username) }}
@@ -16,6 +17,8 @@
                 {{ form_row(form.plainPassword.second) }}
 
                 {{ form_end(form) }}
+        </div> <!-- /container -->
+    </div>
 </body>
 
 {% endblock %}

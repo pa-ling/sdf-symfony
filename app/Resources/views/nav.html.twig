@@ -52,12 +52,14 @@
             <li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            {% if app.user %}
+            {% if app.user %}    
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hallo {{ app.user.username }}!<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">My Profile</a></li>
-                        <li><a href="#">My Dashboard</a></li>
+                        <li><a href="/profile">My Profile</a></li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li><a href="/admin">My Dashboard</a></li>
+                        {% endif %}
                         <li><a href="#">My Shopping Cart</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="/logout">Logout</a></li>
