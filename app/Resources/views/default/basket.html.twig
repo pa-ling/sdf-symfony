@@ -2,11 +2,8 @@
 
 {% block body %}
 
-	{% for item in basketItems %}
-		<h3>{{item}} <button onclick=deleteBasketItem("{{item}}")>X</button></h3>
-	{% endfor %}
-
 	 <input id="basketId"><button onclick=addBasketItem()>+</button>
+	 <!--TODO: Button zu div umwandeln (siehe function) und in Design einbinden-->
 
 	<script>
 		function addBasketItem() {
@@ -18,15 +15,59 @@
 			})
 			request.send();
 		}
-
-		function deleteBasketItem(item) {
-			var request = new XMLHttpRequest();
-			request.open("DELETE", "basket/" + item);
-			request.addEventListener('load', function(event) {
-				window.location.reload();
-			})
-			request.send();
-		}
 	</script>
+
+	<div class="ckeckout">
+		<div class="container">
+			<div class="ckeck-top heading">
+				<h2>KASSE</h2>
+			</div>
+			<div class="ckeckout-top">
+				<div class="cart-items">
+					<h3>Mein Einkaufswagen</h3>
+					<script>
+						$(document).ready(function(c)
+						{
+							$('.close1').on('click', function(c)
+							{
+								var itemId = c.target.id;
+								var selectorForCartItem = '#cartitem' + itemId;
+								$(selectorForCartItem).fadeOut('slow', function(c)
+								{
+									$(selectorForCartItem).remove();
+								});
+
+								var request = new XMLHttpRequest();
+								request.open("DELETE", "basket/" + itemId);
+								request.send();
+							});	  
+						});
+				   </script>
+
+					<div class="in-check" >
+						<ul class="unit">
+							<li><span>Bild</span></li>
+							<li><span>Name</span></li>		
+							<li><span>Preis</span></li>
+							<li> </li>
+							<div class="clearfix"> </div>
+						</ul>
+
+						{% for item in basketItems %}
+							<!--<h3>{{item}} <button onclick=deleteBasketItem("{{item}}")>X</button></h3>-->
+						
+							<ul class="cart-header" id="cartitem{{item}}" >
+								<div class="close1" id="{{item}}"> </div>
+								<li><span>TODO: SHOW PICTURE</span></li>
+								<li><span class="name">{{item}}</span></li>
+								<li><span class="cost">TODO: SHOW PRICE</span></li>
+								<div class="clearfix"> </div>
+							</ul>
+						{% endfor %}
+					</div>
+				</div>  
+		 	</div>
+		</div>
+	</div>
 	
 {% endblock %}

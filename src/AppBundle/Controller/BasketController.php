@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 
+//TODO: Rename to checkout
 class BasketController extends Controller
 {
 
@@ -20,6 +21,8 @@ class BasketController extends Controller
     public function listBasketItems(Request $request)
     {        
         $basketItems = $this->getCookieContent($request->cookies->get('basket'));
+
+        //TODO: get product and picture information 
 
         return $this->render(
             'default/basket.html.twig',
@@ -45,8 +48,8 @@ class BasketController extends Controller
             $basketItems = array();
         }
 
-        $basketItemKey = array_search($id, $basketItems);
-        if (!$basketItemKey)
+        $basketItemKey = array_search($id, $basketItems); // search for item
+        if ($basketItemKey === false) // cannot use shortform because we also have to check the type 
         {
             array_push($basketItems, $id);
             $response->setStatusCode(Response::HTTP_OK);
@@ -74,8 +77,8 @@ class BasketController extends Controller
             return $response;
         }
 
-        $basketItemKey = array_search($id, $basketItems);
-        if (!$basketItemKey) //if the item could not be found
+        $basketItemKey = array_search($id, $basketItems); // search for item
+        if ($basketItemKey === false) // cannot use shortform because we also have to check the type 
         {
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
             return $response;
