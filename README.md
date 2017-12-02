@@ -26,7 +26,7 @@ sdf-symfony
 - Create super admin user:</br>
   `php bin/console fos:user:create adminuser --super-admin`
 - Create upload media folder & set permission to 755:</br>
-  `mkdir uploads && mkdir uploads/media && chmod 755 uploads/*`
+  `mkdir uploads && mkdir web/uploads/media && chmod 755 web/uploads/*`
 
 ## Running
 - Start:<br/>

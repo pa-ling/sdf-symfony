@@ -5,7 +5,7 @@
 /build/
 /vendor/
 /composer.phar
-/uploads/*
+/web/uploads/*
 /app/config/parameters.yml
 /var/*
 !/var/cache

@@ -43,7 +43,7 @@ class RegisterController extends Controller
         }
 
         return $this->render(
-            'default/register.html.twig',
+            'security/register.html.twig',
             array(
                 'form' => $form->createView(),
 

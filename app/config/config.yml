@@ -212,7 +212,7 @@ sonata_media:
                # - sonata.media.provider.dailymotion
                # - sonata.media.provider.youtube
                 - sonata.media.provider.image
-                - sonata.media.provider.file
+               # - sonata.media.provider.file
 
             formats:
                 small: { height: 400,  quality: 90}
@@ -224,15 +224,15 @@ sonata_media:
             allowed_extensions: ['jpg', 'png', 'gif', 'jpeg']
             allowed_mime_types: ['image/pjpeg','image/jpeg','image/png','image/x-png', 'image/gif']
 
-        file:
-            service:    sonata.media.provider.file
-            resizer:    false
-            filesystem: sonata.media.filesystem.local
-            cdn:        sonata.media.cdn.server
-            generator:  sonata.media.generator.default
-            thumbnail:  sonata.media.thumbnail.format
-            allowed_extensions: ['pdf', 'txt', 'rtf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pttx', 'odt', 'odg', 'odp', 'ods', 'odc', 'odf', 'odb', 'csv', 'xml','rar','zip']
-            allowed_mime_types: ['application/pdf', 'application/x-pdf', 'application/rtf', 'text/html', 'text/rtf', 'text/plain']
+        # file:
+        #     service:    sonata.media.provider.file
+        #     resizer:    false
+        #     filesystem: sonata.media.filesystem.local
+        #     cdn:        sonata.media.cdn.server
+        #     generator:  sonata.media.generator.default
+        #     thumbnail:  sonata.media.thumbnail.format
+        #     allowed_extensions: ['pdf', 'txt', 'rtf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pttx', 'odt', 'odg', 'odp', 'ods', 'odc', 'odf', 'odb', 'csv', 'xml','rar','zip']
+        #     allowed_mime_types: ['application/pdf', 'application/x-pdf', 'application/rtf', 'text/html', 'text/rtf', 'text/plain']
 
     cdn:
         server:
@@ -240,7 +240,7 @@ sonata_media:
 
     filesystem:
         local:
-            directory:  %kernel.root_dir%/../uploads/media
+            directory:  %kernel.root_dir%/../web/uploads/media
             create:     false
 
 services:
@@ -249,3 +249,11 @@ services:
        tags:
            - { name: twig.extension }
 
+
+# override FOSUser default serialization
+jms_serializer:
+    metadata:
+        directories:
+            -
+                path: "%kernel.root_dir%/../vendor/sonata-project/user-bundle/Sonata/UserBundle/Resources/config/serializer/FOSUserBundle"
+                namespace_prefix: 'FOS\UserBundle'
