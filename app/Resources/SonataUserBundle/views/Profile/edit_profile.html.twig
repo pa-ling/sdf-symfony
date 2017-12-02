@@ -11,47 +11,96 @@ file that was distributed with this source code.
 
 {% extends 'base.html.twig' %}
 
+{% block style %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/signing.css') }}">
+{% endblock %}
+
 {% block body %}
-    <section class="main-section contact" id="contact">
-        <h2>Dein Profil</h2><br>
-        <h6>
-            Hier kannst du deine Profil ändern.
-        </h6><br>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-sm-6 wow fadeInUp delay-05s">
-                    <div class="form ">
-                        <form action="{{ path('sonata_user_profile_edit') }}" method="POST">
-                            {{ form_label(form.gender, 'Geschlecht') }}
-                            {{ form_widget(form.gender, { 'attr': {'class': 'input-text'} }) }}
+<div class="small-body">
+    <div class="container">
 
-                            {{ form_label(form.firstname, 'Vorname') }}
-                            {{ form_widget(form.firstname, { 'attr': {'class': 'input-text'} }) }}
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <nav aria-label="breadcrumb" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/profile">Profile</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit</li>
+                    </ol>
+                </nav>
 
-                            {{ form_label(form.lastname, 'Nachname') }}
-                            {{ form_widget(form.lastname, { 'attr': {'class': 'input-text'} }) }}
+                <form class="form-horizontal" action="{{ path('sonata_user_profile_edit') }}" method="POST">
+                    <fieldset>
 
-                            {{ form_label(form.dateOfBirth, 'Geburtstag') }}
-                            {{ form_widget(form.dateOfBirth, { 'attr': {'class': 'input-text'} }) }}
+                    <!-- Form Name -->
+                    <legend>Dein Profil</legend>
 
-                            {{ form_label(form.biography, 'Biographie') }}
-                            {{ form_widget(form.biography, { 'attr': {'class': 'input-text'} }) }}
-
-                            {{ form_label(form.locale, 'Ort') }}
-                            {{ form_widget(form.locale, { 'attr': {'class': 'input-text'} }) }}
-
-                            {{ form_label(form.phone, 'Telephone') }}
-                            {{ form_widget(form.phone, { 'attr': {'class': 'input-text'} }) }}
-
-
-
-                            <input class="input-btn" type="submit" value="Ändern">
-                        </form>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="textinput">Geschlecht</label>
+                        <div class="col-sm-10">
+                        <input type="text" name="gender" placeholder="Geschlecht" class="form-control">
+                        </div>
                     </div>
-                </div>
 
-            </div>
-        </div>
-    </section>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="textinput">Vorname</label>
+                        <div class="col-sm-10">
+                        <input type="text" name="firstname" placeholder="Vorname" class="form-control">
+                        </div>
+                    </div>
 
+                     <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="textinput">Nachname</label>
+                        <div class="col-sm-10">
+                        <input type="text" name="lastname" placeholder="Nachname" class="form-control">
+                        </div>
+                    </div>
+
+                     <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="textinput">Vorname</label>
+                        <div class="col-sm-10">
+                        <input type="text" placeholder="Vorname" class="form-control">
+                        </div>
+                    </div>
+
+                     <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="textinput">Geburtstag</label>
+                        <div class="col-sm-10">
+                        <input type="text" name="biography" placeholder="Geburtstag" class="form-control">
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="textinput">Ort</label>
+                        <div class="col-sm-4">
+                        <input type="text" name="locale" placeholder="Ort" class="form-control">
+                        </div>
+
+                        <label class="col-sm-2 control-label" for="textinput">Telephone</label>
+                        <div class="col-sm-4">
+                        <input type="text" name="phone" placeholder="Telephone" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-default">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                        </div>
+                    </div>
+
+                    </fieldset>
+                </form>
+            </div><!-- /.col-lg-12 -->
+        </div><!-- /.row -->
+        
+    </div>
+</div>
 {% endblock %}

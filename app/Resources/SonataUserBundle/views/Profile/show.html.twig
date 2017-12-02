@@ -9,43 +9,66 @@ file that was distributed with this source code.
 
 #}
 
-{% extends "SonataUserBundle:Profile:action.html.twig" %}
+{% extends 'base.html.twig' %}
 
-{% block sonata_profile_content %}
-    {% sonata_template_box 'This is the user profile template. Feel free to override it.' %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/signing.css') }}">
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/profile.css') }}">
+{% endblock %}
 
-    <div class="row row-fluid">
-        {% set has_center = false %}
-        {% for block in blocks %}
-            {% if block.position == 'center' %}
-                {% set has_center = true %}
-            {% endif %}
-        {% endfor %}
+{% block body %}
+<div class="small-body">
+    <div class="container">
 
-        <div class="{% if has_center %}span4 col-lg-4{% else %}span6 col-lg-6{% endif %}">
-            {% for block in blocks %}
-                {% if block.position == 'left' %}
-                    {{ sonata_block_render({ 'type': block.type, 'settings': block.settings}) }}
-                {% endif %}
-            {% endfor %}
-        </div>
-
-        {% if has_center %}
-            <div class="span4 col-lg-4">
-                {% for block in blocks %}
-                    {% if block.position == 'center' %}
-                        {{ sonata_block_render({ 'type': block.type, 'settings': block.settings}) }}
-                    {% endif %}
-                {% endfor %}
+        <div class="row">
+            <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
+            <p class=" text-info">{{ 'now'|date() }}</p>
             </div>
-        {% endif %}
-
-        <div class="{% if has_center %}span4 col-lg-4{% else %}span6 col-lg-6{% endif %}">
-            {% for block in blocks %}
-                {% if block.position == 'right' %}
-                    {{ sonata_block_render({ 'type': block.type, 'settings': block.settings}) }}
-                {% endif %}
-            {% endfor %}
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+        
+        
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                    <h3 class="panel-title">{{ user.username }}</h3>
+                    </div>
+                    <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 " align="center"> 
+                            <img alt="User Pic"  src="{{ asset('images/user.png') }}" width="100%" class="img-circle img-responsive">
+                        </div>
+                        
+                        <div class=" col-md-9 col-lg-9 "> 
+                        <table class="table table-user-information">
+                            <tbody>
+                                <tr>
+                                    <td>Department:</td>
+                                    <td>...</td>
+                                </tr>
+                                    <td>Home Address</td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                                </tr>
+                                    <td>Phone Number</td>
+                                    <td>123-4567-890(Landline)<br><br>555-4567-890(Mobile)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <a href="/profile/edit-profile" class="btn btn-primary">Edit Profile</a>
+                        <a href="/profile/edit-authentication" class="btn btn-primary">Authentication</a>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="panel-footer">
+                    </div>
+                    
+                </div>
+            </div>
         </div>
     </div>
+</div>
 {% endblock %}
