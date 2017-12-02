@@ -27,16 +27,18 @@ class GalleryController extends Controller
                                 ['createdBy' => $user],
                                 ['createdAt' => 'DESC']
                             );
-
+                        
         if ($request->getMethod() == 'POST') {
             $data = $request->request->all();
             $name = $data['name'];
 
-            $date = new Datetime();
+            $slug = $this->slugify($name);
             
+            $date = new Datetime();
             try{
                 $gallery = new Gallery();
                 $gallery->setName($name);
+                $gallery->setSlug($slug);                
                 $gallery->setCreatedBy($user);                
                 $gallery->setCreatedAt($date);
                 $gallery->setUpdatedAt($date);                
@@ -64,6 +66,46 @@ class GalleryController extends Controller
      */
     public function show($slug)
     {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser()->getId();
+        
+        $gallery = $em->getRepository('AppBundle:Gallery')
+                            ->findOneBy(
+                                ['slug' => $slug],
+                                ['createdAt' => 'DESC']                   
+                            );
+        if($gallery->getCreatedBy() === $user){
+            return $this->render('default/gallery-one.html.twig', array(
+                'gallery' => $gallery
+            ));
+        }
+    }
+
+    static public function slugify($text)
+    {
+      // replace non letter or digits by -
+      $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+    
+      // transliterate
+      $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+    
+      // remove unwanted characters
+      $text = preg_replace('~[^-\w]+~', '', $text);
+    
+      // trim
+      $text = trim($text, '-');
+    
+      // remove duplicate -
+      $text = preg_replace('~-+~', '-', $text);
+    
+      // lowercase
+      $text = strtolower($text);
+    
+      if (empty($text)) {
+        return 'n-a';
+      }
+    
+      return $text;
     }
 
 }

@@ -29,6 +29,13 @@ class Gallery
     protected $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=64)
+     */
+    protected $slug;
+
+    /**
      * @var bool
      * 
      * @ORM\Column(name="enabled", type="boolean", nullable=true)
@@ -38,7 +45,7 @@ class Gallery
     /**
      * @var integer
      *
-     * @ORM\Column(name="createdBy", type="integer", nullable=true)
+     * @ORM\Column(name="createdBy", type="integer")
      */
     protected $createdBy;
 
@@ -78,6 +85,22 @@ class Gallery
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**
