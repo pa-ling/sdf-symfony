@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use Application\Sonata\MediaBundle\Entity\Media;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,36 +20,41 @@ class Gallery
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
-    /**
-     * @var string
-     */
-    protected $context;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=64)
      */
     protected $name;
 
     /**
      * @var bool
+     * 
+     * @ORM\Column(name="enabled", type="boolean", nullable=true)
      */
     protected $enabled;
 
     /**
-     * @var \Datetime
+     * @var integer
+     *
+     * @ORM\Column(name="createdBy", type="integer", nullable=true)
      */
-    protected $updatedAt;
+    protected $createdBy;
 
     /**
-     * @var \Datetime
+     * @var datetime $createdAt
+     *
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $createdAt;
+    private $createdAt;
 
     /**
-     * @var GalleryHasMediaInterface[]
+     * @var datetime $updatedAt
+     *
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $galleryHasMedias;
+    private $updatedAt;
 
     /**
      * {@inheritdoc}
@@ -58,6 +62,22 @@ class Gallery
     public function __toString()
     {
         return $this->getName() ?: '-';
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**
@@ -74,6 +94,22 @@ class Gallery
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
     }
 
     /**
@@ -124,65 +160,4 @@ class Gallery
         return $this->createdAt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultFormat($defaultFormat)
-    {
-        $this->defaultFormat = $defaultFormat;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDefaultFormat()
-    {
-        return $this->defaultFormat;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setGalleryHasMedias($galleryHasMedias)
-    {
-        $this->galleryHasMedias = new ArrayCollection();
-
-        foreach ($galleryHasMedias as $galleryHasMedia) {
-            $this->addGalleryHasMedias($galleryHasMedia);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getGalleryHasMedias()
-    {
-        return $this->galleryHasMedias;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addGalleryHasMedias(GalleryHasMediaInterface $galleryHasMedia)
-    {
-        $galleryHasMedia->setGallery($this);
-
-        $this->galleryHasMedias[] = $galleryHasMedia;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setContext($context)
-    {
-        $this->context = $context;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getContext()
-    {
-        return $this->context;
-    }
 }

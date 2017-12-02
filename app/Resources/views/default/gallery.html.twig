@@ -11,29 +11,35 @@
 {% block body %}
 <div class="small-body">
     <div class="container">
-        <h2>Galleries</h2>
 
         <div class="row col-md-12 custyle">
             <table class="table table-striped custab">
                 <thead>
-                    <a href="#" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new categories</a>
+                    <h2>Galleries</h2>
+                    <div class="pull-right">
+                        <h6>New Gallery</h6>
+
+                        <form role="form" class="col-md-9 go-right" action="gallery" method="post">
+                            <div class="form-group col-lg-6">
+                                <input id="name" name="name" type="text" placeholder="Name" class="form-control" required>
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <input type="submit" value="Create" class="btn btn-primary pull-right">
+                            </div>
+                        </form>
+                        <p style="padding:10px;margin-top:20px;clear:both"></p>
+                    </div>
                     <tr>
                         <th>Name</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-                    <tr>
-                        <td>News</td>
-                        <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
-                    </tr>
-                    <tr>
-                        <td>Products</td>
-                        <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
-                    </tr>
-                    <tr>
-                        <td>Blogs</td>
-                        <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
-                    </tr>
+                    {% for item in galleries %}
+                        <tr>
+                            <td><a  href="/gallery/{{item.id}}">{{item.name}}</a></td>
+                            <td><a class='btn btn-info btn-xs' href="/gallery/edit/{{item.id}}"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="/gallery/delete/{{item.id}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                        </tr>
+                    {% endfor %}
             </table>
         </div>
 
