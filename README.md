@@ -49,3 +49,7 @@ sdf-symfony
 ## Extra
 - Run after install bundle:<br/>
     `php bin/console cache:clear`
+- Generate AppBundle/Entity:<br>
+    `php bin/console doctrine:generate:entities AppBundle/Entity`
+- Dump composer Autoload:<br>
+    `composer dump-autoload`

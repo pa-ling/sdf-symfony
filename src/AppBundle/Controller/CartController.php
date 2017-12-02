@@ -13,7 +13,7 @@ class CartController extends Controller
 {
 
     /**
-     * @Route("/cart", name="get")
+     * @Route("/cart", name="getCartLists")
      * @Method({"GET"})
      */
     public function cartLists(Request $request)
@@ -25,7 +25,7 @@ class CartController extends Controller
     }
 
     /**
-     * @Route("/cart/{id}", name="post")
+     * @Route("/cart/{id}", name="postCart")
      * @Method({"POST"})
      */
     public function addCart(Request $request, $id)
@@ -35,7 +35,7 @@ class CartController extends Controller
     }
 
     /**
-     * @Route("/cart/{id}", name="delete")
+     * @Route("/cart/{id}", name="deleteCart")
      * @Method({"DELETE"})
      */
     public function deleteCart(Request $request, $id)

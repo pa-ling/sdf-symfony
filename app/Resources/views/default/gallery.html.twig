@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
+{% endblock %}
+
+{% block sidebar %}
+    {%- include 'sidebar.html.twig' -%}
+{% endblock %}
+
+{% block body %}
+<div class="small-body">
+    <div class="container">
+        <h2>Galleries</h2>
+
+        <div class="row col-md-12 custyle">
+            <table class="table table-striped custab">
+                <thead>
+                    <a href="#" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new categories</a>
+                    <tr>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                    <tr>
+                        <td>News</td>
+                        <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                    </tr>
+                    <tr>
+                        <td>Products</td>
+                        <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                    </tr>
+                    <tr>
+                        <td>Blogs</td>
+                        <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                    </tr>
+            </table>
+        </div>
+
+    </div> <!-- /container -->
+</div>
+{% endblock %}
