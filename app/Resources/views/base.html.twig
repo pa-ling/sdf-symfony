@@ -42,8 +42,10 @@
     {%- include 'nav.html.twig' -%}
 {% endblock %}
 
-{% block sidebar %}
-{% endblock %}
+{% if app.user %} 
+    {% block sidebar %}
+    {% endblock %}
+{% endif %}
 
 {% block body %}
 {% endblock %}
