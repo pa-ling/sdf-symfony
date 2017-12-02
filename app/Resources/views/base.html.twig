@@ -42,9 +42,9 @@
     {%- include 'nav.html.twig' -%}
 {% endblock %}
 
-{# {% block nav %}
-    {%- include 'nav.html.twig' -%}
-{% endblock %} #}
+{% block sidebar %}
+{% endblock %}
+
 {% block body %}
 {% endblock %}
     {% javascripts '@jquery' '@bootstrap_js' %}

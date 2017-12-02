@@ -1,32 +1,39 @@
 {% extends 'base.html.twig' %}
 
+{% block sidebar %}
+    {%- include 'sidebar.html.twig' -%}
+{% endblock %}
+
 {% block body %}
+<div class="small-body">
+    <div class="container">
+		{% for item in basketItems %}
+			<h3>{{item}} <button onclick=deleteBasketItem("{{item}}")>X</button></h3>
+		{% endfor %}
 
-	{% for item in basketItems %}
-		<h3>{{item}} <button onclick=deleteBasketItem("{{item}}")>X</button></h3>
-	{% endfor %}
+		<input id="basketId"><button onclick=addBasketItem()>+</button>
 
-	 <input id="basketId"><button onclick=addBasketItem()>+</button>
+		<script>
+			function addBasketItem() {
+				var request = new XMLHttpRequest();
+				var item = document.getElementById("basketId").value;
+				request.open("POST", "basket/" + item);
+				request.addEventListener('load', function(event) {
+					window.location.reload();
+				})
+				request.send();
+			}
 
-	<script>
-		function addBasketItem() {
-			var request = new XMLHttpRequest();
-			var item = document.getElementById("basketId").value;
-			request.open("POST", "basket/" + item);
-			request.addEventListener('load', function(event) {
-				window.location.reload();
-			})
-			request.send();
-		}
+			function deleteBasketItem(item) {
+				var request = new XMLHttpRequest();
+				request.open("DELETE", "basket/" + item);
+				request.addEventListener('load', function(event) {
+					window.location.reload();
+				})
+				request.send();
+			}
+		</script>
 
-		function deleteBasketItem(item) {
-			var request = new XMLHttpRequest();
-			request.open("DELETE", "basket/" + item);
-			request.addEventListener('load', function(event) {
-				window.location.reload();
-			})
-			request.send();
-		}
-	</script>
-	
+	</div>
+</div>
 {% endblock %}

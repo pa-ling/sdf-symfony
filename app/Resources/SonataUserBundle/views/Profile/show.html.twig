@@ -16,6 +16,10 @@ file that was distributed with this source code.
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/profile.css') }}">
 {% endblock %}
 
+{% block sidebar %}
+    {%- include 'sidebar.html.twig' -%}
+{% endblock %}
+
 {% block body %}
 <div class="small-body">
     <div class="container">
@@ -58,8 +62,8 @@ file that was distributed with this source code.
                             </tbody>
                         </table>
                         
-                        <a href="/profile/edit-profile" class="btn btn-primary">Edit Profile</a>
-                        <a href="/profile/edit-authentication" class="btn btn-primary">Authentication</a>
+                        {# <a href="/profile/edit-profile" class="btn btn-primary">Edit Profile</a>
+                        <a href="/profile/edit-authentication" class="btn btn-primary">Authentication</a> #}
                         </div>
                     </div>
                     </div>
