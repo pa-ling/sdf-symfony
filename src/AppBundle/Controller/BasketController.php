@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Entity\Product;
 
 //TODO: Rename to checkout
 class BasketController extends Controller
@@ -20,12 +21,26 @@ class BasketController extends Controller
      */
     public function listBasketItems(Request $request)
     {        
-        $basketItems = $this->getCookieContent($request->cookies->get('basket'));
+        $cookie = $this->getCookieContent($request->cookies->get('basket'));
+        $basketItems = array();
 
-        //TODO: get product and picture information 
+        if ($cookie) {
+            foreach ($cookie as $id) {
+                $product = $this->getDoctrine()
+                    ->getRepository(Product::class)
+                    ->find($id);
+                $item = array(
+                    'id' => $product->getId(),
+                    'name' => $product->getImage()->getName(),
+                    'price' => $product->getPrice(),
+                    'image' => $product->getImage(),
+                );
+                array_push($basketItems, $item);
+            }
+        }
 
         return $this->render(
-            'default/basket.html.twig',
+            'default/basket.html.twig', 
             array(
                 'basketItems' => $basketItems
             )
@@ -40,7 +55,15 @@ class BasketController extends Controller
     public function addBasketItem(Request $request, $id)
     {
         $response = new Response();
-        //TODO: check in database if id exists
+
+        $product = $this->getDoctrine()
+            ->getRepository(Product::class)
+            ->find($id);
+
+        if (!$product) {
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+            return $response;
+        }
 
         $basketItems = $this->getCookieContent($request->cookies->get('basket'));
         if (!$basketItems)

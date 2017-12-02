@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Product;
+use Application\Sonata\MediaBundle\Entity\Media;
 
 class ProductController extends Controller
 {
@@ -18,8 +19,13 @@ class ProductController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 
+		$image = $this->getDoctrine()
+			->getRepository(Media::class)
+			->find(1);
+
 		$product = new Product();
         $product->setPrice(19.99);
+        $product->setImage($image);
 
         $em->persist($product);
 

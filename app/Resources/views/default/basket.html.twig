@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+	<img title="batman.jpg" alt="batman.jpg" height="400" src="/uploads/media/default/0001/01/thumb_1_default_small.jpeg"  />
 
-	 <input id="basketId"><button onclick=addBasketItem()>+</button>
+	<input id="basketId"><button onclick=addBasketItem()>+</button>
 	 <!--TODO: Button zu div umwandeln (siehe function) und in Design einbinden-->
 
 	<script>
@@ -15,6 +16,22 @@
 			})
 			request.send();
 		}
+		$(document).ready(function(c)
+		{
+			$('.close1').on('click', function(c)
+			{
+				var itemId = c.target.id;
+				var selectorForCartItem = '#cartitem' + itemId;
+				$(selectorForCartItem).fadeOut('slow', function(c)
+				{
+					$(selectorForCartItem).remove();
+				});
+
+				var request = new XMLHttpRequest();
+				request.open("DELETE", "basket/" + itemId);
+				request.send();
+			});	  
+		});
 	</script>
 
 	<div class="ckeckout">
@@ -26,22 +43,7 @@
 				<div class="cart-items">
 					<h3>Mein Einkaufswagen</h3>
 					<script>
-						$(document).ready(function(c)
-						{
-							$('.close1').on('click', function(c)
-							{
-								var itemId = c.target.id;
-								var selectorForCartItem = '#cartitem' + itemId;
-								$(selectorForCartItem).fadeOut('slow', function(c)
-								{
-									$(selectorForCartItem).remove();
-								});
 
-								var request = new XMLHttpRequest();
-								request.open("DELETE", "basket/" + itemId);
-								request.send();
-							});	  
-						});
 				   </script>
 
 					<div class="in-check" >
@@ -53,14 +55,12 @@
 							<div class="clearfix"> </div>
 						</ul>
 
-						{% for item in basketItems %}
-							<!--<h3>{{item}} <button onclick=deleteBasketItem("{{item}}")>X</button></h3>-->
-						
-							<ul class="cart-header" id="cartitem{{item}}" >
-								<div class="close1" id="{{item}}"> </div>
-								<li><span>TODO: SHOW PICTURE</span></li>
-								<li><span class="name">{{item}}</span></li>
-								<li><span class="cost">TODO: SHOW PRICE</span></li>
+						{% for item in basketItems %}						
+							<ul class="cart-header" id="cartitem{{item.id}}" >
+								<div class="close1" id="{{item.id}}"> </div>
+								<li><span>{% thumbnail item.image, 'small' %}</span></li>
+								<li><span class="name">{{item.name}}</span></li>
+								<li><span class="cost">{{item.price}}</span></li>
 								<div class="clearfix"> </div>
 							</ul>
 						{% endfor %}
