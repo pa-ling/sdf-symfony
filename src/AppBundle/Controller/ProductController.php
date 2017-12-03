@@ -21,7 +21,7 @@ class ProductController extends Controller
 
 		$image = $this->getDoctrine()
 			->getRepository(Media::class)
-			->find(1);
+			->find(2);
 
 		$product = new Product();
         $product->setPrice(19.99);

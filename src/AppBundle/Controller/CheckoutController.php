@@ -11,12 +11,11 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Product;
 
-//TODO: Rename to checkout
-class BasketController extends Controller
+class CheckoutController extends Controller
 {
 
     /**
-     * @Route("/basket", name="getBasket")
+     * @Route("/checkout", name="getCheckout")
      * @Method({"GET"})
      */
     public function listBasketItems(Request $request)
@@ -49,7 +48,7 @@ class BasketController extends Controller
     }
 
     /**
-     * @Route("/basket/{id}", name="postBasket")
+     * @Route("/checkout/{id}", name="postCheckout")
      * @Method({"POST"})
      */
     public function addBasketItem(Request $request, $id)
@@ -87,7 +86,7 @@ class BasketController extends Controller
     }
 
     /**
-     * @Route("/basket/{id}", name="deleteBasket")
+     * @Route("/checkout/{id}", name="deleteCheckout")
      * @Method({"DELETE"})
      */
     public function deleteBasketItem(Request $request, $id)

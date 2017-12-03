@@ -1,16 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-	<img title="batman.jpg" alt="batman.jpg" height="400" src="/uploads/media/default/0001/01/thumb_1_default_small.jpeg"  />
 
 	<input id="basketId"><button onclick=addBasketItem()>+</button>
-	 <!--TODO: Button zu div umwandeln (siehe function) und in Design einbinden-->
 
 	<script>
 		function addBasketItem() {
 			var request = new XMLHttpRequest();
 			var item = document.getElementById("basketId").value;
-			request.open("POST", "basket/" + item);
+			request.open("POST", "checkout/" + item);
 			request.addEventListener('load', function(event) {
 				window.location.reload();
 			})
@@ -28,7 +26,7 @@
 				});
 
 				var request = new XMLHttpRequest();
-				request.open("DELETE", "basket/" + itemId);
+				request.open("DELETE", "checkout/" + itemId);
 				request.send();
 			});	  
 		});
@@ -42,25 +40,21 @@
 			<div class="ckeckout-top">
 				<div class="cart-items">
 					<h3>Mein Einkaufswagen</h3>
-					<script>
-
-				   </script>
-
 					<div class="in-check" >
 						<ul class="unit">
 							<li><span>Bild</span></li>
-							<li><span>Name</span></li>		
+							<li><span>Name</span></li>
 							<li><span>Preis</span></li>
 							<li> </li>
 							<div class="clearfix"> </div>
 						</ul>
 
-						{% for item in basketItems %}						
+						{% for item in basketItems %}
 							<ul class="cart-header" id="cartitem{{item.id}}" >
 								<div class="close1" id="{{item.id}}"> </div>
-								<li><span>{% thumbnail item.image, 'small' %}</span></li>
+								<li>{% thumbnail item.image, 'small' with {'width': 200, 'height': 100} %}</li> <!--TODO: Instead of hardcoding the size show an extract of the image-->
 								<li><span class="name">{{item.name}}</span></li>
-								<li><span class="cost">{{item.price}}</span></li>
+								<li><span class="cost">{{item.price}} €</span></li>
 								<div class="clearfix"> </div>
 							</ul>
 						{% endfor %}
