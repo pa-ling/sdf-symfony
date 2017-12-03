@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Gallery;
+use AppBundle\Entity\Image;
 use \Datetime;
 
 class GalleryController extends Controller
@@ -74,9 +75,18 @@ class GalleryController extends Controller
                                 ['slug' => $slug],
                                 ['createdAt' => 'DESC']                   
                             );
+        $galleryId = $gallery->getId();
+
+        $images = $em->getRepository('AppBundle:Image')
+                ->findBy(
+                    ['galleryId' => $galleryId],
+                    ['createdAt' => 'DESC']                   
+                );
+
         if($gallery->getCreatedBy() === $user){
             return $this->render('default/gallery-one.html.twig', array(
-                'gallery' => $gallery
+                'gallery' => $gallery,
+                'images' => $images,                
             ));
         }
     }

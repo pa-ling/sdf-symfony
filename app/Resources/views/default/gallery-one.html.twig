@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block style %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
+{% endblock %}
+
 {% block sidebar %}
     {%- include 'sidebar.html.twig' -%}
 {% endblock %}
@@ -7,7 +11,52 @@
 {% block body %}
 <div class="small-body">
     <div class="container">
+        <nav aria-label="breadcrumb" role="navigation">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/gallery">Gallery</a></li>
+                <li class="breadcrumb-item" aria-current="page">{{gallery.name}}</li>
+            </ol>
+        </nav>
         <h3>{{gallery.name}}</h3>
+        {# <a href="/image/new/{{gallery.slug}}">Add image</a> #}
+
+        <form action="/image/new/{{gallery.slug}}" method="POST" enctype="multipart/form-data">
+            <span>Datei</span>
+            <input type="file" name="images[]" multiple="">
+            <input type="submit" class="btn" value="Hochladen">
+        </form>
+
+        <h3>List of Image</h3>
+        <div class="row col-md-12 custyle">
+            <table class="table table-striped custab">
+                <thead>
+                    <tr>
+                        <th>Url</th>
+                        <th>Category</th>
+                        <th>Preis</th>
+                        <th>Published</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                    {% for item in images %}
+                        <tr>
+                            <td>
+                                <img src="/uploads/{{item.cover}}" width="50px">
+                            </td>
+                            <td>
+                                <p>...</p>
+                            </td>
+                            <td>
+                                <p>...</p>
+                            </td>
+                            <td>
+                                <p>{{item.enabled}}</p>
+                            </td>
+                            <td><a class='btn btn-info btn-xs' href="/image/edit/{{item.id}}"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="/image/delete/{{item.id}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                        </tr>
+                    {% endfor %}
+            </table>
+        </div>
     </div> <!-- /container -->
 </div>
 {% endblock %}
