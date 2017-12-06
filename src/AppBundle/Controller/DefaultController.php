@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Entity\Image;
 
 class DefaultController extends Controller
 {
@@ -24,8 +25,16 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $homeAll = $em->getRepository('AppBundle:Home')->findAll();
 
+        $images = $em->getRepository('AppBundle:Image')
+            ->findBy(
+                ['enabled'=>1],
+                ['createdAt' => 'DESC'],
+                6
+            );
+        
         return $this->render('default/index.html.twig', array(
             'homeAll' => $homeAll,
+            'images' => $images
         ));
 
     }

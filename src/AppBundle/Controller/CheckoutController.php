@@ -23,6 +23,7 @@ class CheckoutController extends Controller
         $cookie = $this->getCookieContent($request->cookies->get('basket'));
         $basketItems = array();
 
+        print_r($cookie);
         if ($cookie) {
             foreach ($cookie as $id) {
                 $product = $this->getDoctrine()

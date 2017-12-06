@@ -8,88 +8,22 @@
             {# <div class="prdt-top"> #}
                 <div class="col-md-9 prdt-left">
                     <div class="product-one">
-                        <div class="col-md-4 product-left p-left">
-                            <div class="product-main simpleCart_shelfItem">
-                                <a href="single.html" class="mask"><img class="img-responsive zoom-img" src="images/p-1.png" alt="" /></a>
-                                <div class="product-bottom">
-                                    <h3>Smart Watches</h3>
-                                    <p>Explore Now</p>
-                                    <h4><a class="item_add" href="#"><i></i></a> <span class=" item_price">$ 329</span></h4>
-                                </div>
-                                <div class="srch srch1">
-                                    <span>-50%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 product-left p-left">
-                            <div class="product-main simpleCart_shelfItem">
-                                <a href="single.html" class="mask"><img class="img-responsive zoom-img" src="images/p-2.png" alt="" /></a>
-                                <div class="product-bottom">
-                                    <h3>Smart Watches</h3>
-                                    <p>Explore Now</p>
-                                    <h4><a class="item_add" href="#"><i></i></a> <span class=" item_price">$ 329</span></h4>
-                                </div>
-                                <div class="srch srch1">
-                                    <span>-50%</span>
+                        {% for item in images %}
+                            <div class="col-md-4 product-left p-left">
+                                <div class="product-main simpleCart_shelfItem">
+                                    <a href="single.html" class="mask"><img class="img-responsive zoom-img" src="uploads/{{item.cover}}" alt="" /></a>
+                                    <div class="product-bottom">
+                                        <h3>Smart Watches</h3>
+                                        <p>Explore Now</p>
+                                        <h4><a class="item_add" href="#"><i></i></a> <span class=" item_price">$ 329</span></h4>
+                                        <button onclick=addBasketItem({{item.id}})>Checkout</button>
+                                    </div>
+                                    <div class="srch srch1">
+                                        <span>-50%</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4 product-left p-left">
-                            <div class="product-main simpleCart_shelfItem">
-                                <a href="single.html" class="mask"><img class="img-responsive zoom-img" src="images/p-3.png" alt="" /></a>
-                                <div class="product-bottom">
-                                    <h3>Smart Watches</h3>
-                                    <p>Explore Now</p>
-                                    <h4><a class="item_add" href="#"><i></i></a> <span class=" item_price">$ 329</span></h4>
-                                </div>
-                                <div class="srch srch1">
-                                    <span>-50%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="product-one">
-                        <div class="col-md-4 product-left p-left">
-                            <div class="product-main simpleCart_shelfItem">
-                                <a href="single.html" class="mask"><img class="img-responsive zoom-img" src="images/p-4.png" alt="" /></a>
-                                <div class="product-bottom">
-                                    <h3>Smart Watches</h3>
-                                    <p>Explore Now</p>
-                                    <h4><a class="item_add" href="#"><i></i></a> <span class=" item_price">$ 329</span></h4>
-                                </div>
-                                <div class="srch srch1">
-                                    <span>-50%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 product-left p-left">
-                            <div class="product-main simpleCart_shelfItem">
-                                <a href="single.html" class="mask"><img class="img-responsive zoom-img" src="images/p-5.png" alt="" /></a>
-                                <div class="product-bottom">
-                                    <h3>Smart Watches</h3>
-                                    <p>Explore Now</p>
-                                    <h4><a class="item_add" href="#"><i></i></a> <span class=" item_price">$ 329</span></h4>
-                                </div>
-                                <div class="srch srch1">
-                                    <span>-50%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 product-left p-left">
-                            <div class="product-main simpleCart_shelfItem">
-                                <a href="single.html" class="mask"><img class="img-responsive zoom-img" src="images/p-6.png" alt="" /></a>
-                                <div class="product-bottom">
-                                    <h3>Smart Watches</h3>
-                                    <p>Explore Now</p>
-                                    <h4><a class="item_add" href="#"><i></i></a> <span class=" item_price">$ 329</span></h4>
-                                </div>
-                                <div class="srch srch1">
-                                    <span>-50%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="col-md-3 prdt-right">
@@ -176,47 +110,32 @@
         </div>
     </div>
     <!--product-end-->
+<script>
+		function addBasketItem(id) {
+            console.log('checkout: ',id);
+			var request = new XMLHttpRequest();
+			request.open("POST", "checkout/" + id);
+			request.addEventListener('load', function(event) {
+				window.location.reload();
+			})
+			request.send();
+		}
+		$(document).ready(function(c)
+		{
+			$('.close1').on('click', function(c)
+			{
+				var itemId = c.target.id;
+				var selectorForCartItem = '#cartitem' + itemId;
+				$(selectorForCartItem).fadeOut('slow', function(c)
+				{
+					$(selectorForCartItem).remove();
+				});
 
-    <div id="" style="margin-top: 0px; height: 90px;"></div>
-    {% for item in homeAll %}
-        {% if item.imagePosition == true %}
-            <section class="main-section" style="{{ (loop.index % 2) ? 'background: #fafafa' }}">
-                <div class="container">
-                    <h2>{{ item.titel }}</h2>
-                    <h6>{{ item.topline }}</h6>
-
-                    <div class="row">
-                        <div class="col-lg-4 col-sm-6 wow fadeInLeft delay-05s">
-                            {{ item.content | raw | nl2br }}
-                        </div>
-
-                        <figure class="col-lg-8 col-sm-6  text-center wow fadeInUp delay-02s ">
-                            {% media item.image, 'small' with {'class': 'maxwidth'} %}
-                        </figure>
-                    </div>
-                </div>
-            </section>
-        {% else %}
-            <section class="main-section" style="{{ (loop.index % 2) ? 'background: #fafafa' }}">
-                <div class="container">
-                    <h2>{{ item.titel }}</h2>
-                    <h6>{{ item.topline }}</h6>
-                    <div class="row">
-                        <figure class="col-lg-5 col-sm-4 wow fadeInLeft text-center">
-                            {% media item.image, 'small' with {'class': 'maxwidth'} %}
-                        </figure>
-                        <div class="col-lg-7 col-sm-8 featured-work">
-
-                            <div class="featured-box">
-                                <div class="featured-box-col2 wow fadeInRight delay-02s">
-                                    {{ item.content | raw | nl2br }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        {% endif %}
-    {% endfor %}
+				var request = new XMLHttpRequest();
+				request.open("DELETE", "checkout/" + itemId);
+				request.send();
+			});	  
+		});
+	</script>
 </div>
 {% endblock %}
