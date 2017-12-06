@@ -9,20 +9,37 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Entity\Product;
 
-class BasketController extends Controller
+class CheckoutController extends Controller
 {
 
     /**
-     * @Route("/basket", name="getBasket")
+     * @Route("/checkout", name="getCheckout")
      * @Method({"GET"})
      */
     public function listBasketItems(Request $request)
     {        
-        $basketItems = $this->getCookieContent($request->cookies->get('basket'));
+        $cookie = $this->getCookieContent($request->cookies->get('basket'));
+        $basketItems = array();
+
+        if ($cookie) {
+            foreach ($cookie as $id) {
+                $product = $this->getDoctrine()
+                    ->getRepository(Product::class)
+                    ->find($id);
+                $item = array(
+                    'id' => $product->getId(),
+                    'name' => $product->getImage()->getName(),
+                    'price' => $product->getPrice(),
+                    'image' => $product->getImage(),
+                );
+                array_push($basketItems, $item);
+            }
+        }
 
         return $this->render(
-            'default/basket.html.twig',
+            'default/basket.html.twig', 
             array(
                 'basketItems' => $basketItems
             )
@@ -31,13 +48,21 @@ class BasketController extends Controller
     }
 
     /**
-     * @Route("/basket/{id}", name="postBasket")
+     * @Route("/checkout/{id}", name="postCheckout")
      * @Method({"POST"})
      */
     public function addBasketItem(Request $request, $id)
     {
         $response = new Response();
-        //TODO: check in database if id exists
+
+        $product = $this->getDoctrine()
+            ->getRepository(Product::class)
+            ->find($id);
+
+        if (!$product) {
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+            return $response;
+        }
 
         $basketItems = $this->getCookieContent($request->cookies->get('basket'));
         if (!$basketItems)
@@ -45,8 +70,8 @@ class BasketController extends Controller
             $basketItems = array();
         }
 
-        $basketItemKey = array_search($id, $basketItems);
-        if (!$basketItemKey)
+        $basketItemKey = array_search($id, $basketItems); // search for item
+        if ($basketItemKey === false) // cannot use shortform because we also have to check the type 
         {
             array_push($basketItems, $id);
             $response->setStatusCode(Response::HTTP_OK);
@@ -61,7 +86,7 @@ class BasketController extends Controller
     }
 
     /**
-     * @Route("/basket/{id}", name="deleteBasket")
+     * @Route("/checkout/{id}", name="deleteCheckout")
      * @Method({"DELETE"})
      */
     public function deleteBasketItem(Request $request, $id)
@@ -74,8 +99,8 @@ class BasketController extends Controller
             return $response;
         }
 
-        $basketItemKey = array_search($id, $basketItems);
-        if (!$basketItemKey) //if the item could not be found
+        $basketItemKey = array_search($id, $basketItems); // search for item
+        if ($basketItemKey === false) // cannot use shortform because we also have to check the type 
         {
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
             return $response;
