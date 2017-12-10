@@ -9,8 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use \Datetime;
 use AppBundle\Entity\Image;
+use AppBundle\Entity\GalleryImage;
 use AppBundle\Form\ImageType;
 use AppBundle\Service\FileUploader;
+use Application\Sonata\MediaBundle\Entity\Media;
 
 class ImageController extends Controller
 {
@@ -24,69 +26,122 @@ class ImageController extends Controller
                         ['slug' => $slug],
                         ['createdAt' => 'DESC']                   
                     );
-        $galleryId = $gallery->getId();
 
+        $context = 'default';
+
+        $gallery_media['galleryId'] = $gallery->getId();
+        $gallery_media['owned_by'] = $this->getUser()->getId();
+        $gallery_media['position'] = null;
+        
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_FILES)) {
             $total_upload = count($_FILES["images"]["name"]);
-
-            $user = $this->getUser()->getId();
 
             $statusUpload = array();
 
             for($i=0; $i<count($_FILES["images"]["name"]); $i++) {
               $tmpFilePath = $_FILES["images"]['tmp_name'];
               if ($tmpFilePath != ""){
-                    $date = time();
-                    $newImage = $user."/".$slug;
-                    $newfolder = getcwd()."/uploads/".$newImage;
-                    if(!is_dir($newfolder)){
-                        mkdir($newfolder, 0777, true);
-                        chmod($newfolder,0777);
-                    }
-                    $newCover = $user."/".$slug."/cover";                    
-                    $newfolderCover = getcwd()."/uploads/".$newCover;
-                    if(!is_dir($newfolderCover)){
-                        mkdir($newfolderCover, 0777, true);
-                        chmod($newfolderCover,0777);
-                    }
-                    $size = $_FILES["images"]["size"][$i];
-                    $newFilePath = $newfolder.'/'.$date.'_'.$_FILES["images"]["name"][$i];
-                    $newUrlPath = $newImage.'/'.$date.'_'.$_FILES["images"]["name"][$i];
-                    $newFilePathCover = $newfolderCover."/".$date.'_'.$_FILES["images"]["name"][$i];
-                    $newCoverPath = $newCover .'/'.$date.'_'.$_FILES["images"]["name"][$i];
-                    $foto_name = $_FILES["images"]["name"][$i];
-                    $upload['title'] = preg_replace('/\\.[^.\\s]{3,4}$/', '', $foto_name);
+                    $media['name'] = $_FILES["images"]["name"][$i];
+
+                    // $media['description'] = null;
+                    $media['enabled'] = 0;
+                    $media['provider_name'] = 'sonata.media.provider.image';
+                    $media['provider_status'] = 1;
                     
-                    $uploads = move_uploaded_file($tmpFilePath[$i], $newFilePath);
-                 
-                    //resize file
-                    $file = $newFilePath;
-                    //indicate the path and name for the new resized file
-                    $resizedFile = $newFilePathCover;
-                    //call the function (when passing path to pic)
-                    $img = $this->smart_resize_image($file , null, '230' , '150' , false , $resizedFile , false , false ,100 );
-                    $img = $this->compress($file , $resizedFile , 50 );
-                    if($uploads){
-                        $date = new Datetime();
-                        
-                        //insert to database
-                        $image = new Image();
-                        $image->setUrl($newUrlPath);
-                        $image->setCover($newCoverPath);                        
-                        $image->setGalleryId($galleryId);
-                        $image->setCreatedBy($user);
-                        $image->setCreatedAt($date);
-                        $image->setUpdatedAt($date);                
-                        $image->setEnabled(true);
+                    $provider_reference = strtolower($this->generateRandomString(40));
+                    $ext = pathinfo($media['name'], PATHINFO_EXTENSION);                    
+                    $media['provider_reference'] = $provider_reference.'.'.$ext;
+                    
+                    $media['provider_metadata'] = (object) array('filename'=>$media['name']);
 
+                    $image_info = getimagesize($_FILES["images"]["tmp_name"][$i]);
+                    $media['width'] = $image_info[0];
+                    $media['height'] = $image_info[1];
+
+                    // $media['length'] = null;
+                    $media['content_type'] = $_FILES["images"]["type"][$i];
+                    $media['content_size'] = $_FILES["images"]["size"][$i];
+                    // $media['copyright'] = null;
+                    // $media['author_name'] = null;
+
+                    $media['context'] = $context;
+
+                    // $media['cdn_is_flushable'] = null;
+                    // $media['cdn_flush_at'] = null;
+                    // $media['cdn_status'] = null;
+                    // $media['cdn_flush_identifier'] = null;
+                    
+                    $mediax = new Media();
+                    $mediax->preUpdate();
+                    $mediax->setName($media['name']);  
+                    $mediax->setEnabled($media['enabled']);                                        
+                    $mediax->setProviderName($media['provider_name']);                    
+                    $mediax->setProviderStatus($media['provider_status']);                    
+                    $mediax->setProviderReference($media['provider_reference']); 
+                    $mediax->setProviderMetadata(array('filename'=>$media['name']));                   
+                    $mediax->setWidth($media['width']);                    
+                    $mediax->setHeight($media['height']);                    
+                    $mediax->setContentType($media['content_type']);                    
+                    $mediax->setSize($media['content_size']);                    
+                    $mediax->setContext($media['context']);                    
+                    
+                    try {
                         $em = $this->getDoctrine()->getManager();
-                        $em->persist($image);
+                        $em->persist($mediax);
                         $em->flush();
+                
+                        $uploadedMedia = $this->get('sonata.media.manager.media')->findOneBy(array('providerReference' => $media['provider_reference']));
+                        
+                        if($uploadedMedia){
+                            $gallery_media['media_id'] = $uploadedMedia->getId();
+                            //insert to database
+                            $image = new GalleryImage();
+                            $image->preUpdate();
+                            $image->setMediaId($gallery_media['media_id']);
+                            $image->setGalleryId($gallery_media['galleryId']);
+                            $image->setOwnedBy($gallery_media['owned_by']);
+                            $image->setEnabled(false);
+                            
+                            try {
+                                $em = $this->getDoctrine()->getManager();
+                                $em->persist($image);
+                                $em->flush();
 
-                        $statusUpload[$i] = true;                       
-                    }else{
-                        $statusUpload[$i] = false;                       
-                    }
+                                /**
+                                 * Store image in folder
+                                 * 5 files
+                                 * thumb_<id>_admin.<ext>
+                                 * thumb_<id>_default_nav.<ext>
+                                 * thumb_<id>_default_navsec.<ext>
+                                 * thumb_<id>_default_small.<ext>
+                                 * <reference>.<ext>
+                                 */
+                                $pathfolder = getcwd()."/uploads/media/".$context."/0001/01/";
+                                $newFilePath = $pathfolder.'/'.$media['provider_reference'];
+                                $newFilePathThumbAdmin = $pathfolder."/thumb_".$uploadedMedia->getId()."_admin.".$ext;
+                                $newFilePathThumbDefaultNav = $pathfolder."/thumb_".$uploadedMedia->getId()."_default_nav.".$ext;
+                                $newFilePathThumbDefaultNavSec = $pathfolder."/thumb_".$uploadedMedia->getId()."_default_navsec.".$ext;
+                                $newFilePathThumbDefaultSmall = $pathfolder."/thumb_".$uploadedMedia->getId()."_default_small.".$ext;
+                                
+                                $uploads = move_uploaded_file($tmpFilePath[$i], $newFilePath);
+                                if($uploads){
+                                    $file = $newFilePath;
+                                    $this->smart_resize_image($file , null, '230' , '150' , false , $newFilePathThumbAdmin , false , false ,100 );
+                                    $this->compress($file , $newFilePathThumbAdmin , 40 );
+                                    $this->smart_resize_image($file , null, '230' , '150' , false , $newFilePathThumbDefaultNav , false , false ,100 );
+                                    $this->compress($file , $newFilePathThumbDefaultNav , 45 );
+                                    $this->smart_resize_image($file , null, '230' , '150' , false , $newFilePathThumbDefaultNavSec , false , false ,100 );
+                                    $this->compress($file , $newFilePathThumbDefaultNavSec , 30 );
+                                    $this->smart_resize_image($file , null, '230' , '150' , false , $newFilePathThumbDefaultSmall , false , false ,100 );
+                                    $this->compress($file , $newFilePathThumbDefaultSmall , 50 );
+                                }
+                            } catch (Exception $e){
+                                print_r($e);
+                            }
+                        } 
+                    } catch (Exception $e){
+                        print_r($e);                        
+                    }                    
                 }
             }
             if(in_array(false, $statusUpload)){
@@ -96,8 +151,17 @@ class ImageController extends Controller
             }
 
         }
-
         return $this->redirect('/gallery/'.$slug);        
+    }
+
+    public function generateRandomString($length) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 
     #compress
