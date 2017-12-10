@@ -25,12 +25,25 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $homeAll = $em->getRepository('AppBundle:Home')->findAll();
 
-        $images = $em->getRepository('AppBundle:Image')
+        // $images = $em->getRepository('AppBundle:Image')
+        //     ->findBy(
+        //         ['enabled'=>1],
+        //         ['createdAt' => 'DESC'],
+        //         6
+        //     );
+        
+        $images = $this->get('sonata.media.manager.media')
             ->findBy(
-                ['enabled'=>1],
+                ['enabled'=>0],
                 ['createdAt' => 'DESC'],
                 6
             );
+
+        if (!$images) {
+            throw $this->createNotFoundException(
+                'No images found'
+            );
+        }
         
         return $this->render('default/index.html.twig', array(
             'homeAll' => $homeAll,
