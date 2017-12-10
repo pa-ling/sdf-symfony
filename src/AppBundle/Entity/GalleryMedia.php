@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * GalleryImage
+ * GalleryMedia
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class GalleryImage
+class GalleryMedia
 {   
     /**
      * @var integer

@@ -45,9 +45,9 @@ class Gallery
     /**
      * @var integer
      *
-     * @ORM\Column(name="createdBy", type="integer")
+     * @ORM\Column(name="owned_by", type="integer")
      */
-    protected $createdBy;
+    protected $owned_by;
 
     /**
      * @var datetime $createdAt
@@ -122,17 +122,17 @@ class Gallery
     /**
      * {@inheritdoc}
      */
-    public function setCreatedBy($createdBy)
+    public function setOwnedBy($owned_by)
     {
-        $this->createdBy = $createdBy;
+        $this->owned_by = $owned_by;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCreatedBy()
+    public function getOwnedBy()
     {
-        return $this->createdBy;
+        return $this->owned_by;
     }
 
     /**

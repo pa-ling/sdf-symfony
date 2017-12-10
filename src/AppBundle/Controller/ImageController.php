@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use \Datetime;
 use AppBundle\Entity\Image;
-use AppBundle\Entity\GalleryImage;
+use AppBundle\Entity\GalleryMedia;
 use AppBundle\Form\ImageType;
 use AppBundle\Service\FileUploader;
 use Application\Sonata\MediaBundle\Entity\Media;
@@ -95,7 +95,7 @@ class ImageController extends Controller
                         if($uploadedMedia){
                             $gallery_media['media_id'] = $uploadedMedia->getId();
                             //insert to database
-                            $image = new GalleryImage();
+                            $image = new GalleryMedia();
                             $image->preUpdate();
                             $image->setMediaId($gallery_media['media_id']);
                             $image->setGalleryId($gallery_media['galleryId']);
