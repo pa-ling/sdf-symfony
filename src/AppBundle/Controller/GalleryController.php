@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Gallery;
 use AppBundle\Entity\Image;
+use AppBundle\Entity\GalleryMedia;
+use Application\Sonata\MediaBundle\Entity\Media;
 use \Datetime;
 
 class GalleryController extends Controller
@@ -80,36 +82,22 @@ class GalleryController extends Controller
                 ['slug' => $slug],
                 ['createdAt' => 'DESC']                   
             );
-        $galleryId = $gallery->getId();
+        $gallery_id = $gallery->getId();
         
+        $gallery_media = $em->getRepository('AppBundle:GalleryMedia')
+            ->findBy(
+                ['gallery_id' => $gallery_id],
+                ['createdAt' => 'DESC']                   
+            );
         
-        //$images = $this->get('sonata.media.manager.media')->find(7);
-        // $images = $this->get('sonata.media.manager.media')->findOneBy(array('providerReference' => 'd93010ef2e96c4b25d19c0cf426ab89902bfadcd.jpeg'));
-        
-                // $images = $this->get('sonata.media.manager   .media')->findAll();
-        // print_r($images->getId());
-        // print_r(sizeof($images));
-        // for ($i=0; $i < ; $i++) { 
-        //     # code...
-        // }
-        // foreach ($images as $key => $value) {
-            # code...
-            // print_r($value->id);
-            // echo "{$key} => {$value} ";            
-        // }
-        // print_r($images);
+        $images = array();
+        foreach ($gallery_media as $key => $value) {
+            $images[$key] = $this->get('sonata.media.manager.media')
+                ->findOneBy(
+                    ['id'=>$value->getMediaId()]
+                );
+        }
 
-        // $images = $em->getRepository('AppBundle:Image')
-        //         ->findBy(
-        //             ['galleryId' => $galleryId],
-        //             ['createdAt' => 'DESC']                   
-        //         );
-        
-        /**
-         * get all media_id  
-         */
-
-        $images = null;
         if($gallery->getOwnedBy() === $user){
             return $this->render('default/gallery-one.html.twig', array(
                 'gallery' => $gallery,
