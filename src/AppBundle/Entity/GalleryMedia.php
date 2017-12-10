@@ -102,7 +102,7 @@ class GalleryMedia
      */
     public function setGalleryId($gallery_id)
     {
-        $this->gallery_id = $gallery_id;
+        $this->gallery_id = serialize($gallery_id);
     }
 
     /**
@@ -110,7 +110,7 @@ class GalleryMedia
      */
     public function getGalleryId()
     {
-        return $this->gallery_id;
+        return unserialize($this->gallery_id);
     }
 
     /**
