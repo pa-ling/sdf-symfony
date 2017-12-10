@@ -16,11 +16,11 @@
                 <li class="breadcrumb-item" aria-current="page">Gallery</li>
             </ol>
         </nav>
-        <h3>List of Gallery</h3>
+        <h3>Galleries</h3>
         <div class="row col-md-12 custyle">
             <table class="table table-striped custab">
                 <thead>
-                    <div class="pull-right">
+                    <div class="pull-left">
                         <h6>New Gallery</h6>
 
                         <form role="form" class="col-md-9 go-right" action="gallery" method="post">
@@ -46,7 +46,46 @@
                     {% endfor %}
             </table>
         </div>
-
+        <h3>Images</h3>
+        <div class="row col-md-12 custyle">
+            <table class="table table-striped custab">
+                <thead>
+                    <div class="pull-left">
+                        <form action="/image/new" method="POST" enctype="multipart/form-data">
+                            <span>Datei</span>
+                            <input type="file" name="images[]" multiple="">
+                            <input type="submit" class="btn" value="Hochladen">
+                        </form>
+                    </div>
+                    <tr>
+                        <th>Preview</th>
+                        <th>Category</th>
+                        <th>Preis</th>
+                        <th>Published</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in images %}
+                        <tr>
+                            <td>
+                                <img src="/uploads/media/{{item.getContext}}/0001/01/thumb_{{item.getId}}_default_navsec.{{item.getExtension}}" width="50px">
+                            </td>
+                            <td>
+                                <p>{{item.getGalleryId}}</p>
+                            </td>
+                            <td>
+                                <p>...</p>
+                            </td>
+                            <td>
+                                <p>{{item.enabled}}</p>
+                            </td>
+                            <td><a class='btn btn-info btn-xs' href="/image/edit/{{item.id}}"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="/image/delete/{{item.id}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div> <!-- /container -->
 </div>
 {% endblock %}

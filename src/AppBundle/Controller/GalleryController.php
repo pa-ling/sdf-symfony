@@ -26,11 +26,25 @@ class GalleryController extends Controller
         $user = $this->getUser()->getId();
         
         $galleries = $em->getRepository('AppBundle:Gallery')
-                            ->findBy(
-                                ['owned_by' => $user],
-                                ['createdAt' => 'DESC']
-                            );
-                        
+            ->findBy(
+                ['owned_by' => $user],
+                ['createdAt' => 'DESC']
+            );
+        
+        $gallerie_medias = $em->getRepository('AppBundle:GalleryMedia')
+            ->findBy(
+                ['owned_by' => $user],
+                ['createdAt' => 'DESC']
+            );
+        
+        $images = array();
+        foreach ($gallerie_medias as $key => $value) {
+            $images[$key] = $this->get('sonata.media.manager.media')
+            ->findOneBy(
+                ['id'=>$value->getMediaId()]
+            );
+        }
+        
         if ($request->getMethod() == 'POST') {
             $data = $request->request->all();
             $name = $data['name'];
@@ -59,7 +73,8 @@ class GalleryController extends Controller
         }
 
         return $this->render('default/gallery.html.twig', array(
-            'galleries' => $galleries
+            'galleries' => $galleries,
+            'images' => $images
         ));
 
     }
@@ -92,12 +107,10 @@ class GalleryController extends Controller
         // #imageIdArray
         $imageIdInGallery = array();            
         foreach ($gallery_media_fetch as $key => $value) {
-            $stringGalleryId = $value->getGalleryId();
-            $arrayGalleryId = unserialize( $stringGalleryId );
-
+            $gallery_ids = $value->getGalleryId();
             $media_id = $value->getMediaId();
             
-            if (in_array($gallery_id, $arrayGalleryId)) {
+            if (in_array($gallery_id, $gallery_ids)) {
                 array_push($imageIdInGallery, $media_id);                
             }                
         }
