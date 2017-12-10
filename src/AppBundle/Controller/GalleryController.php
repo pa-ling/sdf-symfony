@@ -84,17 +84,30 @@ class GalleryController extends Controller
             );
         $gallery_id = $gallery->getId();
         
-        $gallery_media = $em->getRepository('AppBundle:GalleryMedia')
-            ->findBy(
-                ['gallery_id' => $gallery_id],
-                ['createdAt' => 'DESC']                   
-            );
+        // fetch all gallery_media and get all gallery_ids
+        $gallery_media_fetch = $em->getRepository('AppBundle:GalleryMedia')
+            ->findAll();    
         
-        $images = array();
-        foreach ($gallery_media as $key => $value) {
-            $images[$key] = $this->get('sonata.media.manager.media')
+        // push alle image ids where belong to this gallery
+        // #imageIdArray
+        $imageIdInGallery = array();            
+        foreach ($gallery_media_fetch as $key => $value) {
+            $stringGalleryId = $value->getGalleryId();
+            $arrayGalleryId = unserialize( $stringGalleryId );
+
+            $media_id = $value->getMediaId();
+            
+            if (in_array($gallery_id, $arrayGalleryId)) {
+                array_push($imageIdInGallery, $media_id);                
+            }                
+        }
+        
+        // populate alle images from media__media where id included #imageIdArray
+        $images = array(); 
+        for ($i=0; $i <sizeof($imageIdInGallery); $i++) { 
+            $images[$i] = $this->get('sonata.media.manager.media')
                 ->findOneBy(
-                    ['id'=>$value->getMediaId()]
+                    ['id'=>$imageIdInGallery[$i]]
                 );
         }
 

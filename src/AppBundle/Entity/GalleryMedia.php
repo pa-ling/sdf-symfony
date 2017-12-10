@@ -22,9 +22,9 @@ class GalleryMedia
     private $id;
 
     /**
-     * @var integer
+     * @var array
      *
-     * @ORM\Column(name="gallery_id", type="integer", nullable=false)
+     * @ORM\Column(name="gallery_id", type="array", nullable=true)
      */
     protected $gallery_id;
 

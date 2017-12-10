@@ -98,7 +98,7 @@ class ImageController extends Controller
                             $image = new GalleryMedia();
                             $image->preUpdate();
                             $image->setMediaId($gallery_media['media_id']);
-                            $image->setGalleryId($gallery_media['galleryId']);
+                            $image->setGalleryId(serialize(array($gallery_media['galleryId'])));
                             $image->setOwnedBy($gallery_media['owned_by']);
                             $image->setEnabled(false);
                             
