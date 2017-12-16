@@ -15,7 +15,36 @@ use AppBundle\Service\FileUploader;
 use Application\Sonata\MediaBundle\Entity\Media;
 
 class ImageController extends Controller
-{
+{   
+    /**
+     * @Route("/image", name="")
+     * @Method({"GET"})
+     */
+    public function imageActions(Request $request)
+    {   
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser()->getId();
+
+        $gallerie_medias = $em->getRepository('AppBundle:GalleryMedia')
+        ->findBy(
+            ['owned_by' => $user],
+            ['createdAt' => 'DESC']
+        );
+    
+        $images = array();
+        foreach ($gallerie_medias as $key => $value) {
+            $images[$key] = $this->get('sonata.media.manager.media')
+            ->findOneBy(
+                ['id'=>$value->getMediaId()]
+            );
+        }
+
+        return $this->render('default/image.html.twig', array(
+            'images' => $images
+        ));
+    }
+
+
     /**
      * @Route("/image/new/{slug}", name="imageNew")
      */
@@ -23,7 +52,7 @@ class ImageController extends Controller
         $em = $this->getDoctrine()->getManager(); 
         
         $gallery_media['galleryId'] = null;
-        $redirectUrl = '/gallery';
+        $redirectUrl = '/image';
 
         if($slug != 'null'){
             $gallery = $em->getRepository('AppBundle:Gallery')
