@@ -20,16 +20,26 @@ class ImageController extends Controller
      * @Route("/image/new/{slug}", name="imageNew")
      */
     public function uploadImage($slug){
-        $em = $this->getDoctrine()->getManager();            
-        $gallery = $em->getRepository('AppBundle:Gallery')
-                    ->findOneBy(
-                        ['slug' => $slug],
-                        ['createdAt' => 'DESC']                   
-                    );
+        $em = $this->getDoctrine()->getManager(); 
+        
+        $gallery_media['galleryId'] = null;
+        $redirectUrl = '/gallery';
+
+        if($slug != 'null'){
+            $gallery = $em->getRepository('AppBundle:Gallery')
+                ->findOneBy(
+                    ['slug' => $slug],
+                    ['createdAt' => 'DESC']                   
+                );
+            if(!empty($gallery)){
+                $gallery_media['galleryId'] = array($gallery->getId());
+                $toSlug = $slug;
+                $redirectUrl = '/gallery/'.$slug;    
+            }
+        }
 
         $context = 'default';
-
-        $gallery_media['galleryId'] = $gallery->getId();
+        
         $gallery_media['owned_by'] = $this->getUser()->getId();
         $gallery_media['position'] = null;
         
@@ -98,7 +108,7 @@ class ImageController extends Controller
                             $image = new GalleryMedia();
                             $image->preUpdate();
                             $image->setMediaId($gallery_media['media_id']);
-                            $image->setGalleryId(array($gallery_media['galleryId']));
+                            $image->setGalleryId($gallery_media['galleryId']);
                             $image->setOwnedBy($gallery_media['owned_by']);
                             $image->setEnabled(false);
                             
@@ -151,7 +161,7 @@ class ImageController extends Controller
             }
 
         }
-        return $this->redirect('/gallery/'.$slug);        
+        return $this->redirect($redirectUrl);        
     }
 
     public function generateRandomString($length) {
