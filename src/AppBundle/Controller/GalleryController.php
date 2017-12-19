@@ -109,10 +109,11 @@ class GalleryController extends Controller
         foreach ($gallery_media_fetch as $key => $value) {
             $gallery_ids = $value->getGalleryId();
             $media_id = $value->getMediaId();
-            
-            if (in_array($gallery_id, $gallery_ids)) {
-                array_push($imageIdInGallery, $media_id);                
-            }                
+            if (is_array($gallery_ids)) {
+                if (in_array($gallery_id, $gallery_ids)) {
+                    array_push($imageIdInGallery, $media_id); 
+                }
+            }
         }
         
         // populate alle images from media__media where id included #imageIdArray

@@ -68,7 +68,7 @@
             <ul class="nav navbar-nav side-nav">
                 <li>
                     <a href="#" data-toggle="collapse" data-target="#submenu-1"><i class="glyphicon glyphicon-user"></i> PROFILE <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-1" class="{{ path(app.request.attributes.get('_route')) in ['/profile/', '/profile/edit-profile', '/profile/edit-authentication'] ? '' : 'collapse' }}">
+                    <ul id="submenu-1" class="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) in ['/profile/', '/profile/edit-profile', '/profile/edit-authentication'] ? '' : 'collapse' }}">
                         <li>
                             <a href="/profile"><i class="fa fa-angle-double-right"></i> INFO</a>
                         </li>
@@ -84,14 +84,14 @@
                 </li>
                 <li>
                     <a href="#" data-toggle="collapse" data-target="#submenu-2"><i class="glyphicon glyphicon-th-list"></i> MEDIA <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-2" class="{{ path(app.request.attributes.get('_route')) in ['/gallery', '/image'] ? '' : 'collapse' }}">
+                    <ul id="submenu-2" class="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) in ['/gallery', '/image'] ? '' : 'collapse' }}">
                         <li><a href="/gallery"><i class="fa fa-angle-double-right"></i> GALLERY</a></li>
                         <li><a href="/image"><i class="fa fa-angle-double-right"></i> IMAGE</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="#" data-toggle="collapse" data-target="#submenu-3"><i class="glyphicon glyphicon-shopping-cart"></i>  SHOP <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-3" class="{{ path(app.request.attributes.get('_route')) in ['/cart', '/basket'] ? '' : 'collapse' }}">
+                    <ul id="submenu-3" class="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) in ['/cart', '/basket'] ? '' : 'collapse' }}">
                         <li><a href="/cart"><i class="fa fa-angle-double-right"></i> SHOPPING CART</a></li>
                         <li><a href="/basket"><i class="fa fa-angle-double-right"></i> BASKET</a></li>
                     </ul>

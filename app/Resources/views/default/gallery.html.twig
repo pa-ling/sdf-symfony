@@ -17,19 +17,19 @@
         <div class="row col-md-12 custyle">
             <table class="table table-striped custab">
                 <thead>
-                    <div class="pull-left">
-                        <h6>New Gallery</h6>
-
-                        <form role="form" class="col-md-9 go-right" action="gallery" method="post">
-                            <div class="form-group col-lg-6">
-                                <input id="name" name="name" type="text" placeholder="Name" class="form-control" required>
+                    <h6>New Gallery</h6>
+                    <form class="form-inline" action="gallery" method="post">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input id="name" name="name" type="text" placeholder="Name" class="form-control" required>
+                                </div>
                             </div>
-                            <div class="form-group col-lg-3">
-                                <input type="submit" value="Create" class="btn btn-primary pull-right">
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary">Create</button>
                             </div>
-                        </form>
-                        <p style="padding:10px;margin-top:20px;clear:both"></p>
-                    </div>
+                        </div>                            
+                    </form>
                     <tr>
                         <th>Name</th>
                         <th>Action</th>
