@@ -1,21 +1,18 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-user.html.twig' %}
 
 {% block style %}
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
 {% endblock %}
 
-{% block sidebar %}
-    {%- include 'sidebar.html.twig' -%}
-{% endblock %}
-
 {% block body %}
-<div class="small-body">
-    <div class="container">
+{# <div class="small-body">
+    <div class="container"> #}
         <nav aria-label="breadcrumb" role="navigation">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item" aria-current="page">Gallery</li>
             </ol>
         </nav>
+
         <h3>Galleries</h3>
         <div class="row col-md-12 custyle">
             <table class="table table-striped custab">
@@ -46,6 +43,6 @@
                     {% endfor %}
             </table>
         </div>
-    </div> <!-- /container -->
-</div>
+    {# </div> <!-- /container -->
+</div> #}
 {% endblock %}

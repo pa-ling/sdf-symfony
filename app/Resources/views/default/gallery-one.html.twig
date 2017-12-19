@@ -1,16 +1,16 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-user.html.twig' %}
 
 {% block style %}
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
 {% endblock %}
 
-{% block sidebar %}
+{# {% block sidebar %}
     {%- include 'sidebar.html.twig' -%}
-{% endblock %}
+{% endblock %} #}
 
 {% block body %}
-<div class="small-body">
-    <div class="container">
+{# <div class="small-body">
+    <div class="container"> #}
         <nav aria-label="breadcrumb" role="navigation">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/gallery">Gallery</a></li>
@@ -60,6 +60,6 @@
                 </tbody>
             </table>
         </div>
-    </div> <!-- /container -->
-</div>
+    {# </div> <!-- /container -->
+</div> #}
 {% endblock %}

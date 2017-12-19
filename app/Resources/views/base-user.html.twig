@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}SDF{% endblock %}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.png?v=2') }}"/>
+    <link rel="shortcut icon" href="{{ asset('favicon.png?v=2') }}" type="img/x-icon">
+
+    {% stylesheets '@bootstrap_css' %}
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/symfony.css') }}">
+
+    <script href="{{ asset('js/simpleCart.min.js') }}"></script>
+
+    <script href="{{ asset('js/jquery.easydropdown.js') }}"></script>
+
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/memenu.css') }}">
+    <script href="{{ asset('js/memenu.js') }}"></script>
+
+    {% javascripts '@jquery' '@bootstrap_js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/admin-user.css') }}">
+
+    {% block style %}
+    {% endblock %}
+</head>
+
+<body>
+
+<div id="throbber" style="display:none; min-height:120px;"></div>
+<div id="noty-holder"></div>
+<div id="wrapper">
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                <img src="https://www.datenwerk.de/wp-content/uploads/2017/08/symfony_old_logo.jpg" width="200px" alt="LOGO">
+            </a>
+        </div>
+        <ul class="nav navbar-right top-nav">         
+             <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hallo {{ app.user.username }}! <b class="fa fa-angle-down"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/admin"><i class="fa fa-fw fa-user"></i> Dashboard</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
+                </ul>
+            </li> 
+        </ul>
+        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav side-nav">
+                <li>
+                    <a href="#" data-toggle="collapse" data-target="#submenu-1"><i class="glyphicon glyphicon-user"></i> PROFILE <i class="fa fa-fw fa-angle-down pull-right"></i></a>
+                    <ul id="submenu-1" class="{{ path(app.request.attributes.get('_route')) in ['/profile/', '/profile/edit-profile', '/profile/edit-authentication'] ? '' : 'collapse' }}">
+                        <li>
+                            <a href="/profile"><i class="fa fa-angle-double-right"></i> INFO</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/profile/edit-profile"><i class="fa fa-angle-double-right"></i> EDIT PROFILE</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/profile/edit-authentication"><i class="fa fa-angle-double-right"></i> AUTHENTICATION</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" data-toggle="collapse" data-target="#submenu-2"><i class="glyphicon glyphicon-th-list"></i> MEDIA <i class="fa fa-fw fa-angle-down pull-right"></i></a>
+                    <ul id="submenu-2" class="{{ path(app.request.attributes.get('_route')) in ['/gallery', '/image'] ? '' : 'collapse' }}">
+                        <li><a href="/gallery"><i class="fa fa-angle-double-right"></i> GALLERY</a></li>
+                        <li><a href="/image"><i class="fa fa-angle-double-right"></i> IMAGE</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" data-toggle="collapse" data-target="#submenu-3"><i class="glyphicon glyphicon-shopping-cart"></i>  SHOP <i class="fa fa-fw fa-angle-down pull-right"></i></a>
+                    <ul id="submenu-3" class="{{ path(app.request.attributes.get('_route')) in ['/cart', '/basket'] ? '' : 'collapse' }}">
+                        <li><a href="/cart"><i class="fa fa-angle-double-right"></i> SHOPPING CART</a></li>
+                        <li><a href="/basket"><i class="fa fa-angle-double-right"></i> BASKET</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </nav>
+
+    <div id="page-wrapper">
+        {# <div class="container-fluid"> #}
+            {% block body %}
+
+            {% endblock %}
+        {# </div> #}
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /#page-wrapper -->
+</div><!-- /#wrapper -->
+
+
+<script>
+    $(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+        $(".side-nav .collapse").on("hide.bs.collapse", function() {                   
+            $(this).prev().find(".fa").eq(1).removeClass("fa-angle-right").addClass("fa-angle-down");
+        });
+        $('.side-nav .collapse').on("show.bs.collapse", function() {                        
+            $(this).prev().find(".fa").eq(1).removeClass("fa-angle-down").addClass("fa-angle-right");        
+        });
+    })
+</script>
+
+</body>
+</html>

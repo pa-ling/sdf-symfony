@@ -9,20 +9,20 @@ file that was distributed with this source code.
 
 #}
 
-{% extends 'base.html.twig' %}
+{% extends 'base-user.html.twig' %}
 
 {% block style %}
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/signing.css') }}">
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/profile.css') }}">
 {% endblock %}
 
-{% block sidebar %}
+{# {% block sidebar %}
     {%- include 'sidebar.html.twig' -%}
-{% endblock %}
+{% endblock %} #}
 
 {% block body %}
-<div class="small-body">
-    <div class="container">
+{# <div class="small-body">
+    <div class="container"> #}
 
         <div class="row">
             <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
@@ -73,6 +73,6 @@ file that was distributed with this source code.
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    {# </div>
+</div> #}
 {% endblock %}
