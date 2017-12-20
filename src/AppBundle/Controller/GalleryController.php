@@ -128,7 +128,8 @@ class GalleryController extends Controller
         if($gallery->getOwnedBy() === $user){
             return $this->render('default/gallery-one.html.twig', array(
                 'gallery' => $gallery,
-                'images' => $images,                
+                'images' => $images,
+                'slug' => '/gallery/'.$slug               
             ));
         }
     }
