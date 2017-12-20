@@ -30,7 +30,7 @@ class ImageController extends Controller
             ['owned_by' => $user],
             ['createdAt' => 'DESC']
         );
-    
+        
         $images = array();
         foreach ($gallerie_medias as $key => $value) {
             $images[$key] = $this->get('sonata.media.manager.media')
@@ -39,8 +39,24 @@ class ImageController extends Controller
             );
         }
 
+        /**
+         * TODO
+         * Get all galleryIds from image
+         */
+        $image_gallery = array();
+        foreach ($images as $key => $value) {
+            $gallerie_medias = $em->getRepository('AppBundle:GalleryMedia')
+                ->findOneBy(
+                    ['media_id' => $value->getId()]
+                );
+            if (is_array($gallerie_medias->getGalleryId())) {
+                // array_push($images[$key]['galleries'], $gallerie_medias->getGalleryId()); 
+            }
+        }
+
         return $this->render('default/image.html.twig', array(
-            'images' => $images
+            'images' => $images,
+            'image_gallery'=> $image_gallery
         ));
     }
 
