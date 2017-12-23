@@ -22,9 +22,9 @@ class GalleryMedia
     private $id;
 
     /**
-     * @var array
+     * @var integer
      *
-     * @ORM\Column(name="gallery_id", type="array", nullable=true)
+     * @ORM\Column(name="gallery_id", type="integer", nullable=true)
      */
     protected $gallery_id;
 
@@ -102,7 +102,7 @@ class GalleryMedia
      */
     public function setGalleryId($gallery_id)
     {
-        $this->gallery_id = serialize($gallery_id);
+        $this->gallery_id = $gallery_id;
     }
 
     /**
@@ -110,7 +110,7 @@ class GalleryMedia
      */
     public function getGalleryId()
     {
-        return unserialize($this->gallery_id);
+        return $this->gallery_id;
     }
 
     /**

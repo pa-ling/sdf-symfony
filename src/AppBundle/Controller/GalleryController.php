@@ -99,21 +99,19 @@ class GalleryController extends Controller
             );
         $gallery_id = $gallery->getId();
         
-        // fetch all gallery_media and get all gallery_ids
+        // fetch all gallery_media
         $gallery_media_fetch = $em->getRepository('AppBundle:GalleryMedia')
-            ->findAll();    
+            ->findBy(
+                ['gallery_id' => $gallery_id],
+                ['createdAt' => 'DESC']                   
+            ); 
         
         // push alle image ids where belong to this gallery
         // #imageIdArray
         $imageIdInGallery = array();            
         foreach ($gallery_media_fetch as $key => $value) {
-            $gallery_ids = $value->getGalleryId();
             $media_id = $value->getMediaId();
-            if (is_array($gallery_ids)) {
-                if (in_array($gallery_id, $gallery_ids)) {
-                    array_push($imageIdInGallery, $media_id); 
-                }
-            }
+            array_push($imageIdInGallery, $media_id); 
         }
         
         // populate alle images from media__media where id included #imageIdArray

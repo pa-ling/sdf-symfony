@@ -100,12 +100,13 @@ class ImageController extends Controller
                     ['createdAt' => 'DESC']                   
                 );
             if(!empty($gallery)){
-                $gallery_media['galleryId'] = array($gallery->getId());
+                $gallery_media['galleryId'] = $gallery->getId();
                 $toSlug = $slug;
                 $redirectUrl = '/gallery/'.$slug;    
             }
         }
 
+        
         $context = 'default';
         
         $gallery_media['owned_by'] = $this->getUser()->getId();
