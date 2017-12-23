@@ -60,6 +60,29 @@ class ImageController extends Controller
         ));
     }
 
+    /**
+     * @Route("/image/delete/{id}", name="imageDelete")
+     */
+    public function deleteImage($id){
+        echo $id;
+        $em = $this->getDoctrine()->getManager();
+        $gallerie_media = $em->getRepository('AppBundle:GalleryMedia')
+            ->findOneBy(
+                ['media_id' => $id]
+            );
+
+        if (!$gallerie_media) {
+            throw $this->createNotFoundException(
+                'No Image found for id '.$id
+            );
+        }else{
+            // Remove image will remove only image in GalleryMedia by its media_id
+            $em->remove($gallerie_media);
+            $em->flush();
+        }
+
+        return $this->redirect('/image');
+    }
 
     /**
      * @Route("/image/new/{slug}", name="imageNew")

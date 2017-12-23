@@ -27,9 +27,7 @@
                     <tr>
                         <th>Preview</th>
                         <th>Category</th>
-                        {# <th>Preis</th> #}
-                        <th>Published</th>
-                        {# <th>Action</th> #}
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,12 +39,7 @@
                             <td>
                                 <p>{{item.getGalleryId}}</p>
                             </td>
-                            {# <td>
-                                <p>...</p>
-                            </td> #}
-                            <td>
-                                <p>{{item.enabled}}</p>
-                            </td>
+                            <td><a href="/image/delete/{{item.id}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
                             {# <td><a class='btn btn-info btn-xs' href="/image/edit/{{item.id}}"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="/image/delete/{{item.id}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td> #}
                         </tr>
                     {% endfor %}
