@@ -123,6 +123,37 @@ class GalleryController extends Controller
     }
 
     /**
+     * @Route("/gallery/image/delete/{media_id}/{slug}", name="imageGalleryDelete")
+     */
+    public function deleteImage($media_id, $slug){
+        $em = $this->getDoctrine()->getManager();
+
+        $gallery = $em->getRepository('AppBundle:Gallery')
+            ->findOneBy(
+                ['slug' => $slug],
+                ['createdAt' => 'DESC']                   
+            );
+        $gallery_id = $gallery->getId();
+
+        $gallery_media = $em->getRepository('AppBundle:GalleryMedia')
+            ->findOneBy(
+                ['gallery_id' => $gallery_id, 'media_id'=>$media_id]
+            ); 
+
+        if (!$gallery_media) {
+            throw $this->createNotFoundException(
+                'No Image found for id '.$id
+            );
+        }else{
+            // Remove image will remove only image in GalleryMedia by its media_id
+            $em->remove($gallery_media);
+            $em->flush();
+        }
+
+        return $this->redirect('/gallery/'.$slug);   
+    }
+
+    /**
      * @Route("/gallery/{slug}", name="galleryOne")
      */
     public function show($slug)
@@ -166,11 +197,18 @@ class GalleryController extends Controller
                 );
         }
 
+        $createdAt = array();
+        foreach ($images as $key => $value) {
+            $created_At = $value->getCreatedAt()->format('d/m/Y');
+            array_push($createdAt, $created_At);
+        }
+
         if($gallery->getOwnedBy() === $user){
             return $this->render('default/gallery-one.html.twig', array(
                 'gallery' => $gallery,
                 'images' => $images,
-                'slug' => '/gallery/'.$slug               
+                'slug' => '/gallery/'.$slug,
+                'createdAt' => $createdAt            
             ));
         }
     }

@@ -39,6 +39,12 @@ class ImageController extends Controller
             );
         }
 
+        $createdAt = array();
+        foreach ($images as $key => $value) {
+            $created_At = $value->getCreatedAt()->format('d/m/Y');
+            array_push($createdAt, $created_At);
+        }
+
         /**
          * TODO
          * Get all galleryIds from image
@@ -56,7 +62,8 @@ class ImageController extends Controller
 
         return $this->render('default/image.html.twig', array(
             'images' => $images,
-            'image_gallery'=> $image_gallery
+            'image_gallery'=> $image_gallery,
+            'createdAt' => $createdAt
         ));
     }
 

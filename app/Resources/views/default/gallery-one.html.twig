@@ -32,10 +32,8 @@
                     </div>
                     <tr>
                         <th>Preview</th>
-                        <th>Category</th>
-                        {# <th>Preis</th> #}
-                        <th>Published</th>
-                        {# <th>Action</th> #}
+                        <th>Uploaded At</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,15 +42,8 @@
                             <td>
                                 <img src="/uploads/media/{{item.getContext}}/0001/01/thumb_{{item.getId}}_default_navsec.{{item.getExtension}}" width="50px">
                             </td>
-                            <td>
-                                <p>...</p>
-                            </td>
-                            {# <td>
-                                <p>...</p>
-                            </td> #}
-                            <td>
-                                <p>{{item.enabled}}</p>
-                            </td>
+                            <td>{{ createdAt[loop.index - 1] }}</td>
+                            <td><a href="/gallery/image/delete/{{item.id}}/{{gallery.slug}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
                             {# <td><a class='btn btn-info btn-xs' href="/image/edit/{{item.id}}"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="/image/delete/{{item.id}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td> #}
                         </tr>
                     {% endfor %}
