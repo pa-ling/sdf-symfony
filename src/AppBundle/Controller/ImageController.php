@@ -64,7 +64,6 @@ class ImageController extends Controller
      * @Route("/image/delete/{id}", name="imageDelete")
      */
     public function deleteImage($id){
-        echo $id;
         $em = $this->getDoctrine()->getManager();
         $gallerie_media = $em->getRepository('AppBundle:GalleryMedia')
             ->findOneBy(

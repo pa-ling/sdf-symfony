@@ -32,13 +32,15 @@
                     </form>
                     <tr>
                         <th>Name</th>
-                        {# <th>Action</th> #}
+                        <th>Created At</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                     {% for item in galleries %}
                         <tr>
-                            <td><a  href="/gallery/{{item.slug}}">{{item.name}}</a></td>
-                            {# <td><a class='btn btn-info btn-xs' href="/gallery/edit/{{item.slug}}"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="/gallery/delete/{{item.slug}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td> #}
+                            <td><a href="/gallery/{{item.slug}}">{{item.name}}</a></td>
+                            <td>{{ createdAt[loop.index - 1] }}</td>
+                            <td><a href="/gallery/delete/{{item.id}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
                         </tr>
                     {% endfor %}
             </table>

@@ -31,6 +31,12 @@ class GalleryController extends Controller
                 ['createdAt' => 'DESC']
             );
         
+        $createdAt = array();
+        foreach ($galleries as $key => $value) {
+            $created_At = $value->getCreatedAt()->format('d/m/Y');
+            array_push($createdAt, $created_At);
+        }
+
         $gallerie_medias = $em->getRepository('AppBundle:GalleryMedia')
             ->findBy(
                 ['owned_by' => $user],
@@ -74,9 +80,46 @@ class GalleryController extends Controller
 
         return $this->render('default/gallery.html.twig', array(
             'galleries' => $galleries,
-            'images' => $images
+            'images' => $images,
+            'createdAt' => $createdAt
         ));
 
+    }
+
+    /**
+     * @Route("/gallery/delete/{id}", name="galleryDelete")
+     */
+    public function deleteGallery($id){
+        $em = $this->getDoctrine()->getManager();
+
+        $gallerie_medias = $em->getRepository('AppBundle:GalleryMedia')
+            ->findBy(
+                ['gallery_id' => $id],
+                ['createdAt' => 'DESC']
+            );
+        
+        $gallery = $em->getRepository('AppBundle:Gallery')
+                ->findOneBy(
+                    ['id' => $id]
+                );
+        try{
+            $query = $em->createQuery('DELETE AppBundle:GalleryMedia gm WHERE gm.gallery_id = '.$id);
+            $query->execute(); 
+
+            try{
+                if(!empty($gallery)){
+                    $em->remove($gallery);
+                    $em->flush();
+                }
+            } catch(\Doctrine\DBAL\DBALException $e) {
+                $this->get('session')->getFlashBag()->add('error', 'Can\'t delete gallery.');
+            }
+
+        } catch(\Doctrine\DBAL\DBALException $e) {
+            $this->get('session')->getFlashBag()->add('error', 'Can\'t delete media.');
+        }
+
+        return $this->redirect('/gallery');
     }
 
     /**
