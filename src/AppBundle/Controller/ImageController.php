@@ -133,6 +133,7 @@ class ImageController extends Controller
             'image' => $image,
             'created_At' => $created_At,
             'size' => $size,
+            'slug' => '/image/'.$providerReference,
             'categories'=>$categories
         ));
     }
