@@ -30,13 +30,37 @@ class ImageController extends Controller
             ['owned_by' => $user],
             ['createdAt' => 'DESC']
         );
-        
+
         $images = array();
+        $categorix = array();
+        $catArr = array();
         foreach ($gallerie_medias as $key => $value) {
-            $images[$key] = $this->get('sonata.media.manager.media')
+            $images[$value->getMediaId()] = $this->get('sonata.media.manager.media')
             ->findOneBy(
                 ['id'=>$value->getMediaId()]
             );
+
+            // Collect all galleries from each gallery_media
+            if(!empty($value->getGalleryId())){
+                $gallery = $em->getRepository('AppBundle:Gallery')
+                        ->findOneBy(
+                            ['id' => $value->getGalleryId()]
+                        );
+                if(!empty($gallery)){
+                    if(empty($categorix[$value->getMediaId()])){
+                        $categorix[$value->getMediaId()][] = $gallery->getName();
+                    }else{    
+                        array_push($categorix[$value->getMediaId()], $gallery->getName());
+                    }
+                }
+            }else{
+                $categorix[$value->getMediaId()][] = NULL;
+            }
+        }
+
+        $categories = array();
+        foreach ($categorix as $key => $value) {
+            $categories[$key] = implode(", ", $value);
         }
 
         $createdAt = array();
@@ -45,24 +69,9 @@ class ImageController extends Controller
             array_push($createdAt, $created_At);
         }
 
-        /**
-         * TODO
-         * Get all galleryIds from image
-         */
-        $image_gallery = array();
-        foreach ($images as $key => $value) {
-            $gallerie_medias = $em->getRepository('AppBundle:GalleryMedia')
-                ->findOneBy(
-                    ['media_id' => $value->getId()]
-                );
-            if (is_array($gallerie_medias->getGalleryId())) {
-                // array_push($images[$key]['galleries'], $gallerie_medias->getGalleryId()); 
-            }
-        }
-
         return $this->render('default/image.html.twig', array(
             'images' => $images,
-            'image_gallery'=> $image_gallery,
+            'categories' => $categories,
             'createdAt' => $createdAt
         ));
     }
