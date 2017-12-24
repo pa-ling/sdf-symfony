@@ -77,19 +77,19 @@ class ImageController extends Controller
     }
 
     /**
-     * @Route("/image/{id}", name="imageOne")
+     * @Route("/image/{providerReference}", name="imageOne")
      */
-    public function show($id)
+    public function show($providerReference)
     {
         $em = $this->getDoctrine()->getManager();
         $image = $this->get('sonata.media.manager.media')
             ->findOneBy(
-                ['id'=>$id]
+                ['providerReference'=>$providerReference]
             );
         
         $gallerie_image = $em->getRepository('AppBundle:GalleryMedia')
             ->findBy(
-                ['media_id' => $id],
+                ['media_id' => $image->getId()],
                 ['createdAt' => 'DESC']
             );
         
