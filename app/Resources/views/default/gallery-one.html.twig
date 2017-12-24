@@ -40,7 +40,7 @@
                     {% for item in images %}
                         <tr>
                             <td>
-                                <img src="/uploads/media/{{item.getContext}}/0001/01/thumb_{{item.getId}}_default_navsec.{{item.getExtension}}" width="50px">
+                                <a href="/image/{{item.id}}"><img src="/uploads/media/{{item.getContext}}/0001/01/thumb_{{item.getId}}_default_navsec.{{item.getExtension}}" width="50px"></a>
                             </td>
                             <td>{{ createdAt[loop.index - 1] }}</td>
                             <td><a href="/gallery/image/delete/{{item.id}}/{{gallery.slug}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>

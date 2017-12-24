@@ -77,6 +77,67 @@ class ImageController extends Controller
     }
 
     /**
+     * @Route("/image/{id}", name="imageOne")
+     */
+    public function show($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $image = $this->get('sonata.media.manager.media')
+            ->findOneBy(
+                ['id'=>$id]
+            );
+        
+        $gallerie_image = $em->getRepository('AppBundle:GalleryMedia')
+            ->findBy(
+                ['media_id' => $id],
+                ['createdAt' => 'DESC']
+            );
+        
+        $categories = array();
+        if(isset($gallerie_image)){
+            $categorix = array();
+            foreach ($gallerie_image as $key => $value) {
+                // Collect all galleries from each gallery_media
+                if(!empty($value->getGalleryId())){
+                    $gallery = $em->getRepository('AppBundle:Gallery')
+                            ->findOneBy(
+                                ['id' => $value->getGalleryId()]
+                            );
+                    if(!empty($gallery)){
+                        if(empty($categorix[$value->getMediaId()])){
+                            $categorix[$value->getMediaId()][] = $gallery->getName();
+                        }else{    
+                            array_push($categorix[$value->getMediaId()], $gallery->getName());
+                        }
+                    }
+                }else{
+                    $categorix[$value->getMediaId()][] = NULL;
+                }
+            }
+
+            foreach ($categorix as $key => $value) {
+                $categories[$key] = implode(", ", $value);
+            }
+        }
+
+        $created_At = $image->getCreatedAt()->format('d/m/Y');
+        $size = $this->filesize_formatted($image->getSize());
+
+        if (!$image) {
+            throw $this->createNotFoundException(
+                'No Image found for id '.$id
+            );
+        }
+
+        return $this->render('default/image-one.html.twig', array(
+            'image' => $image,
+            'created_At' => $created_At,
+            'size' => $size,
+            'categories'=>$categories
+        ));
+    }
+
+    /**
      * @Route("/image/delete/{id}", name="imageDelete")
      */
     public function deleteImage($id){
@@ -97,6 +158,13 @@ class ImageController extends Controller
         }
 
         return $this->redirect('/image');
+    }
+
+    public function filesize_formatted($size)
+    {
+        $units = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+        $power = $size > 0 ? floor(log($size, 1024)) : 0;
+        return number_format($size / pow(1024, $power), 2, '.', ',') . ' ' . $units[$power];
     }
 
     /**
@@ -247,6 +315,20 @@ class ImageController extends Controller
         }
         return $this->redirect($redirectUrl);        
     }
+
+    public function formatBytes($bytes, $precision = 2) { 
+        $units = array('B', 'KB', 'MB', 'GB', 'TB'); 
+    
+        $bytes = max($bytes, 0); 
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024)); 
+        $pow = min($pow, count($units) - 1); 
+    
+        // Uncomment one of the following alternatives
+        // $bytes /= pow(1024, $pow);
+        // $bytes /= (1 << (10 * $pow)); 
+    
+        return round($bytes, $precision) . ' ' . $units[$pow]; 
+    } 
 
     public function generateRandomString($length) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

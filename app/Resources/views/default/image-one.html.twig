@@ -1,0 +1,32 @@
+{% extends 'base-user.html.twig' %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
+{% endblock %}
+
+
+{% block body %}
+
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/image">Image</a></li>
+            <li class="breadcrumb-item" aria-current="page">{{image.getName}}</li>
+        </ol>
+    </nav>
+
+    <h3>Image</h3>
+    <div class="row">
+        <div class="col-lg-4">
+            <img style="width:100%;" src="/uploads/media/{{image.getContext}}/0001/01/thumb_{{image.getId}}_default_navsec.{{image.getExtension}}">
+        </div>
+        <div class="col-lg-4">
+            <p>Name: {{image.getName}}</p>
+            <p>Category : {{categories[image.getId]}}</p>
+            <p>Type: {{image.getContentType}}</p>
+            <p>Size: {{size}}</p>
+            <p>Resolution: {{image.getHeight}}(h) x {{image.getWidth}}(w)</p>
+            <p>Uploaded at: {{created_At}}</p>
+        </div>
+    </div>
+    
+{% endblock %}
