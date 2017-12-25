@@ -1,0 +1,45 @@
+{% extends 'base-user.html.twig' %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/table.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-multiselect.css') }}"/>
+{% endblock %}
+
+
+{% block body %}
+
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/image">Image</a></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="/image/{{image.getProviderReference}}">{{image.getName}}</a></li>
+            <li class="breadcrumb-item" aria-current="page">Update gallery</li>
+        </ol>
+    </nav>
+    
+    <h5>Current Gallery: 
+        {{current_galleries[image.getId]}}
+    </h5>
+
+    <label for="select-gallery">Change Gallery</label><br>
+    <form action="/image/{{image.getProviderReference}}/gallery" method="POST" id="set-gallery"> 
+        <select multiple="multiple" class='form-control' name="select-gallery[]" id="select-gallery" >
+            {% for item in galleries %}
+                <option value="{{item.id}}">{{item.name}}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" id="submit" class="btn btn-primary save">Submit</button>
+    </form>
+
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{ asset('js/bootstrap-multiselect.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#select-gallery').multiselect({
+            enableFiltering: true
+        });
+    })
+</script>
+{% endblock %}
+

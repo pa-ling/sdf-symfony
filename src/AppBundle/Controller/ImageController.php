@@ -58,9 +58,9 @@ class ImageController extends Controller
             }
         }
 
-        $categories = array();
+        $current_galleries = array();
         foreach ($categorix as $key => $value) {
-            $categories[$key] = implode(", ", $value);
+            $current_galleries[$key] = implode(", ", $value);
         }
 
         $createdAt = array();
@@ -71,7 +71,7 @@ class ImageController extends Controller
 
         return $this->render('default/image.html.twig', array(
             'images' => $images,
-            'categories' => $categories,
+            'current_galleries' => $current_galleries,
             'createdAt' => $createdAt
         ));
     }
@@ -93,7 +93,7 @@ class ImageController extends Controller
                 ['createdAt' => 'DESC']
             );
         
-        $categories = array();
+        $current_galleries = array();
         if(isset($gallerie_image)){
             $categorix = array();
             foreach ($gallerie_image as $key => $value) {
@@ -116,7 +116,7 @@ class ImageController extends Controller
             }
 
             foreach ($categorix as $key => $value) {
-                $categories[$key] = implode(", ", $value);
+                $current_galleries[$key] = implode(", ", $value);
             }
         }
 
@@ -129,13 +129,130 @@ class ImageController extends Controller
             );
         }
 
+        $user = $this->getUser()->getId();
+        
+        $galleries = $em->getRepository('AppBundle:Gallery')
+            ->findBy(
+                ['owned_by' => $user],
+                ['createdAt' => 'DESC']
+            );
+
         return $this->render('default/image-one.html.twig', array(
             'image' => $image,
             'created_At' => $created_At,
             'size' => $size,
             'slug' => '/image/'.$providerReference,
-            'categories'=>$categories
+            'current_galleries'=>$current_galleries,
+            'galleries' =>$galleries
         ));
+    }
+
+    /**
+     * @Route("/image/{providerReference}/gallery", name="imageGallery")
+     * @Method({"GET", "POST"})
+     */
+    public function imageGallery(Request $request, $providerReference)
+    {   
+        $em = $this->getDoctrine()->getManager();
+        $image = $this->get('sonata.media.manager.media')
+            ->findOneBy(
+                ['providerReference'=>$providerReference]
+            );
+        $user = $this->getUser()->getId();
+        $media_id = $image->getId();
+
+        if ($request->getMethod() == 'POST') {
+            // Delete all from GalleryMedia by media_id
+            $query = $em->createQuery(
+                'DELETE 
+                    AppBundle:GalleryMedia gm 
+                WHERE 
+                    gm.media_id = :media_id'
+                )
+                ->setParameter("media_id", $media_id);
+            $result = $query->execute();
+
+            $data = $request->request->all();
+            if($data){
+                $galleries = $data['select-gallery'];
+                // Insert all actuall GalleryMedias
+                foreach ($galleries as $key => $value) {
+                    $gallery_id = $value;
+
+                    $image = new GalleryMedia();
+                    $image->preUpdate();
+                    $image->setMediaId($media_id);
+                    $image->setGalleryId($gallery_id);
+                    $image->setOwnedBy($user);
+                    $image->setEnabled(false);
+
+                    $em->persist($image);
+                    $em->flush();
+                }
+            }else{
+                // Set gallery_id GalleryMedia to NULL
+                $image = new GalleryMedia();
+                $image->preUpdate();
+                $image->setMediaId($media_id);
+                $image->setGalleryId(NULL);
+                $image->setOwnedBy($user);
+                $image->setEnabled(false);
+
+                $em->persist($image);
+                $em->flush();
+            }
+
+            return $this->redirect('/image/'.$providerReference);
+        }else if ($request->getMethod() == 'GET') {
+
+            $galleries = $em->getRepository('AppBundle:Gallery')
+            ->findBy(
+                ['owned_by' => $user],
+                ['createdAt' => 'DESC']
+            );
+
+            $gallerie_image = $em->getRepository('AppBundle:GalleryMedia')
+                ->findBy(
+                    ['media_id' => $image->getId()],
+                    ['createdAt' => 'DESC']
+                );
+            
+            $current_galleries = array();
+            if(isset($gallerie_image)){
+                $current_galleries = array();
+                if(isset($gallerie_image)){
+                    $categorix = array();
+                    foreach ($gallerie_image as $key => $value) {
+                        // Collect all galleries from each gallery_media
+                        if(!empty($value->getGalleryId())){
+                            $gallery = $em->getRepository('AppBundle:Gallery')
+                                    ->findOneBy(
+                                        ['id' => $value->getGalleryId()]
+                                    );
+                            if(!empty($gallery)){
+                                if(empty($categorix[$value->getMediaId()])){
+                                    $categorix[$value->getMediaId()][] = $gallery->getName();
+                                }else{    
+                                    array_push($categorix[$value->getMediaId()], $gallery->getName());
+                                }
+                            }
+                        }else{
+                            $categorix[$value->getMediaId()][] = NULL;
+                        }
+                    }
+        
+                    foreach ($categorix as $key => $value) {
+                        $current_galleries[$key] = implode(", ", $value);
+                    }
+                }
+            }
+            
+            return $this->render('default/image-gallery.html.twig', array(
+                'image' => $image,
+                'galleries'=>$galleries,
+                'current_galleries' => $current_galleries
+            ));
+        }
     }
 
     /**

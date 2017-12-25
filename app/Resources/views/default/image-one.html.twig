@@ -1,7 +1,7 @@
 {% extends 'base-user.html.twig' %}
 
 {% block style %}
-    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/table.css') }}">
 {% endblock %}
 
 
@@ -21,12 +21,20 @@
         </div>
         <div class="col-lg-4">
             <p>Name: {{image.getName}}</p>
-            <p>Category : {{categories[image.getId]}}</p>
+            <p>Gallery : 
+                {% if current_galleries %}
+                    {{current_galleries[image.getId]}}
+                {% else %}
+                    -
+                {% endif %}
+                <a class="btn btn-info" href="/image/{{image.getProviderReference}}/gallery">Update Gallery</a> 
+            </p>
             <p>Type: {{image.getContentType}}</p>
             <p>Size: {{size}}</p>
             <p>Resolution: {{image.getHeight}}(h) x {{image.getWidth}}(w)</p>
             <p>Uploaded at: {{created_At}}</p>
+            <input type="hidden" id="media_id" value="{{image.getId}}">
         </div>
     </div>
-    
+
 {% endblock %}
