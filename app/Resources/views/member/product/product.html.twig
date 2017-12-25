@@ -1,0 +1,20 @@
+{% extends 'base-user.html.twig' %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
+{% endblock %}
+
+{% block body %}
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" aria-current="page">Products</li>
+        </ol>
+    </nav>
+    <a class="btn btn-info" href="/product/new">New Product</a> 
+
+    <h3>Products</h3>
+    {% for item in products %}
+        <p>{{item.id}}</p>
+    {% endfor %}
+
+{% endblock %}

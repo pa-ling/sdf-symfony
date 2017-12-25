@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,8 +15,9 @@ class ProductController extends Controller
 
 	/**
      * @Route("/product", name="product")
+	 * @Method({"GET", "POST"})
      */
-	public function createProduct()
+	public function createProduct(Request $request)
 	{
 		$em = $this->getDoctrine()->getManager();
 
@@ -23,15 +25,33 @@ class ProductController extends Controller
 			->getRepository(Media::class)
 			->find(2);
 
-		$product = new Product();
-        $product->setPrice(19.99);
-        $product->setImage($image);
+		if ($request->getMethod() == 'POST') {
+			$product = new Product();
+			$product->setPrice(19.99);
+			$product->setImage($image);
 
-        $em->persist($product);
+			$em->persist($product);
 
-        $em->flush();
+			$em->flush();
 
-        return new Response('Saved new product with id '.$product->getId());
+			return $this->redirect('/product');
+		}else if ($request->getMethod() == 'GET') {
+			$products = $this->getDoctrine()
+				->getRepository(Product::class)
+				->findAll();
+		}
+
+		return $this->render('member/product/product.html.twig', array(
+			'products' =>$products
+		));
+	}
+
+	/**
+     * @Route("/product/new", name="newProduct")
+     */
+	public function newProduct()
+	{
+		return $this->render('member/product/new-product.html.twig', array());
 	}
 
 	/**

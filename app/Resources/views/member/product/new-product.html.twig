@@ -1,0 +1,30 @@
+{% extends 'base-user.html.twig' %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
+{% endblock %}
+
+{% block body %}
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/product">Products</a></li>
+            <li class="breadcrumb-item" aria-current="page">New Product</li>
+        </ol>
+    </nav>
+
+    <h3>New Product</h3>
+    <form action="/product" method="POST">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name">
+        </div>
+        <div class="form-group">
+            <label for="preis">Preis</label>
+            <input type="number" class="form-control" id="preis">
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox"> Remember me</label>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+{% endblock %}
