@@ -28,7 +28,7 @@ class ImageController extends Controller
         $gallerie_medias = $em->getRepository('AppBundle:GalleryMedia')
         ->findBy(
             ['owned_by' => $user],
-            ['createdAt' => 'DESC']
+            ['createdAt' => 'ASC']
         );
 
         $images = array();
@@ -259,7 +259,7 @@ class ImageController extends Controller
     public function deleteImage($id){
         $em = $this->getDoctrine()->getManager();
         $gallerie_media = $em->getRepository('AppBundle:GalleryMedia')
-            ->findOneBy(
+            ->findBy(
                 ['media_id' => $id]
             );
 
@@ -268,9 +268,15 @@ class ImageController extends Controller
                 'No Image found for id '.$id
             );
         }else{
-            // Remove image will remove only image in GalleryMedia by its media_id
-            $em->remove($gallerie_media);
-            $em->flush();
+            // Delete all from GalleryMedia by media_id
+            $query = $em->createQuery(
+                'DELETE 
+                    AppBundle:GalleryMedia gm 
+                WHERE 
+                    gm.media_id = :media_id'
+                )
+                ->setParameter("media_id", $id);
+            $result = $query->execute();
         }
 
         return $this->redirect('/image');
