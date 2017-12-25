@@ -39,7 +39,7 @@
                             </td>
                             <td>
                                 <p>
-                                    {{ current_galleries[item.id] }}
+                                    {{ current_galleries[item.id] | raw }}
                                 </p>
                             </td>
                             <td>{{ createdAt[loop.index - 1] }}</td>

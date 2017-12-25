@@ -48,13 +48,13 @@ class ImageController extends Controller
                         );
                 if(!empty($gallery)){
                     if(empty($categorix[$value->getMediaId()])){
-                        $categorix[$value->getMediaId()][] = $gallery->getName();
+                        $categorix[$value->getMediaId()][] = '<a href="/gallery/'.$gallery->getSlug().'">'.$gallery->getName().'</a>';
                     }else{    
-                        array_push($categorix[$value->getMediaId()], $gallery->getName());
+                        array_push($categorix[$value->getMediaId()], '<a href="/gallery/'.$gallery->getSlug().'">'.$gallery->getName().'</a>');
                     }
                 }
             }else{
-                $categorix[$value->getMediaId()][] = NULL;
+                $categorix[$value->getMediaId()][] = '-';
             }
         }
 
@@ -105,21 +105,19 @@ class ImageController extends Controller
                             );
                     if(!empty($gallery)){
                         if(empty($categorix[$value->getMediaId()])){
-                            $categorix[$value->getMediaId()][] = $gallery->getName();
+                            $categorix[$value->getMediaId()][] = '<a href="/gallery/'.$gallery->getSlug().'">'.$gallery->getName().'</a>';
                         }else{    
-                            array_push($categorix[$value->getMediaId()], $gallery->getName());
+                            array_push($categorix[$value->getMediaId()], '<a href="/gallery/'.$gallery->getSlug().'">'.$gallery->getName().'</a>');
                         }
                     }
                 }else{
-                    $categorix[$value->getMediaId()][] = NULL;
+                    $categorix[$value->getMediaId()][] = '-';
                 }
             }
-
             foreach ($categorix as $key => $value) {
                 $current_galleries[$key] = implode(", ", $value);
             }
         }
-
         $created_At = $image->getCreatedAt()->format('d/m/Y');
         $size = $this->filesize_formatted($image->getSize());
 
@@ -231,13 +229,13 @@ class ImageController extends Controller
                                     );
                             if(!empty($gallery)){
                                 if(empty($categorix[$value->getMediaId()])){
-                                    $categorix[$value->getMediaId()][] = $gallery->getName();
+                                    $categorix[$value->getMediaId()][] = '<a href="/gallery/'.$gallery->getSlug().'">'.$gallery->getName().'</a>';
                                 }else{    
-                                    array_push($categorix[$value->getMediaId()], $gallery->getName());
+                                    array_push($categorix[$value->getMediaId()], '<a href="/gallery/'.$gallery->getSlug().'">'.$gallery->getName().'</a>');
                                 }
                             }
                         }else{
-                            $categorix[$value->getMediaId()][] = NULL;
+                            $categorix[$value->getMediaId()][] = '-';
                         }
                     }
         

@@ -23,7 +23,7 @@
             <p>Name: {{image.getName}}</p>
             <p>Gallery : 
                 {% if current_galleries %}
-                    {{current_galleries[image.getId]}}
+                    {{current_galleries[image.getId] | raw }}
                 {% else %}
                     -
                 {% endif %}
