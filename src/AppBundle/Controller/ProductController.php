@@ -118,16 +118,25 @@ class ProductController extends Controller
 			['slug' => $slug]
 		);
 
-    	if (!$product) {
-        	throw $this->createNotFoundException(
-            	'No product found for id '.$productId
-        	);
-    	}
-		
-		print_r('Product with id: '.$product->getId().', name: '. $product->getName().', price: '. $product->getPrice().', galleries:');
-		print_r($product->getGallery());
-    	return new Response();}
+		if (!$product) {
+			throw $this->createNotFoundException(
+				'No product found for id '.$productId
+			);
+		}
 
+		// Check owner
+		$user = $this->getUser()->getId();
+		$owner = $product->getOwnedBy();
+		if($user !== $owner){
+			throw $this->createNotFoundException(
+            	'You are not authorize to do some action for '.$product->getName()
+        	);
+		}else{
+			print_r('Product with id: '.$product->getId().', name: '. $product->getName().', price: '. $product->getPrice().', galleries:');
+			print_r($product->getGallery());
+			return new Response();
+		}    	
+	}
 	/**
      * @Route("/product/{slug}", name="productShow")
      */
