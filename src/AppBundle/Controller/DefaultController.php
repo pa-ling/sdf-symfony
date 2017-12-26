@@ -34,22 +34,14 @@ class DefaultController extends Controller
         
         $images = array();
 
-        $images = $this->get('sonata.media.manager.media')
+        $products = $em->getRepository('AppBundle:Product')
             ->findBy(
                 ['enabled'=>1],
-                ['createdAt' => 'DESC'],
-                6
+                ['createdAt' => 'DESC']
             );
-
-        // if (!$images) {
-        //     throw $this->createNotFoundException(
-        //         'No images found'
-        //     );
-        // }
         
         return $this->render('default/index.html.twig', array(
-            'homeAll' => $homeAll,
-            'images' => $images
+            'products' => $products
         ));
 
     }

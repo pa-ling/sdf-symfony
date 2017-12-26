@@ -8,17 +8,15 @@
             {# <div class="prdt-top"> #}
                 <div class="col-md-9 prdt-left">
                     <div class="product-one">
-                        {% for item in images %}
+                        {% for item in products %}
                             <div class="col-md-4 product-left p-left">
                                 <div class="product-main simpleCart_shelfItem">
-                                    <a href="single.html" class="mask">
-                                        <img class="img-responsive zoom-img" alt="" src="/uploads/media/{{item.getContext}}/0001/01/thumb_{{item.getId}}_default_small.{{item.getExtension}}">
+                                    <a href="/product/{{item.getSlug}}" class="mask">
+                                        <img style="width:100%;" src="/images/abt-1.jpg">
                                     </a>
                                     <div class="product-bottom">
-                                        <h3>Smart Watches</h3>
-                                        <p>Explore Now</p>
-                                        <h4><a class="item_add" href="#"><i></i></a> <span class=" item_price">$ 329</span></h4>
-                                        <button onclick=addBasketItem({{item.id}})>Checkout</button>
+                                        <h3>{{item.getName}}</h3>
+                                        <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>
                                     </div>
                                     <div class="srch srch1">
                                         <span>-50%</span>

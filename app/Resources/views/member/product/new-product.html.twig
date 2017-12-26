@@ -2,6 +2,7 @@
 
 {% block style %}
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-multiselect.css') }}"/>
 {% endblock %}
 
 {% block body %}
@@ -13,18 +14,35 @@
     </nav>
 
     <h3>New Product</h3>
-    <form action="/product" method="POST">
+    <form action="/myproduct" method="POST">
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name">
+            <input id="name" name="name" type="text" placeholder="Name" class="form-control" required>
         </div>
         <div class="form-group">
-            <label for="preis">Preis</label>
-            <input type="number" class="form-control" id="preis">
+            <label for="price">Preis</label>
+            <input type="number" class="form-control" id="price" name="price" placeholder="Price">
         </div>
-        <div class="checkbox">
-            <label><input type="checkbox"> Remember me</label>
+        <div class="form-group">
+            <label for="galleries">Galleries</label><br>
+            <select multiple="multiple" class='form-control' name="galleries[]" id="galleries" >
+                {% for item in galleries %}
+                    <option value="{{item.id}}">{{item.name}}</option>
+                {% endfor %}
+            </select>
         </div>
+
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{ asset('js/bootstrap-multiselect.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#galleries').multiselect({
+            enableFiltering: true
+        });
+    })
+</script>
 {% endblock %}
