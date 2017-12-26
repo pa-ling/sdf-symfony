@@ -78,8 +78,58 @@ class ProductController extends Controller
 		));
 	}
 
+		/**
+     * @Route("/myproduct/{id}/{state}", name="productPublish")
+     */
+	public function publishProduct($id,$state)
+	{
+		$em = $this->getDoctrine()->getManager();
+		$product = $em->getRepository('AppBundle:Product')
+		->findOneBy(
+			['id' => $id]
+		);
+
+		// Check owner
+		$user = $this->getUser()->getId();
+		$owner = $product->getOwnedBy();
+		if($user === $owner){
+			$enable= true;
+			if($state == 0){
+				$enable = false;
+			}
+			$product->setEnabled($enable);
+			$em->flush();
+			return $this->redirect('/myproduct');
+		}else{
+			throw $this->createNotFoundException(
+            	'You are not authorize to do some action for '.$product->getName()
+        	);
+		}
+	}
+
 	/**
      * @Route("/myproduct/{slug}", name="myproductShow")
+     */
+	public function showMyProduct($slug)
+	{
+		$em = $this->getDoctrine()->getManager();
+		$product = $em->getRepository('AppBundle:Product')
+		->findOneBy(
+			['slug' => $slug]
+		);
+
+    	if (!$product) {
+        	throw $this->createNotFoundException(
+            	'No product found for id '.$productId
+        	);
+    	}
+		
+		print_r('Product with id: '.$product->getId().', name: '. $product->getName().', price: '. $product->getPrice().', galleries:');
+		print_r($product->getGallery());
+    	return new Response();}
+
+	/**
+     * @Route("/product/{slug}", name="productShow")
      */
 	public function showProduct($slug)
 	{
@@ -94,9 +144,12 @@ class ProductController extends Controller
             	'No product found for id '.$productId
         	);
     	}
-
-    	return new Response('Product with id '.$product->getId().' and price '. $product->getPrice());
+		print_r('Product with id: '.$product->getId().', name: '. $product->getName().', price: '. $product->getPrice().', galleries:');
+		print_r($product->getGallery());
+    	return new Response();
 	}
+
+
 
 	static public function slugify($text)
     {

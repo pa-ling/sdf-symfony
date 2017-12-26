@@ -24,8 +24,13 @@
                         </a>
                         <div class="product-bottom">
                             <h3>{{item.getName}}</h3>
-                            <p>Published: {{item.getEnabled ? 'YES' : 'NOT'}}</p>
+                            <p>Published: {{item.getEnabled ? 'YES' : 'NOT'}}
+                            </p>
+                            <p>
+                                {% if item.getEnabled %} <a href="/myproduct/{{item.getId}}/0">UNPUBLISH</a> {% else %} <a href="/myproduct/{{item.getId}}/1">PUBLISH</a> {% endif %}
+                            </p>
                             <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>
+                            
                         </div>
                         {# <div class="srch srch1">
                             <span>-50%</span>
