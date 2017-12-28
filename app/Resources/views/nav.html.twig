@@ -69,20 +69,11 @@
                 <li><a href="/login" class="nav-dropdown">Login</span></a></li>
             {% endif %}
             <li>
-                <div class="cart box_1">
-                    <a href="/cart">
-                        <div class="total">
-                            <span class="simpleCart_total"></span></div>
-                        <img src="{{ asset('images/cart-1.png') }}" alt="" />
-                    </a>
-                    <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
-                    <div class="clearfix"> </div>
-                </div>
                 <a href="/checkout" class="box_1" style="padding-top: 0.3em">
                     <div class="box_1">
                             <div class="total">
                             <img src="{{ asset('images/cart-1.png') }}" alt="" />
-                            <p style="margin-top: -0.2em"><span class="pull-right">1</span></p>
+                            <p style="margin-top: -0.2em"><span class="pull-right"><!--Show item count here.--></span></p>
                     </div>
                 </a>
             </li>
