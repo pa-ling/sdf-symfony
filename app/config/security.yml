@@ -71,9 +71,8 @@ security:
 
     role_hierarchy:
         ROLE_USER:              []
-        ROLE_STAFF:             [ROLE_USER]
-        ROLE_MODERATOR:         [ROLE_STAFF]
-        ROLE_ADMIN:             [ROLE_MODERATOR]
+        ROLE_PHOTOGRAPH:        [ROLE_USER]
+        ROLE_ADMIN:             [ROLE_PHOTOGRAPH]
         ROLE_SUPER_ADMIN:       [ROLE_ADMIN]
 
 

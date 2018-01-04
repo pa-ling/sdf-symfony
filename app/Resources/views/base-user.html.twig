@@ -53,7 +53,7 @@
                 <img src="https://www.datenwerk.de/wp-content/uploads/2017/08/symfony_old_logo.jpg" width="200px" alt="LOGO">
             </a>
         </div>
-        <ul class="nav navbar-right top-nav">         
+        <ul class="nav navbar-right top-nav">
              <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hallo {{ app.user.username }}! <b class="fa fa-angle-down"></b></a>
                 <ul class="dropdown-menu">
@@ -61,7 +61,7 @@
                     <li class="divider"></li>
                     <li><a href="/logout"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
                 </ul>
-            </li> 
+            </li>
         </ul>
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -83,7 +83,11 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="/myproduct"><i class="glyphicon glyphicon glyphicon-th"></i> PRODUCT</a>
+                    {%- if is_granted('ROLE_PHOTOGRAPH') -%}
+                    <li><a href="{{ path('product') }}"> <i class="glyphicon glyphicon glyphicon-th"></i> PRODUCT</a></li>
+                {%- endif -%}
+
+
                 </li>
                 <li>
                     <a href="#" data-toggle="collapse" data-target="#submenu-2"><i class="glyphicon glyphicon-picture"></i> MEDIA <i class="fa fa-fw fa-angle-down pull-right"></i></a>

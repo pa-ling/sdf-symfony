@@ -52,6 +52,7 @@ class Fotografen
 
     /**
      * @var Media
+     *
      * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"})
      * @ORM\JoinColumns({
      *     @ORM\JoinColumn(name="prev_image", referencedColumnName="id", nullable=true)

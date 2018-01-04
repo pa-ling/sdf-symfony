@@ -12,45 +12,7 @@
           <a class="navbar-brand" href="/">SDF-Symfony</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Popular Brands <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                    <li><a href="products.html">499 Store</a></li>
-                    <li><a href="products.html">Fastrack</a></li>
-                    <li><a href="products.html">Casio</a></li>
-                    <li><a href="products.html">Fossil</a></li>
-                    <li><a href="products.html">Maxima</a></li>
-                    <li><a href="products.html">Timex</a></li>
-                    <li><a href="products.html">TomTom</a></li>
-                    <li><a href="products.html">Titan</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Style Zone<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="products.html">Shoes</a></li>
-                    <li><a href="products.html">Watches</a></li>
-                    <li><a href="products.html">Brands</a></li>
-                    <li><a href="products.html">Coats</a></li>
-                    <li><a href="products.html">Accessories</a></li>
-                    <li><a href="products.html">Trousers</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shop<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="products.html">New Arrivals</a></li>
-                    <li><a href="products.html">Blazers</a></li>
-                    <li><a href="products.html">Swem Wear</a></li>
-                    <li><a href="products.html">Accessories</a></li>
-                    <li><a href="products.html">Handbags</a></li>
-                    <li><a href="products.html">T-Shirts</a></li>
-                    <li><a href="products.html">Watches</a></li>
-                    <li><a href="products.html">My Shopping Bag</a></li>
-                </ul>
-            <li>
-          </ul>
+
           <ul class="nav navbar-nav navbar-right">
             {% if app.user %}    
                 <li class="dropdown">
@@ -66,7 +28,7 @@
                     </ul>
                 </li>
             {% else %}
-                <li><a href="/login" class="nav-dropdown">Login</span></a></li>
+                <li><a href="/login" class="nav-dropdown">Login/Register</span></a></li>
             {% endif %}
             <li>
                 <div class="cart box_1">

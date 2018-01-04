@@ -20,6 +20,11 @@ class ProductController extends Controller
      */
 	public function indexProduct(Request $request)
 	{
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_PHOTOGRAPH')) {
+
+
+
+
 		$em = $this->getDoctrine()->getManager();
 
 		// $image = $this->getDoctrine()
@@ -41,9 +46,9 @@ class ProductController extends Controller
 			$product->setPrice($price);
 			$product->setGallery($gallery);
 			$product->setEnabled(false);
-			$product->setOwnedBy($user);                
+			$product->setOwnedBy($user);
 			$product->setCreatedAt($date);
-			$product->setUpdatedAt($date);  
+			$product->setUpdatedAt($date);
 
 			$em->persist($product);
 			$em->flush();
@@ -53,11 +58,14 @@ class ProductController extends Controller
 			$products = $this->getDoctrine()
 				->getRepository(Product::class)
 				->findAll();
-			
+
 			return $this->render('member/product/product.html.twig', array(
 				'products' =>$products
 			));
 		}
+        } else {
+            return $this->redirectToRoute('home');                  // redirect to controller name = home
+        }
 	}
 
 	/**
@@ -120,7 +128,7 @@ class ProductController extends Controller
 
 		if (!$product) {
 			throw $this->createNotFoundException(
-				'No product found for id '.$productId
+				'No product found for id '.$product->Id
 			);
 		}
 
@@ -150,7 +158,7 @@ class ProductController extends Controller
 
     	if (!$product) {
         	throw $this->createNotFoundException(
-            	'No product found for id '.$productId
+            	'No product found for id '.$product->Id
         	);
     	}
 		print_r('Product with id: '.$product->getId().', name: '. $product->getName().', price: '. $product->getPrice().', galleries:');
