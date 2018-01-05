@@ -7,9 +7,7 @@
 {% block body %}
 {# <div class="small-body">
     <div class="container"> #}
-		{% for item in basketItems %}
-			<h3>{{item}} <button onclick=deleteBasketItem("{{item}}")>X</button></h3>
-		{% endfor %}
+
 
 	<input id="basketId"><button onclick=addBasketItem()>+</button>
 
@@ -18,9 +16,7 @@
 			var request = new XMLHttpRequest();
 			var item = document.getElementById("basketId").value;
 			request.open("POST", "checkout/" + item);
-			request.addEventListener('load', function(event) {
-				window.location.reload();
-			})
+
 			request.send();
 		}
 		$(document).ready(function(c)
@@ -37,7 +33,7 @@
 				var request = new XMLHttpRequest();
 				request.open("DELETE", "checkout/" + itemId);
 				request.send();
-			});	  
+			});
 		});
 	</script>
 
@@ -62,7 +58,7 @@
 							<ul class="cart-header" id="cartitem{{item.id}}" >
 								<div class="close1" id="{{item.id}}"> </div>
 								<li>{% thumbnail item.image, 'small' with {'width': 200, 'height': 100} %}</li> <!--TODO: Instead of hardcoding the size show an extract of the image-->
-								<li><span class="name">{{item.name}}</span></li>
+
 								<li><span class="cost">{{item.price}} €</span></li>
 								<div class="clearfix"> </div>
 							</ul>

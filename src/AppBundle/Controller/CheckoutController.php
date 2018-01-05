@@ -15,15 +15,16 @@ class CheckoutController extends Controller
 {
 
     /**
-     * @Route("/checkout", name="getCheckout")
-     * @Method({"GET"})
+     * @Route("/checkout", name="checkout")
      */
     public function listBasketItems(Request $request)
     {        
         $cookie = $this->getCookieContent($request->cookies->get('basket'));
         $basketItems = array();
 
-        print_r($cookie);
+
+
+
         if ($cookie) {
             foreach ($cookie as $id) {
                 $product = $this->getDoctrine()
@@ -31,7 +32,7 @@ class CheckoutController extends Controller
                     ->find($id);
                 $item = array(
                     'id' => $product->getId(),
-                    'name' => $product->getImage()->getName(),
+                    //'name' => $product->getImage()->getName(),
                     'price' => $product->getPrice(),
                     'image' => $product->getImage(),
                 );
@@ -54,6 +55,7 @@ class CheckoutController extends Controller
      */
     public function addBasketItem(Request $request, $id)
     {
+
         $response = new Response();
 
         $product = $this->getDoctrine()
@@ -65,6 +67,7 @@ class CheckoutController extends Controller
             return $response;
         }
 
+
         $basketItems = $this->getCookieContent($request->cookies->get('basket'));
         if (!$basketItems)
         {
@@ -72,16 +75,18 @@ class CheckoutController extends Controller
         }
 
         $basketItemKey = array_search($id, $basketItems); // search for item
-        if ($basketItemKey === false) // cannot use shortform because we also have to check the type 
+        if ($basketItemKey === false) // cannot use shortform because we also have to check the type
         {
             array_push($basketItems, $id);
             $response->setStatusCode(Response::HTTP_OK);
             $response->headers->setCookie($this->createCookie($basketItems, "basket"));
+
         }
         else
         {
             $response->setStatusCode(Response::HTTP_PRECONDITION_FAILED);
         }
+
 
         return $response;
     }

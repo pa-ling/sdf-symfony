@@ -7,6 +7,7 @@ use Application\Sonata\UserBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Photographers;
 
 class RegisterController extends Controller
 {
@@ -81,6 +82,14 @@ class RegisterController extends Controller
                 $this->get('session')->getFlashBag()->add('error', 'Can\'t insert entity.');
 
             }
+
+            $photographers = new Photographers();
+            $photographers->setUserId($user->getId());
+            $photographers->setLongdescr("long des");
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($photographers);
+            $em->flush();
 
         }
 

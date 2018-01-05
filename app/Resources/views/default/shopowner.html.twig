@@ -1,0 +1,239 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <div class="single contact">
+        <div class="container">
+            <div class="single-main">
+                <div class="col-md-9 single-main-left">
+                    <div class="sngl-top">
+                        <div class="col-md-5 single-top-left">
+                            <div class="flexslider">
+                                <img src="{{ asset('images/default_2.jpg') }}" class="img-responsive" alt=""/>
+                            </div>
+                            <!-- FlexSlider -->
+                            <script src="../../js/imagezoom.js"></script>
+                            <script defer src="../../js/jquery.flexslider.js"></script>
+                            <link rel="stylesheet" href="../../css/flexslider.css" type="text/css" media="screen" />
+
+                            <script>
+                                // Can also be used with $(document).ready()
+                                $(window).load(function() {
+                                    $('.flexslider').flexslider({
+                                        animation: "slide",
+                                        controlNav: "thumbnails"
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="col-md-7 single-top-right">
+                            <div class="single-para simpleCart_shelfItem">
+                                <h2>{{ shopowner.firstname }} {{ shopowner.surname }}</h2>
+
+                                <h5 class="item_price">Shop Description</h5>
+                                <p>{{ shopowner.longdescr }}</p>
+                                <ul class="tag-men">
+                                    <li><span>Bildanzahl des Shops</span>
+                                        <span class="women1">: n</span></li>
+                                </ul>
+
+                            </div>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="tabs">
+                        <ul class="menu_drop">
+                            <li class="item1"><a href="#"><img src="{{ asset('images/arrow.png') }}" alt="">Products</a>
+                                <ul>
+                                    <li class="subitem1"><a href="#">Here you can find every product {{ shopowner.firstname }} {{ shopowner.surname }} is offering.</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <script>
+                        function addBasketItem(item) {
+                            var request = new XMLHttpRequest();
+
+                            request.open("POST", "checkout/"+ item);
+                            request.addEventListener('load', function(event) {
+                                window.location.reload();
+                            })
+                            request.send();
+                        }
+                        $(document).ready(function(c)
+                        {
+                            $('.close1').on('click', function(c)
+                            {
+                                var itemId = c.target.id;
+                                var selectorForCartItem = '#cartitem' + itemId;
+                                $(selectorForCartItem).fadeOut('slow', function(c)
+                                {
+                                    $(selectorForCartItem).remove();
+                                });
+
+                                var request = new XMLHttpRequest();
+                                request.open("DELETE", "checkout/" + itemId);
+                                request.send();
+                            });
+                        });
+                    </script>
+
+                    <div class="latestproducts">
+                        {% for item in products %}
+                            <div class="col-md-4 product-left p-left">
+                                <div class="product-main simpleCart_shelfItem">
+
+
+
+                                    <a href="/myproduct/{{item.getSlug}}" class="mask">
+                                        <img style="width:100%;" src="/uploads/media/default/0001/01/{{ item.image }}">
+                                    </a>
+                                    <div class="product-bottom">
+                                        <h3>{{item.getName}}</h3>
+                                        <p>Published: {{item.getEnabled ? 'YES' : 'NOT'}}
+                                        </p>
+                                        <p>
+                                            {% if item.getEnabled %} <a href="/myproduct/{{item.getId}}/0">UNPUBLISH</a> {% else %} <a href="/myproduct/{{item.getId}}/1">PUBLISH</a> {% endif %}
+                                        </p>
+                                        <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>
+
+                                       <button onclick=addBasketItem({{item.id}})>ADD TO CART</button>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+
+                        <div class="product-one">
+                            <div class="col-md-4 product-left p-left">
+                                <div class="product-main simpleCart_shelfItem">
+                                    <a href="#" class="mask"><img class="img-responsive zoom-img" src="{{ asset('images/default_1.jpg') }}" alt="" /></a>
+                                    <div class="product-bottom">
+                                        <h3>Dummy</h3>
+                                        <p>Dummy</p>
+                                        <h4><a class="item_add" href="#"><i></i></a> <span class=" item_price">$ 329</span></h4>
+
+                                    </div>
+
+                                    <div class="srch">
+                                        <span>Dummy</span>
+                                    </div>
+
+                                    {#
+                                    <div class="available">
+                                        <ul>
+                                            <li class="size-in">Size<select>
+                                                    <option>Large</option>
+                                                    <option>Medium</option>
+                                                    <option>small</option>
+                                                    <option>Large</option>
+                                                    <option>small</option>
+                                                </select></li>
+                                            <div class="clearfix"> </div>
+                                        </ul>
+                                    </div>
+                                    #}
+                                    <a href="#" class="add-cart item_add">ADD TO CART</a>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 single-right">
+                    <div class="w_sidebar">
+                        <section  class="sky-form">
+                            <h4>Categories</h4>
+                            <div class="row1 scroll-pane">
+                                <div class="col col-4">
+                                    <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>All Categories</label>
+                                </div>
+                                <div class="col col-4">
+                                    <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Nature</label>
+                                    <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Landscape</label>
+                                    <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Portrait</label>
+                                </div>
+                            </div>
+                        </section>
+                        {#
+                        <section  class="sky-form">
+                            <h4>Brand</h4>
+                            <div class="row1 row2 scroll-pane">
+                                <div class="col col-4">
+                                    <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>kurtas</label>
+                                </div>
+                                <div class="col col-4">
+                                    <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Sonata</label>
+                                    <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Titan</label>
+                                    <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Casio</label>
+                                    <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Omax</label>
+                                    <label class="checkbox"><input type="checkbox" name="checkbox" ><i></i>shree</label>
+                                    <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Fastrack</label>
+                                    <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Sports</label>
+                                    <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Fossil</label>
+                                    <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Maxima</label>
+                                    <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Yepme</label>
+                                    <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Citizen</label>
+                                    <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Diesel</label>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="sky-form">
+                            <h4>Colour</h4>
+                            <ul class="w_nav2">
+                                <li><a class="color1" href="#"></a></li>
+                                <li><a class="color2" href="#"></a></li>
+                                <li><a class="color3" href="#"></a></li>
+                                <li><a class="color4" href="#"></a></li>
+                                <li><a class="color5" href="#"></a></li>
+                                <li><a class="color6" href="#"></a></li>
+                                <li><a class="color7" href="#"></a></li>
+                                <li><a class="color8" href="#"></a></li>
+                                <li><a class="color9" href="#"></a></li>
+                                <li><a class="color10" href="#"></a></li>
+                                <li><a class="color12" href="#"></a></li>
+                                <li><a class="color13" href="#"></a></li>
+                                <li><a class="color14" href="#"></a></li>
+                                <li><a class="color15" href="#"></a></li>
+                                <li><a class="color5" href="#"></a></li>
+                                <li><a class="color6" href="#"></a></li>
+                                <li><a class="color7" href="#"></a></li>
+                                <li><a class="color8" href="#"></a></li>
+                                <li><a class="color9" href="#"></a></li>
+                                <li><a class="color10" href="#"></a></li>
+                            </ul>
+                        </section>
+                        #}
+                        {#
+                        <section class="sky-form">
+                            <h4>discount</h4>
+                            <div class="row1 row2 scroll-pane">
+                                <div class="col col-4">
+                                    <label class="radio"><input type="radio" name="radio" checked=""><i></i>60 % and above</label>
+                                    <label class="radio"><input type="radio" name="radio"><i></i>50 % and above</label>
+                                    <label class="radio"><input type="radio" name="radio"><i></i>40 % and above</label>
+                                </div>
+                                <div class="col col-4">
+                                    <label class="radio"><input type="radio" name="radio"><i></i>30 % and above</label>
+                                    <label class="radio"><input type="radio" name="radio"><i></i>20 % and above</label>
+                                    <label class="radio"><input type="radio" name="radio"><i></i>10 % and above</label>
+                                </div>
+                            </div>
+                        </section>
+                        #}
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+    <!--end-single-->
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}

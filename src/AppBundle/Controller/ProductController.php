@@ -1,5 +1,9 @@
 <?php
 
+namespace Application\Controller;
+
+use Application\Sonata\MediaBundle\Entity\Media as Media;
+
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -8,8 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Product;
-use Application\Sonata\MediaBundle\Entity\Media;
+
+
+
+
 use \Datetime;
+
+
 
 class ProductController extends Controller
 {
@@ -25,44 +34,48 @@ class ProductController extends Controller
 
 
 
-		$em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
 
-		// $image = $this->getDoctrine()
-		// 	->getRepository(Media::class)
-		// 	->find(2);
+            // $image = $this->getDoctrine()
+            // 	->getRepository(Media::class)
+            // 	->find(2);
 
-		if ($request->getMethod() == 'POST') {
-			$data = $request->request->all();
-			$price = $data['price'];
-			$gallery = $data['galleries'];
-			$name= $data['name'];
-            $slug = $this->slugify($name);
-            $date = new Datetime();
-			$user = $this->getUser()->getId();
+            if ($request->getMethod() == 'POST') {
+                $data = $request->request->all();
+                $price = $data['price'];
+                $gallery = $data['galleries'];
+                $name= $data['name'];
+                $slug = $this->slugify($name);
+                $date = new Datetime();
+                $user = $this->getUser()->getId();
 
-			$product = new Product();
-			$product->setName($name);
-			$product->setSlug($slug);
-			$product->setPrice($price);
-			$product->setGallery($gallery);
-			$product->setEnabled(false);
-			$product->setOwnedBy($user);
-			$product->setCreatedAt($date);
-			$product->setUpdatedAt($date);
+                $product = new Product();
+                $product->setName($name);
+                $product->setSlug($slug);
+                $product->setPrice($price);
+                $product->setGallery($gallery);
+                $product->setEnabled(false);
+                $product->setOwnedBy($user);
+                $product->setCreatedAt($date);
+                $product->setUpdatedAt($date);
 
-			$em->persist($product);
-			$em->flush();
+                $em->persist($product);
+                $em->flush();
 
-			return $this->redirect('/myproduct');
-		}else if ($request->getMethod() == 'GET') {
-			$products = $this->getDoctrine()
-				->getRepository(Product::class)
-				->findAll();
+                return $this->redirect('/myproduct');
+            }else if ($request->getMethod() == 'GET') {
+                $products = $this->getDoctrine()
+                    ->getRepository(Product::class)
+                    ->findAll();
 
-			return $this->render('member/product/product.html.twig', array(
-				'products' =>$products
-			));
-		}
+                foreach ($products as $product){
+                    $product->setImage($this->getPreviewImgPathForProduct($product));
+                }
+
+                return $this->render('member/product/product.html.twig', array(
+                    'products' =>$products
+                ));
+            }
         } else {
             return $this->redirectToRoute('home');                  // redirect to controller name = home
         }
@@ -135,17 +148,34 @@ class ProductController extends Controller
 		// Check owner
 		$user = $this->getUser()->getId();
 		$owner = $product->getOwnedBy();
+
 		if($user !== $owner){
 			throw $this->createNotFoundException(
             	'You are not authorize to do some action for '.$product->getName()
         	);
 		}else{
-			print_r('Product with id: '.$product->getId().', name: '. $product->getName().', price: '. $product->getPrice().', galleries:');
-			print_r($product->getGallery());
+			print_r('Product with id: '.$product->getId().', name: '. $product->getName().', price: '. $product->getPrice(). ''.$this->getPreviewImgPathForProduct($product));
+
+
 			return new Response();
 		}    	
 	}
-	/**
+
+	public function getPreviewImgPathForProduct($product)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $mediaIds = $em->getRepository('AppBundle:GalleryMedia')->findBy(
+            ['gallery_id' => $product->getGallery()]
+        );
+
+        $media = $this->get('sonata.media.manager.media')->findBy(
+            ['id' => $mediaIds]
+        );
+
+        return $media[0]->getProviderReference();
+    }
+
+    /**
      * @Route("/product/{slug}", name="productShow")
      */
 	public function showProduct($slug)
@@ -161,6 +191,10 @@ class ProductController extends Controller
             	'No product found for id '.$product->Id
         	);
     	}
+
+
+
+
 		print_r('Product with id: '.$product->getId().', name: '. $product->getName().', price: '. $product->getPrice().', galleries:');
 		print_r($product->getGallery());
     	return new Response();

@@ -5,6 +5,9 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Application\Sonata\MediaBundle\Entity\Media;
 
+
+use Doctrine\ORM\EntityRepository;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="product")
@@ -21,8 +24,8 @@ class Product
 
     /**
      * @var array
-     * 
-     * @ORM\Column(name="image", type="array", nullable=true)
+     *
+     * @ORM\Column(name="image", type="string", nullable=true)
      */
     private $image;
 
@@ -215,4 +218,6 @@ class Product
     {
         return $this->createdAt;
     }
+
+
 }

@@ -10,17 +10,18 @@
             <li class="breadcrumb-item" aria-current="page">Products</li>
         </ol>
     </nav>
-    <a class="btn btn-info" href="/myproduct/new">New Product</a> 
-
+    <a class="btn btn-info" href="/myproduct/new">New Product</a>
     <h3>Products</h3>
-    {# <div class="prdt"> #}
         <div class="col-md-9 prdt-left">
             <div class="product-one">
             {% for item in products %}
                 <div class="col-md-4 product-left p-left">
                     <div class="product-main simpleCart_shelfItem">
+
+
+
                         <a href="/myproduct/{{item.getSlug}}" class="mask">
-                            <img style="width:100%;" src="/images/abt-1.jpg">
+                            <img style="width:100%;" src="/uploads/media/default/0001/01/{{ item.image }}">
                         </a>
                         <div class="product-bottom">
                             <h3>{{item.getName}}</h3>
@@ -32,14 +33,9 @@
                             <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>
                             
                         </div>
-                        {# <div class="srch srch1">
-                            <span>-50%</span>
-                        </div> #}
                     </div>
                 </div>
             {% endfor %}
             </div>
         </div>
-    {# </div> #}
-    
 {% endblock %}

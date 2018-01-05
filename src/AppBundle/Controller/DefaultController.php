@@ -12,37 +12,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
-use AppBundle\Entity\Image;
 
 class DefaultController extends Controller
 {
 
     /**
-     * @Route("/", name="home")
+     * @Route("/", name="photographers")
      */
-    public function indexAction(Request $request)
+    public function partnerAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $homeAll = $em->getRepository('AppBundle:Home')->findAll();
+        $photographersAll = $em->getRepository('AppBundle:Photographers')->findAll();
 
-        // $images = $em->getRepository('AppBundle:Image')
-        //     ->findBy(
-        //         ['enabled'=>1],
-        //         ['createdAt' => 'DESC'],
-        //         6
-        //     );
-        
-        $images = array();
 
-        $products = $em->getRepository('AppBundle:Product')
-            ->findBy(
-                ['enabled'=>1],
-                ['createdAt' => 'DESC']
-            );
-        
+
+
+
+
+
+
         return $this->render('default/index.html.twig', array(
-            'products' => $products
+            'photographersAll' => $photographersAll
         ));
-
     }
 }

@@ -87,6 +87,6 @@ security:
         - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
-        - { path: ^/admin/, role: ROLE_STAFF } #requires_channel: https
+        - { path: ^/admin/, role: ROLE_ADMIN } #requires_channel: https
         - { path: ^/secure/, role: ROLE_USER } #requires_channel: https
         - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY } #requires_channel: https

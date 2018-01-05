@@ -6,12 +6,12 @@ use Application\Sonata\MediaBundle\Entity\Media;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Fotografen
+ * Photographers
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class Fotografen
+class Photographers
 {
     /**
      * @var integer
@@ -27,38 +27,59 @@ class Fotografen
      *
      * @ORM\Column(name="vorname", type="string", length=64)
      */
-    private $vorname;
+    private $firstname;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=64, nullable=true)
+     * @ORM\Column(name="name", type="string", length=64)
      */
-    private $name;
+    private $surname;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="longdescr", type="string", length=2048)
+     * @ORM\Column(name="longdescr", type="string", length=2048, nullable=true)
      */
     private $longdescr;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="shortdescr", type="string", length=1024)
+     * @ORM\Column(name="shortdescr", type="string", length=1024, nullable=true)
      */
     private $shortdescr;
 
     /**
      * @var Media
-     *
      * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"})
      * @ORM\JoinColumns({
      *     @ORM\JoinColumn(name="prev_image", referencedColumnName="id", nullable=true)
      * })
      */
     private $previmage;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="userid", type="integer")
+     */
+    private $userID;
+    /**
+     * @return int
+     */
+    public function getUserId()
+    {
+        return $this->userID;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setUserId($userID)
+    {
+        $this->userID = $userID;
+    }
 
     /**
      * @return int
@@ -79,47 +100,47 @@ class Fotografen
     /**
      * @return string
      */
-    public function getVorname()
+    public function getFirstname()
     {
-        return $this->vorname;
+        return $this->firstname;
     }
 
     /**
-     * @param string $vorname
+     * @param string $firstname
      */
-    public function setVorname($vorname)
+    public function setFirstname($firstname)
     {
-        $this->vorname = $vorname;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
+        $this->firstname = $firstname;
     }
 
     /**
      * @return string
      */
-    public function getLongDescr()
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
+     * @param string $surname
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLongdescr()
     {
         return $this->longdescr;
     }
 
     /**
-     * @param string $long_descr
+     * @param string $longdescr
      */
-    public function setLongDescr($longdescr)
+    public function setLongdescr($longdescr)
     {
         $this->longdescr = $longdescr;
     }
@@ -127,15 +148,15 @@ class Fotografen
     /**
      * @return string
      */
-    public function getShortDescr()
+    public function getShortdescr()
     {
         return $this->shortdescr;
     }
 
     /**
-     * @param string $short_descr
+     * @param string $shortdescr
      */
-    public function setShortDescr($shortdescr)
+    public function setShortdescr($shortdescr)
     {
         $this->shortdescr = $shortdescr;
     }
@@ -143,15 +164,15 @@ class Fotografen
     /**
      * @return Media
      */
-    public function getPrevImage()
+    public function getPrevimage()
     {
         return $this->previmage;
     }
 
     /**
-     * @param Media $prev_image
+     * @param Media $previmage
      */
-    public function setPrevImage($previmage)
+    public function setPrevimage($previmage)
     {
         $this->previmage = $previmage;
     }

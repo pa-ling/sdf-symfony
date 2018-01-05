@@ -15,13 +15,44 @@
 
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/symfony.css') }}">
-
-    <script href="{{ asset('js/simpleCart.min.js') }}"></script>
-
-    <script href="{{ asset('js/jquery.easydropdown.js') }}"></script>
-
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/flexslider.css') }}">
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/memenu.css') }}">
-    <script href="{{ asset('js/memenu.js') }}"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/profile.css') }}">
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
+
+    <script type="text/javascript" src="{{ asset('js/bootstrap-multiselect.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/imagezoom.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.easydropdown.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.flexslider.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/memenu.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/responsiveslides.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/simpleCart.min.js') }}"></script>
+
+    <!-- DropDown Script START -->
+    <script type="text/javascript">
+        $(function() {
+
+            var menu_ul = $('.menu_drop > li > ul'),
+                menu_a  = $('.menu_drop > li > a');
+
+            menu_ul.hide();
+
+            menu_a.click(function(e) {
+                e.preventDefault();
+                if(!$(this).hasClass('active')) {
+                    menu_a.removeClass('active');
+                    menu_ul.filter(':visible').slideUp('normal');
+                    $(this).addClass('active').next().stop(true,true).slideDown('normal');
+                } else {
+                    $(this).removeClass('active');
+                    $(this).next().stop(true,true).slideUp('normal');
+                }
+            });
+
+        });
+    </script>
+    <!-- DropDown Script END -->
 
     {% javascripts '@jquery' '@bootstrap_js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>

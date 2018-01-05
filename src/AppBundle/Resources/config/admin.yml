@@ -14,14 +14,14 @@ services:
             - ~
 
     sonata.admin.fotografen:
-            class: AppBundle\Admin\FotografenAdmin
+            class: AppBundle\Admin\PhotographersAdmin
             tags:
                 - name: sonata.admin
                   manager_type: orm
-                  group: "Fotografen"
-                  label: "Fotografen"
+                  group: "Photographers"
+                  label: "Photographers"
                   label_catalogue: "AppBundle"
             arguments:
                 - ~
-                - AppBundle\Entity\Fotografen
+                - AppBundle\Entity\Photographers
                 - ~
