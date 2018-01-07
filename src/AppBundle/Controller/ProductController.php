@@ -164,14 +164,14 @@ class ProductController extends Controller
 	public function getPreviewImgPathForProduct($product)
     {
         $em = $this->getDoctrine()->getManager();
-        $mediaIds = $em->getRepository('AppBundle:GalleryMedia')->findBy(
+        $mediaIds = $em->getRepository('AppBundle:GalleryMedia')->findOneBy(
             ['gallery_id' => $product->getGallery()]
         );
 
         $media = $this->get('sonata.media.manager.media')->findBy(
-            ['id' => $mediaIds]
-        );
-
+            ['id' => $mediaIds->getMediaId()]
+		);
+		
         return $media[0]->getProviderReference();
     }
 
