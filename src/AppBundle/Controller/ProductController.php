@@ -6,6 +6,7 @@ use Application\Sonata\MediaBundle\Entity\Media as Media;
 
 namespace AppBundle\Controller;
 
+use Application\Sonata\MediaBundle\Entity\Media;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -43,17 +44,26 @@ class ProductController extends Controller
             if ($request->getMethod() == 'POST') {
                 $data = $request->request->all();
                 $price = $data['price'];
-                $gallery = $data['galleries'];
+                $galleryId = $data['galleries'];
                 $name= $data['name'];
                 $slug = $this->slugify($name);
                 $date = new Datetime();
                 $user = $this->getUser()->getId();
 
+                $mediaIds = $em->getRepository('AppBundle:GalleryMedia')->findOneBy(
+                    ['gallery_id' => $galleryId]
+                );
+
+                $media = $this->get('sonata.media.manager.media')->findOneBy(
+                    ['id' => $mediaIds]
+                );
+
                 $product = new Product();
                 $product->setName($name);
                 $product->setSlug($slug);
+                $product->setImage($media->getProviderReference());
                 $product->setPrice($price);
-                $product->setGallery($gallery);
+                $product->setGallery($galleryId);
                 $product->setEnabled(false);
                 $product->setOwnedBy($user);
                 $product->setCreatedAt($date);
@@ -68,9 +78,8 @@ class ProductController extends Controller
                     ->getRepository(Product::class)
                     ->findAll();
 
-                foreach ($products as $product){
-                    $product->setImage($this->getPreviewImgPathForProduct($product));
-                }
+
+
 
                 return $this->render('member/product/product.html.twig', array(
                     'products' =>$products
@@ -154,26 +163,54 @@ class ProductController extends Controller
             	'You are not authorize to do some action for '.$product->getName()
         	);
 		}else{
+
+
 			print_r('Product with id: '.$product->getId().', name: '. $product->getName().', price: '. $product->getPrice(). ''.$this->getPreviewImgPathForProduct($product));
 
 
 			return new Response();
-		}    	
+		}
 	}
 
-	public function getPreviewImgPathForProduct($product)
+    /**
+     * @Route("/productdetails/{slug}", name="productdetails")
+     */
+    public function showProductDetails($slug)
     {
         $em = $this->getDoctrine()->getManager();
-        $mediaIds = $em->getRepository('AppBundle:GalleryMedia')->findBy(
-            ['gallery_id' => $product->getGallery()]
-        );
+        $product = $em->getRepository('AppBundle:Product')
+            ->findOneBy(
+                ['slug' => $slug]
+            );
 
-        $media = $this->get('sonata.media.manager.media')->findBy(
-            ['id' => $mediaIds]
-        );
+        if (!$product) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$product->Id
+            );
+        }
 
-        return $media[0]->getProviderReference();
+
+        $mediaIDs = $em->getRepository('AppBundle:GalleryMedia')
+            ->findBy(
+                ['gallery_id' => $product->getGallery()]
+            );
+
+
+
+        $media = $this->get('sonata.media.manager.media')
+            ->findBy(
+                ['id' => $mediaIDs]
+            );
+
+
+        return $this->render('member/product/details.html.twig', array(
+            'product' => $product,
+            'media' => $media,
+
+        ));
+
     }
+
 
     /**
      * @Route("/product/{slug}", name="productShow")
@@ -191,9 +228,6 @@ class ProductController extends Controller
             	'No product found for id '.$product->Id
         	);
     	}
-
-
-
 
 		print_r('Product with id: '.$product->getId().', name: '. $product->getName().', price: '. $product->getPrice().', galleries:');
 		print_r($product->getGallery());

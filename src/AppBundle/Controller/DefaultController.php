@@ -24,13 +24,6 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $photographersAll = $em->getRepository('AppBundle:Photographers')->findAll();
 
-
-
-
-
-
-
-
         return $this->render('default/index.html.twig', array(
             'photographersAll' => $photographersAll
         ));

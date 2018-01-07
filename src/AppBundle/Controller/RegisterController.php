@@ -86,6 +86,9 @@ class RegisterController extends Controller
             $photographers = new Photographers();
             $photographers->setUserId($user->getId());
             $photographers->setLongdescr("long des");
+            $photographers->setShortdescr("long des");
+            $photographers->setSurname("Dumke");
+            $photographers->setFirstname("Tobias");
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($photographers);
