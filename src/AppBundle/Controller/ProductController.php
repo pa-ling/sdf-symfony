@@ -223,14 +223,44 @@ class ProductController extends Controller
         	throw $this->createNotFoundException(
             	'No product found for id '.$product->Id
         	);
-    	}
-
-		// print_r('Product with id: '.$product->getId().', name: '. $product->getName().', price: '. $product->getPrice().', galleries:');
-		// print_r($product->getGallery());
-		// return new Response();
+		}
 		
-		return $this->render('member/product/one-product.html.twig', array(
-			'product'=>$product
+		$preview_image = $this->getPreviewImgPathForProduct($product);
+		$created_At = $product->getCreatedAt()->format('d/m/Y');
+
+		$galleries = $product->getGallery();
+		$imageIdInGallery = array();
+		foreach ($galleries as $key => $value) {
+			// fetch all gallery_media
+			$gallery_media_fetch = $em->getRepository('AppBundle:GalleryMedia')
+			->findBy(
+				['gallery_id' => $value],
+				['createdAt' => 'DESC']                   
+			);
+
+			foreach ($gallery_media_fetch as $key => $value) {
+				$media_id = $value->getMediaId();
+				array_push($imageIdInGallery, $media_id); 
+			}
+		}
+
+		$images = array(); 
+		$images_size = array();
+		for ($i=0; $i <sizeof($imageIdInGallery); $i++) { 
+			$images[$i] = $this->get('sonata.media.manager.media')
+				->findOneBy(
+					['id'=>$imageIdInGallery[$i]]
+				);
+			$size = $this->filesize_formatted($images[$i]->getSize());
+			array_push($images_size, $size); 
+		}
+		
+		return $this->render('public/product/one-product.html.twig', array(
+			'product'=>$product,
+			'preview_image'=>$preview_image,
+			'created_At'=>$created_At,
+			'images'=>$images,
+			'images_size'=>$images_size
 		));
 		
 	}
