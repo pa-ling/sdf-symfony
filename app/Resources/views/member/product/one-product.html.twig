@@ -2,6 +2,7 @@
 
 {% block style %}
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('colorbox/example5/colorbox.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -37,7 +38,9 @@
                     {% for item in images %}
                         <tr>
                             <td>
-                                <a href="/image/{{item.getProviderReference}}">{{item.getName}}</a>
+                                <a class="group4"  title="{{item.getName}}|{{item.getHeight}}x{{item.getWidth}}|{{ images_size[loop.index - 1] }}" href="/uploads/media/default/0001/01/{{ item.getProviderReference }}">
+                                    {{item.getName}}
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -45,4 +48,28 @@
             </table>
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{ asset('colorbox/jquery.colorbox.js') }}"></script>
+<script type="text/javascript">
+   $(document).ready(function(){
+     $(".group4").colorbox({rel:'group4', slideshow:true});
+     jQuery.colorbox.settings.maxWidth  = '100%';
+     jQuery.colorbox.settings.maxHeight = '90%';
+
+      // ColorBox resize function, seems do work now
+      var resizeTimer;
+      $(window).resize(function(){
+        if (resizeTimer) clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(function() {
+          if ($('#cboxOverlay').is(':visible')) {
+            //reload ist selbst hinugefügt in colorbox.js, public func welche einfach nur load() aufruft
+            $.colorbox.reload();
+          }
+        }, 300)
+      });
+
+   });
+</script>
 {% endblock %}
