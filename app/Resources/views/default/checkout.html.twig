@@ -5,20 +5,16 @@
 {% endblock %} #}
 
 {% block body %}
-{# <div class="small-body">
-    <div class="container"> #}
-
-
-	<input id="basketId"><button onclick=addBasketItem()>+</button>
+	<!--<input id="cartId"><button onclick=addcartItem()>+</button>-->
 
 	<script>
-		function addBasketItem() {
+		function addcartItem() {
 			var request = new XMLHttpRequest();
-			var item = document.getElementById("basketId").value;
+			var item = document.getElementById("cartId").value;
 			request.open("POST", "checkout/" + item);
-			//request.addEventListener('load', function(event) {
-			//	window.location.reload();
-			//})
+			request.addEventListener('load', function(event) {
+				window.location.reload();
+			})
 			request.send();
 		}
 		$(document).ready(function(c)
@@ -42,33 +38,38 @@
 	<div class="ckeckout">
 		<div class="container">
 			<div class="ckeck-top heading">
-				<h2>KASSE</h2>
+				<h2>Checkout</h2>
 			</div>
 			<div class="ckeckout-top">
 				<div class="cart-items">
-					<h3>Mein Einkaufswagen</h3>
-					<div class="in-check" >
+					<h3>My Cart</h3>
+					<div class="in-check">
 						<ul class="unit">
-							<li><span>Bild</span></li>
+							<li><span>Pictures / Galleries</span></li>
 							<li><span>Name</span></li>
-							<li><span>Preis</span></li>
-							<li> </li>
+							<li><span>Price</span></li>
 							<div class="clearfix"> </div>
 						</ul>
 
-						{% for item in basketItems %}
+						{% for item in cartItems %}
 							<ul class="cart-header" id="cartitem{{item.id}}" >
 								<div class="close1" id="{{item.id}}"> </div>
-								<li>{% thumbnail item.image, 'small' with {'width': 200, 'height': 100} %}</li> <!--TODO: Instead of hardcoding the size show an extract of the image-->
-
+								<li><span class="cost">Bild</span></li>
+								<li><span class="cost">Name</span></li>
 								<li><span class="cost">{{item.price}} €</span></li>
 								<div class="clearfix"> </div>
 							</ul>
 						{% endfor %}
+
 					</div>
-				</div>  
+                    <h3 class="text-right">Sum: {{ sum }} €</h3>
+                    <br>
+					<form action="" method="post">
+						<button name="order" value="order" class="btn btn-primary pull-right">Order</button>
+					</form>
+				</div>
 		 	</div>
-		{# </div>
-	</div> #}
+		</div>
+	</div>
 	
 {% endblock %}
