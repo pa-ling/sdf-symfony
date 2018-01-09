@@ -61,14 +61,14 @@
     </div>
 {% endblock %}
 
-{% block javascripts  %}
-  <script>
+{% block script %}
+  <script >
     function addBasketItem(item) {
     var request = new XMLHttpRequest();
 
     request.open("POST", "checkout/"+ item);
     request.addEventListener('load', function(event) {
-    window.location.reload();
+        window.location.reload();
     })
     request.send();
     }

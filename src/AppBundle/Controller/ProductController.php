@@ -25,7 +25,7 @@ class ProductController extends Controller
 {
 
 	/**
-     * @Route("/myproduct", name="product")
+     * @Route("/myproduct", name="products")
 	 * @Method({"GET", "POST"})
      */
 	public function indexProduct(Request $request)
@@ -78,8 +78,9 @@ class ProductController extends Controller
                     ->getRepository(Product::class)
                     ->findAll();
 
-
-
+				foreach ($products as $product){
+					$product->setImage($this->getPreviewImgPathForProduct($product));
+				}
 
                 return $this->render('member/product/product.html.twig', array(
                     'products' =>$products
