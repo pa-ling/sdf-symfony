@@ -127,7 +127,7 @@ class CheckoutController extends Controller
 
     /**
      * @Route("/checkout/{id}", name="postCheckoutItem")
-     *
+     * @Method({"POST"})
      */
     public function postCheckoutItem(Request $request, $id)
     {
