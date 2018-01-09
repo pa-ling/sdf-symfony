@@ -22,7 +22,6 @@
                         {% if is_granted('ROLE_ADMIN') %}
                             <li><a href="/admin">Admin Dashboard</a></li>
                         {% endif %}
-                        <li><a href="/cart">Shopping Cart</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="/logout">Logout</a></li>
                     </ul>
@@ -36,7 +35,7 @@
                     <div class="box_1">
                             <div class="total">
                             <img src="{{ asset('images/cart-1.png') }}" alt="" />
-                            <p style="margin-top: -0.2em"><span class="pull-right">1</span></p>
+                            <p style="margin-top: -0.2em"><span class="pull-right"></span></p>
                     </div>
                 </a>
             </li>

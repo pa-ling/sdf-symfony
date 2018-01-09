@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Purchase;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Form\MailType;
@@ -10,76 +11,150 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Product;
+use \Datetime;
 
 class CheckoutController extends Controller
 {
 
     /**
      * @Route("/checkout", name="checkout")
+     * @Method({"GET"})
      */
-    public function listBasketItems(Request $request)
+    public function getCheckout(Request $request)
     {        
-        $cookie = $this->getCookieContent($request->cookies->get('basket'));
-        $basketItems = array();
+        $cookie = $this->getCookieContent($request->cookies->get('cart'));
+        $cartItems = array();
 
-
-
-
-        if ($cookie) {
-            foreach ($cookie as $id) {
+        $sum = 0;
+        if ($cookie)
+        {
+            foreach ($cookie as $id)
+            {
                 $product = $this->getDoctrine()
                     ->getRepository(Product::class)
                     ->find($id);
+
+                $item = null;
+                if ($product->getImage())
+                {
+                    $item = $product->getImage();
+                }
+
+                if ($product->getGallery())
+                {
+                    //$item = $product.getGallery();
+                }
+
+                $sum += $product->getPrice();
                 $item = array(
                     'id' => $product->getId(),
-                    //'name' => $product->getImage()->getName(),
+                    'name' => $product->getName(), //TODO: Get name of image or gallery
                     'price' => $product->getPrice(),
-                    'image' => $product->getImage(),
+                    'image' => $product->getImage(), //TODO: Get image or first image of gallery
                 );
-                array_push($basketItems, $item);
+                array_push($cartItems, $item);
             }
         }
 
         return $this->render(
-            'default/basket.html.twig', 
+            'default/checkout.html.twig',
             array(
-                'basketItems' => $basketItems
+                'cartItems' => $cartItems,
+                'sum' => $sum
             )
         );
 
     }
 
     /**
-     * @Route("/checkout/{id}", name="postCheckout")
+     * @Route("/checkout", name="postCheckout")
      * @Method({"POST"})
      */
-    public function addBasketItem(Request $request, $id)
+    public function postCheckout(Request $request)
     {
+        $response = new Response();
 
+        //TODO: Check if logged in and redirect if necessary
+
+        $cartItems = $this->getCookieContent($request->cookies->get('cart'));
+        if (!$cartItems)
+        {
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+            return $response;
+        }
+
+        $checkoutItems = array();
+
+        foreach ($cartItems as $cartItem)
+        {
+            $product = $this->getDoctrine()
+                ->getRepository(Product::class)
+                ->find($cartItem);
+
+            if ($product)
+            {
+                array_push($checkoutItems, $product);
+            }
+        }
+
+        $datetime = new Datetime();
+        $usr = $this->get('security.context')->getToken()->getUser();
+        $purchase = new Purchase();
+        $sum = 0;
+
+        foreach ($checkoutItems as $product)
+        {
+            $sum += $product->getPrice();
+            $purchase->getProducts()->add($product);
+        }
+        $purchase->setDateTime($datetime);
+        $purchase->setSum($sum);
+        $purchase->setIsPaid(false);
+        $purchase->setUser($usr->getId());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($purchase);
+        $em->flush();
+
+        $response = $this->render(
+            'default/purchase_success.html.twig'
+        );
+        $response->headers->setCookie($this->createCookie(array(), "cart"));
+
+        return $response;
+
+    }
+
+    /**
+     * @Route("/checkout/{id}", name="postCheckoutItem")
+     *
+     */
+    public function postCheckoutItem(Request $request, $id)
+    {
         $response = new Response();
 
         $product = $this->getDoctrine()
             ->getRepository(Product::class)
             ->find($id);
 
-        if (!$product) {
+        if (!$product)
+        {
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
             return $response;
         }
 
-
-        $basketItems = $this->getCookieContent($request->cookies->get('basket'));
-        if (!$basketItems)
+        $cartItems = $this->getCookieContent($request->cookies->get('cart'));
+        if (!$cartItems)
         {
-            $basketItems = array();
+            $cartItems = array();
         }
 
-        $basketItemKey = array_search($id, $basketItems); // search for item
-        if ($basketItemKey === false) // cannot use shortform because we also have to check the type
+        $cartItemKey = array_search($id, $cartItems); // search for item
+        if ($cartItemKey === false) // cannot use shortform because we also have to check the type
         {
-            array_push($basketItems, $id);
+            array_push($cartItems, $id);
             $response->setStatusCode(Response::HTTP_OK);
-            $response->headers->setCookie($this->createCookie($basketItems, "basket"));
+            $response->headers->setCookie($this->createCookie($cartItems, "cart"));
 
         }
         else
@@ -87,35 +162,34 @@ class CheckoutController extends Controller
             $response->setStatusCode(Response::HTTP_PRECONDITION_FAILED);
         }
 
-
         return $response;
     }
 
     /**
-     * @Route("/checkout/{id}", name="deleteCheckout")
+     * @Route("/checkout/{id}", name="deleteCheckoutItem")
      * @Method({"DELETE"})
      */
-    public function deleteBasketItem(Request $request, $id)
+    public function deleteCheckoutItem(Request $request, $id)
     {
         $response = new Response();
-        $basketItems = $this->getCookieContent($request->cookies->get('basket'));
-        if (!$basketItems) //if there is no basket
+        $cartItems = $this->getCookieContent($request->cookies->get('cart'));
+        if (!$cartItems) //if there is no cart
         {
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
             return $response;
         }
 
-        $basketItemKey = array_search($id, $basketItems); // search for item
-        if ($basketItemKey === false) // cannot use shortform because we also have to check the type 
+        $cartItemKey = array_search($id, $cartItems); // search for item
+        if ($cartItemKey === false) // cannot use shortform because we also have to check the type 
         {
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
             return $response;
         }
 
-        array_splice($basketItems, $basketItemKey, 1);
+        array_splice($cartItems, $cartItemKey, 1);
 
         $response->setStatusCode(Response::HTTP_OK);
-        $response->headers->setCookie($this->createCookie($basketItems, "basket"));
+        $response->headers->setCookie($this->createCookie($cartItems, "cart"));
 
         return $response;
     }
@@ -123,8 +197,8 @@ class CheckoutController extends Controller
     private function getCookieContent($cookie)
     {
         $cookie = stripslashes($cookie);
-        $basketItems = json_decode($cookie, true);
-        return $basketItems;
+        $cartItems = json_decode($cookie, true);
+        return $cartItems;
     }
 
     private function createCookie($array , $key)

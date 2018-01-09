@@ -3,9 +3,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\KursTermine;
-use AppBundle\Entity\KursTermineTemp;
-use AppBundle\Entity\Markers;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Mail;
 use AppBundle\Form\MailType;
@@ -32,32 +29,11 @@ class ShopownerController extends Controller
             ['owned_by' => $shopownerID]
         );
 
-
-        foreach ($products as $product){
-            $product->setImage($this->getPreviewImgPathForProduct($product));
-        }
-
-
-
         return $this->render('default/shopowner.html.twig', array(
             'shopowner' => $shopowner,
-            'products' => $products
+            'products' => $products,
+            'numberOfProducts' => count($products)
         ));
     }
-
-    public function getPreviewImgPathForProduct($product)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $mediaIds = $em->getRepository('AppBundle:GalleryMedia')->findBy(
-            ['gallery_id' => $product->getGallery()]
-        );
-
-        $media = $this->get('sonata.media.manager.media')->findBy(
-            ['id' => $mediaIds]
-        );
-
-        return $media[0]->getProviderReference();
-    }
-
 
 }
