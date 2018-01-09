@@ -42,15 +42,15 @@ class CheckoutController extends Controller
 
                 if ($product->getGallery())
                 {
-                    $item = $product.getGallery();
+                    //$item = $product.getGallery();
                 }
 
                 $sum += $product->getPrice();
                 $item = array(
                     'id' => $product->getId(),
-                    //'name' => $item->getName(), //TODO: Get name of image or gallery
+                    'name' => $product->getName(), //TODO: Get name of image or gallery
                     'price' => $product->getPrice(),
-                    //'image' => $product->getImage(), //TODO: Get image or first image of gallery
+                    'image' => $product->getImage(), //TODO: Get image or first image of gallery
                 );
                 array_push($cartItems, $item);
             }
@@ -98,9 +98,10 @@ class CheckoutController extends Controller
         }
 
         $datetime = new Datetime();
-
+        $usr = $this->get('security.context')->getToken()->getUser();
         $purchase = new Purchase();
         $sum = 0;
+
         foreach ($checkoutItems as $product)
         {
             $sum += $product->getPrice();
@@ -109,6 +110,7 @@ class CheckoutController extends Controller
         $purchase->setDateTime($datetime);
         $purchase->setSum($sum);
         $purchase->setIsPaid(false);
+        $purchase->setUser($usr->getId());
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($purchase);
@@ -125,7 +127,7 @@ class CheckoutController extends Controller
 
     /**
      * @Route("/checkout/{id}", name="postCheckoutItem")
-     * @Method({"POST"})
+     *
      */
     public function postCheckoutItem(Request $request, $id)
     {

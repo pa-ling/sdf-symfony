@@ -45,6 +45,7 @@
 					<h3>My Cart</h3>
 					<div class="in-check">
 						<ul class="unit">
+							<li><span>#</span></li>
 							<li><span>Pictures / Galleries</span></li>
 							<li><span>Name</span></li>
 							<li><span>Price</span></li>
@@ -54,8 +55,14 @@
 						{% for item in cartItems %}
 							<ul class="cart-header" id="cartitem{{item.id}}" >
 								<div class="close1" id="{{item.id}}"> </div>
-								<li><span class="cost">Bild</span></li>
-								<li><span class="cost">Name</span></li>
+								<li><span class="cost">{{ loop.index }}</span></li>
+								<li><span class="cost">
+										<a class="mask">
+                            				<img style="width:50%;" src="/uploads/media/default/0001/01/{{ item.image }}">
+                        				</a>
+									</span>
+								</li>
+								<li><span class="cost">{{item.name}}</span></li>
 								<li><span class="cost">{{item.price}} €</span></li>
 								<div class="clearfix"> </div>
 							</ul>

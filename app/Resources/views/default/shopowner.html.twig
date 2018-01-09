@@ -34,17 +34,19 @@
                                 {% if (loop.index % 3) == 1 %}
                                     <div class="product-one">
                                 {% endif %}
-                                <div class="col-md-4 product-left p-left">
-                                    <div class="product-main simpleCart_shelfItem">
-                                        <a href="/productdetails/{{item.getSlug}}" class="mask">
-                                            <img style="width:80%;" src="/uploads/media/default/0001/01/{{ item.image }}"></a>
-                                        <div class="product-bottom">
-                                            <h3>{{item.getName}}</h3>
-                                            <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>
-                                            <button onclick=addBasketItem({{item.id}})>ADD TO CART</button>
+                                    {% if item.enabled %}
+                                        <div class="col-md-4 product-left p-left">
+                                            <div class="product-main simpleCart_shelfItem">
+                                                <a href="/productdetails/{{item.getSlug}}" class="mask">
+                                                    <img style="width:80%;" src="/uploads/media/default/0001/01/{{ item.image }}"></a>
+                                                <div class="product-bottom">
+                                                    <h3>{{item.getName}}</h3>
+                                                    <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>
+                                                    <button onclick=addBasketItem({{item.id}})>ADD TO CART</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    {% endif %}
                                 {% if (loop.index % 3) == 0 or (loop.index) == (loop.last)%}
                                     <div class="clearfix"></div>
                                     </div>

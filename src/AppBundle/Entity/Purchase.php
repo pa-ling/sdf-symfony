@@ -25,7 +25,7 @@ class Purchase
     private $id;
 
     /**
-     * TODO: ManyToOne to FOS User Entity
+     * @ORM\Column(type="decimal")
      */
     private $user;
 
@@ -63,6 +63,22 @@ class Purchase
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
     }
 
     /**

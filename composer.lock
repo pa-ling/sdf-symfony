@@ -1022,16 +1022,16 @@
         },
         {
             "name": "enqueue/amqp-lib",
-            "version": "0.8.11",
+            "version": "0.8.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-enqueue/amqp-lib.git",
-                "reference": "f465486ab94ef42c3220b792450d4713e80c1127"
+                "reference": "db759456632cda2d762c632a20660508bbe3976f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-enqueue/amqp-lib/zipball/f465486ab94ef42c3220b792450d4713e80c1127",
-                "reference": "f465486ab94ef42c3220b792450d4713e80c1127",
+                "url": "https://api.github.com/repos/php-enqueue/amqp-lib/zipball/db759456632cda2d762c632a20660508bbe3976f",
+                "reference": "db759456632cda2d762c632a20660508bbe3976f",
                 "shasum": ""
             },
             "require": {
@@ -1072,26 +1072,26 @@
                 "MIT"
             ],
             "description": "Message Queue Amqp Transport",
-            "homepage": "https://github.com/php-enqueue/enqueue-dev",
+            "homepage": "https://enqueue.forma-pro.com/",
             "keywords": [
                 "AMQP",
                 "messaging",
                 "queue"
             ],
-            "time": "2017-12-14T12:20:06+00:00"
+            "time": "2018-01-04T09:46:31+00:00"
         },
         {
             "name": "enqueue/amqp-tools",
-            "version": "0.8.11",
+            "version": "0.8.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-enqueue/amqp-tools.git",
-                "reference": "78f7763d9fbb79ec59676be01c8f92d90d4cb6b0"
+                "reference": "e8b28a03d9740ba1cb2cf7e0d8a82e1bac33acc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-enqueue/amqp-tools/zipball/78f7763d9fbb79ec59676be01c8f92d90d4cb6b0",
-                "reference": "78f7763d9fbb79ec59676be01c8f92d90d4cb6b0",
+                "url": "https://api.github.com/repos/php-enqueue/amqp-tools/zipball/e8b28a03d9740ba1cb2cf7e0d8a82e1bac33acc7",
+                "reference": "e8b28a03d9740ba1cb2cf7e0d8a82e1bac33acc7",
                 "shasum": ""
             },
             "require": {
@@ -1123,13 +1123,13 @@
                 "MIT"
             ],
             "description": "Message Queue Amqp Tools",
-            "homepage": "https://github.com/php-enqueue/enqueue-dev",
+            "homepage": "https://enqueue.forma-pro.com/",
             "keywords": [
                 "AMQP",
                 "messaging",
                 "queue"
             ],
-            "time": "2017-12-14T12:20:06+00:00"
+            "time": "2018-01-04T09:46:31+00:00"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -3416,16 +3416,16 @@
         },
         {
             "name": "sonata-project/block-bundle",
-            "version": "3.9.0",
+            "version": "3.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataBlockBundle.git",
-                "reference": "e068ba31f067ba1622cf89c4e105c366d1b53d1b"
+                "reference": "904d35f99c05ee3eda3b1dec1f169fe4220eb5b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataBlockBundle/zipball/e068ba31f067ba1622cf89c4e105c366d1b53d1b",
-                "reference": "e068ba31f067ba1622cf89c4e105c366d1b53d1b",
+                "url": "https://api.github.com/repos/sonata-project/SonataBlockBundle/zipball/904d35f99c05ee3eda3b1dec1f169fe4220eb5b8",
+                "reference": "904d35f99c05ee3eda3b1dec1f169fe4220eb5b8",
                 "shasum": ""
             },
             "require": {
@@ -3435,6 +3435,7 @@
                 "sonata-project/core-bundle": "^3.4",
                 "symfony/form": "^2.8 || ^3.2 || ^4.0",
                 "symfony/http-kernel": "^2.8 || ^3.2 || ^4.0",
+                "symfony/twig-bundle": "^2.8 || ^3.2 || ^4.0",
                 "twig/twig": "^1.34 || ^2.0"
             },
             "conflict": {
@@ -3486,7 +3487,7 @@
                 "block",
                 "sonata"
             ],
-            "time": "2017-12-12T16:57:30+00:00"
+            "time": "2018-01-08T09:34:31+00:00"
         },
         {
             "name": "sonata-project/cache",
@@ -3553,16 +3554,16 @@
         },
         {
             "name": "sonata-project/core-bundle",
-            "version": "3.8.0",
+            "version": "3.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataCoreBundle.git",
-                "reference": "8e6bbe11c89a3ce540f3f3ce7c2f231c2f5a2d92"
+                "reference": "d6be7dd79a69dfeb63d75b4b0e4871d9cf4133a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/8e6bbe11c89a3ce540f3f3ce7c2f231c2f5a2d92",
-                "reference": "8e6bbe11c89a3ce540f3f3ce7c2f231c2f5a2d92",
+                "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/d6be7dd79a69dfeb63d75b4b0e4871d9cf4133a0",
+                "reference": "d6be7dd79a69dfeb63d75b4b0e4871d9cf4133a0",
                 "shasum": ""
             },
             "require": {
@@ -3624,7 +3625,7 @@
             "keywords": [
                 "sonata"
             ],
-            "time": "2017-12-16T18:36:00+00:00"
+            "time": "2018-01-07T10:18:00+00:00"
         },
         {
             "name": "sonata-project/datagrid-bundle",
@@ -4483,16 +4484,16 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v3.4.2",
+            "version": "v3.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "dac8d7db537bac7ad8143eb11360a8c2231f251a"
+                "reference": "613e26310776f49a1773b6737c6bd554b8bc8c6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/dac8d7db537bac7ad8143eb11360a8c2231f251a",
-                "reference": "dac8d7db537bac7ad8143eb11360a8c2231f251a",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/613e26310776f49a1773b6737c6bd554b8bc8c6f",
+                "reference": "613e26310776f49a1773b6737c6bd554b8bc8c6f",
                 "shasum": ""
             },
             "require": {
@@ -4528,7 +4529,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T16:10:10+00:00"
+            "time": "2018-01-03T07:37:34+00:00"
         },
         {
             "name": "symfony/monolog-bundle",
@@ -6253,12 +6254,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "4e8f3129f450973c6dda07297bab6919fbb9f81f"
+                "reference": "32f4c99ed190da7bb8fa2e8a140a174353dae05c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4e8f3129f450973c6dda07297bab6919fbb9f81f",
-                "reference": "4e8f3129f450973c6dda07297bab6919fbb9f81f",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/32f4c99ed190da7bb8fa2e8a140a174353dae05c",
+                "reference": "32f4c99ed190da7bb8fa2e8a140a174353dae05c",
                 "shasum": ""
             },
             "require": {
@@ -6327,7 +6328,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-01-01T07:03:09+00:00"
+            "time": "2018-01-06T07:01:59+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
