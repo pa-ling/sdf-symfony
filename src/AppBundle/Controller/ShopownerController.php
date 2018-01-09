@@ -29,11 +29,28 @@ class ShopownerController extends Controller
             ['owned_by' => $shopownerID]
         );
 
+        foreach ($products as $product){
+            $product->setImage($this->getPreviewImgPathForProduct($product));
+        }
+
         return $this->render('default/shopowner.html.twig', array(
             'shopowner' => $shopowner,
             'products' => $products,
             'numberOfProducts' => count($products)
         ));
     }
+
+    public function getPreviewImgPathForProduct($product)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $mediaIds = $em->getRepository('AppBundle:GalleryMedia')->findOneBy(
+            ['gallery_id' => $product->getGallery()]
+        );
+        $media = $this->get('sonata.media.manager.media')->findBy(
+            ['id' => $mediaIds->getMediaId()]
+		);
+		
+        return $media[0]->getProviderReference();
+	}
 
 }

@@ -202,9 +202,9 @@ class ProductController extends Controller
 			));
 		}    	
 	}
-
+	
     /**
-     * @Route("/productdetails/{slug}", name="productdetails")
+     * @Route("/product/{slug}", name="product")
      */
     public function showProductDetails($slug)
     {
@@ -243,9 +243,8 @@ class ProductController extends Controller
 
     }
 
-
     /**
-     * @Route("/product/{slug}", name="productShow")
+     * @Route("/productdetails/{slug}", name="productdetails")
      */
 	public function showProduct($slug)
 	{
@@ -301,7 +300,18 @@ class ProductController extends Controller
 		
 	}
 
-
+	public function getPreviewImgPathForProduct($product)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $mediaIds = $em->getRepository('AppBundle:GalleryMedia')->findOneBy(
+            ['gallery_id' => $product->getGallery()]
+        );
+        $media = $this->get('sonata.media.manager.media')->findBy(
+            ['id' => $mediaIds->getMediaId()]
+		);
+		
+        return $media[0]->getProviderReference();
+	}
 
 	static public function slugify($text)
     {
