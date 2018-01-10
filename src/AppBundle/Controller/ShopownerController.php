@@ -26,7 +26,8 @@ class ShopownerController extends Controller
         );
 
         $products = $em->getRepository('AppBundle:Product')->findBy(
-            ['owned_by' => $shopownerID]
+            ['owned_by' => $shopownerID,
+             'enabled'=>true]
         );
 
         foreach ($products as $product){
