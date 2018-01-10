@@ -21,7 +21,7 @@ class CheckoutController extends Controller
      * @Method({"GET"})
      */
     public function getCheckout(Request $request)
-    {        
+    {   
         $cookie = $this->getCookieContent($request->cookies->get('cart'));
         $cartItems = array();
 
@@ -129,7 +129,6 @@ class CheckoutController extends Controller
 
     /**
      * @Route("/checkout/{id}", name="postCheckoutItem")
-     * @Method({"POST"})
      */
     public function postCheckoutItem(Request $request, $id)
     {
@@ -157,14 +156,13 @@ class CheckoutController extends Controller
             array_push($cartItems, $id);
             $response->setStatusCode(Response::HTTP_OK);
             $response->headers->setCookie($this->createCookie($cartItems, "cart"));
-
         }
         else
         {
             $response->setStatusCode(Response::HTTP_PRECONDITION_FAILED);
         }
 
-        return $response;
+        return $this->redirect('/checkout');   
     }
 
     /**

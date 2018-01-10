@@ -42,7 +42,8 @@
                                                 <div class="product-bottom">
                                                     <h3>{{item.getName}}</h3>
                                                     <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>
-                                                    <button onclick=addBasketItem({{item.id}})>ADD TO CART</button>
+                                                    {# <button onclick=addBasketItem({{item.id}})>ADD TO CART{{item.id}}</button> #}
+                                                    <a href="/checkout/{{item.id}}">ADD TO CART</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -66,7 +67,8 @@
     function addBasketItem(item) {
         console.log("addBasketItem "+  item);
         var request = new XMLHttpRequest();
-        request.open("POST", "{{ path('checkout') }}/"+ item);
+        console.log("{{ path('checkout') }}")
+        request.open("GET", "{{ path('checkout') }}/"+ item);
         request.send();
     }
 </script>
