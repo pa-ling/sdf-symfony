@@ -37,6 +37,13 @@ class Product
     protected $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="category", type="string", length=64)
+     */
+    protected $category;
+
+    /**
      * @var array
      * 
      * @ORM\Column(name="gallery", type="array", nullable=true)
@@ -91,6 +98,22 @@ class Product
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 
     /**

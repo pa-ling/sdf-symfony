@@ -26,8 +26,13 @@
         <div class="form-group">
             <label for="galleries">Galleries</label><br>
             <select multiple="multiple" class='form-control' name="galleries[]" id="galleries" >
-                {% for item in galleries %}
-                    <option value="{{item.id}}">{{item.name}}</option>
+                {% for gallery in galleries %}
+                    <option value="{{gallery.id}}">{{gallery.name}}</option>
+                {% endfor %}
+            </select>
+            <select class='form-control' name="category" id="category" >
+                {% for category in categories %}
+                    <option value="{{category.id}}">{{category.name}}</option>
                 {% endfor %}
             </select>
         </div>

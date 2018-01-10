@@ -93,6 +93,7 @@
                     <ul id="submenu-2" class="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) in ['/gallery', '/image',  slug | default(null) ] ? '' : 'collapse' }}">
                         <li><a href="/gallery"><i class="fa fa-angle-double-right"></i> GALLERY</a></li>
                         <li><a href="/image"><i class="fa fa-angle-double-right"></i> IMAGE</a></li>
+                        <li><a href="/showCategories"><i class="fa fa-angle-double-right"></i> CATEGORY</a></li>
                     </ul>
                     {%- endif -%}
                 </li>
