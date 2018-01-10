@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{# {% block sidebar %}
+    {%- include 'sidebar.html.twig' -%}
+{% endblock %} #}
+
+{% block body %}
+	<!--<input id="cartId"><button onclick=addcartItem()>+</button>-->
+
+	<script>
+		function addcartItem() {
+			var request = new XMLHttpRequest();
+			var item = document.getElementById("cartId").value;
+			request.open("POST", "checkout/" + item);
+			request.addEventListener('load', function(event) {
+				window.location.reload();
+			})
+			request.send();
+		}
+	</script>
+
+	<div class="ckeckout">
+		<div class="container">
+			<div class="ckeck-top heading">
+				<h2>Checkout</h2>
+			</div>
+			<div class="ckeckout-top">
+				<div class="cart-items">
+					<h3>My Cart</h3>
+					<div class="in-check">
+						<ul class="unit">
+							<li><span>#</span></li>
+							<li><span>Name</span></li>
+							<div class="clearfix"> </div>
+						</ul>
+
+						{% for category in categories %}
+							<ul class="cart-header" id="cartitem{{category.id}}" >
+								<li><span class="cost">{{ loop.index }}</span></li>
+								<li><span class="cost">{{category.name}}</span></li>
+								<div class="clearfix"> </div>
+							</ul>
+						{% endfor %}
+
+					</div>
+                    <br>
+					<form action="{{ path('addCategory') }}" method="post">
+						<input name="categoryName" type="text" >
+						<button name="order" value="order" class="btn btn-primary pull-right">addCategory</button>
+					</form>
+				</div>
+		 	</div>
+		</div>
+	</div>
+	
+{% endblock %}

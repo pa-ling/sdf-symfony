@@ -49,6 +49,7 @@ class ProductController extends Controller
                 $slug = $this->slugify($name);
                 $date = new Datetime();
                 $user = $this->getUser()->getId();
+                $category = $data['category'];
 
                 $mediaIds = $em->getRepository('AppBundle:GalleryMedia')->findOneBy(
                     ['gallery_id' => $galleryId]
@@ -63,6 +64,7 @@ class ProductController extends Controller
                 $product->setSlug($slug);
                 $product->setImage($media->getProviderReference());
                 $product->setPrice($price);
+                $product->setCategory($category);
                 $product->setGallery($galleryId);
                 $product->setEnabled(false);
                 $product->setOwnedBy($user);
@@ -82,8 +84,10 @@ class ProductController extends Controller
 					$product->setImage($this->getPreviewImgPathForProduct($product));
 				}
 
+
+
                 return $this->render('member/product/product.html.twig', array(
-                    'products' =>$products
+                    'products' => $products
                 ));
             }
         } else {
@@ -103,9 +107,11 @@ class ProductController extends Controller
                 ['owned_by' => $user],
                 ['createdAt' => 'DESC']
 			);
+        $categories = $em->getRepository('AppBundle:Category')->findAll();
 
 		return $this->render('member/product/new-product.html.twig', array(
-			'galleries'=>$galleries
+			'galleries'=>$galleries,
+            'categories' => $categories
 		));
 	}
 
