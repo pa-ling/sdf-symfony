@@ -62,15 +62,12 @@
 {% endblock %}
 
 {% block script %}
-  <script >
+<script type="text/javascript">
     function addBasketItem(item) {
-    var request = new XMLHttpRequest();
-
-    request.open("POST", "checkout/"+ item);
-    request.addEventListener('load', function(event) {
-        window.location.reload();
-    })
-    request.send();
+        console.log("addBasketItem "+  item);
+        var request = new XMLHttpRequest();
+        request.open("POST", "{{ path('checkout') }}/"+ item);
+        request.send();
     }
-  </script>
+</script>
 {% endblock %}

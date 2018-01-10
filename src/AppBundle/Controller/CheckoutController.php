@@ -36,8 +36,10 @@ class CheckoutController extends Controller
 
                 $item = null;
                 if ($product->getImage())
-                {
+                {   
                     $item = $product->getImage();
+                }else{
+                    $product->setImage($this->getPreviewImgPathForProduct($product));
                 }
 
                 if ($product->getGallery())
@@ -127,7 +129,7 @@ class CheckoutController extends Controller
 
     /**
      * @Route("/checkout/{id}", name="postCheckoutItem")
-     *
+     * @Method({"POST"})
      */
     public function postCheckoutItem(Request $request, $id)
     {
@@ -207,5 +209,17 @@ class CheckoutController extends Controller
         $cookie = new Cookie($key, $json, time() + (3600 * 48));
         return $cookie;
     }
+
+    public function getPreviewImgPathForProduct($product)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $mediaIds = $em->getRepository('AppBundle:GalleryMedia')->findOneBy(
+            ['gallery_id' => $product->getGallery()]
+        );
+        $media = $this->get('sonata.media.manager.media')->findBy(
+            ['id' => $mediaIds->getMediaId()]
+        );
+        return $media[0]->getProviderReference();
+	}
 
 }
