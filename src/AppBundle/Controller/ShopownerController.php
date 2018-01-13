@@ -26,8 +26,13 @@ class ShopownerController extends Controller
         );
 
         $products = $em->getRepository('AppBundle:Product')->findBy(
-            ['owned_by' => $shopownerID]
+            ['owned_by' => $shopownerID,
+             'enabled'=>true]
         );
+
+        foreach ($products as $product){
+            $product->setImage($this->getPreviewImgPathForProduct($product));
+        }
 
         return $this->render('default/shopowner.html.twig', array(
             'shopowner' => $shopowner,
@@ -35,5 +40,18 @@ class ShopownerController extends Controller
             'numberOfProducts' => count($products)
         ));
     }
+
+    public function getPreviewImgPathForProduct($product)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $mediaIds = $em->getRepository('AppBundle:GalleryMedia')->findOneBy(
+            ['gallery_id' => $product->getGallery()]
+        );
+        $media = $this->get('sonata.media.manager.media')->findBy(
+            ['id' => $mediaIds->getMediaId()]
+		);
+		
+        return $media[0]->getProviderReference();
+	}
 
 }

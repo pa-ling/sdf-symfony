@@ -1,15 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-    <script>
-        function addBasketItem(item) {
-            console.log("addBasketItem "+  item);
-            var request = new XMLHttpRequest();
-            request.open("POST", "{{ path('checkout') }}/"+ item);
-            request.send();
-        }
-    </script>
     <div class="single contact">
         <div class="container">
             <div class="single-main">
@@ -21,7 +12,7 @@
                                 <h5 class="item_price">Shop Description</h5>
                                 <p>{{ shopowner.longdescr }}</p>
                                 <ul class="tag-men">
-                                    <li><span>Bildanzahl des Shops:</span>
+                                    <li><span>Anzahl des Shops:</span>
                                         <span class="women1"> {{ numberOfProducts }}</span></li>
                                 </ul>
                             </div>
@@ -52,10 +43,15 @@
                                                 <div class="product-bottom">
                                                     <h3>{{item.getName}}</h3>
                                                     <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>
+<<<<<<< HEAD
                                                     <form method="post" action="{{ path('checkout', { 'id' : item.id }) }}">
                                                         <button type="submit" href="">ADD TO CART</button>
                                                     </form>
 
+=======
+                                                    {# <button onclick=addBasketItem({{item.id}})>ADD TO CART{{item.id}}</button> #}
+                                                    <a href="/checkout/{{item.id}}">ADD TO CART</a>
+>>>>>>> 1d2a9444570be49e0a1e29600d1669e2393a7fa0
                                                 </div>
                                             </div>
                                         </div>
@@ -72,4 +68,16 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    function addBasketItem(item) {
+        console.log("addBasketItem "+  item);
+        var request = new XMLHttpRequest();
+        console.log("{{ path('checkout') }}")
+        request.open("GET", "{{ path('checkout') }}/"+ item);
+        request.send();
+    }
+</script>
 {% endblock %}

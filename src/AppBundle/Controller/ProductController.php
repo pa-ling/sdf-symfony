@@ -25,7 +25,7 @@ class ProductController extends Controller
 {
 
 	/**
-     * @Route("/myproduct", name="product")
+     * @Route("/myproduct", name="products")
 	 * @Method({"GET", "POST"})
      */
 	public function indexProduct(Request $request)
@@ -83,8 +83,9 @@ class ProductController extends Controller
                     ->getRepository(Product::class)
                     ->findAll();
 
-
-
+				foreach ($products as $product){
+					$product->setImage($this->getPreviewImgPathForProduct($product));
+				}
 
 
 
@@ -172,21 +173,53 @@ class ProductController extends Controller
             	'You are not authorize to do some action for '.$product->getName()
         	);
 		}else{
+			$preview_image = $this->getPreviewImgPathForProduct($product);
+			$created_At = $product->getCreatedAt()->format('d/m/Y');
 
+			$galleries = $product->getGallery();
+			$imageIdInGallery = array();
+			foreach ($galleries as $key => $value) {
+				// fetch all gallery_media
+				$gallery_media_fetch = $em->getRepository('AppBundle:GalleryMedia')
+				->findBy(
+					['gallery_id' => $value],
+					['createdAt' => 'DESC']                   
+				);
 
-			print_r('Product with id: '.$product->getId().', name: '. $product->getName().', price: '. $product->getPrice(). ''.$this->getPreviewImgPathForProduct($product));
+				foreach ($gallery_media_fetch as $key => $value) {
+					$media_id = $value->getMediaId();
+					array_push($imageIdInGallery, $media_id); 
+				}
+			}
 
+			$images = array(); 
+			$images_size = array();
+			for ($i=0; $i <sizeof($imageIdInGallery); $i++) { 
+				$images[$i] = $this->get('sonata.media.manager.media')
+					->findOneBy(
+						['id'=>$imageIdInGallery[$i]]
+					);
+				$size = $this->filesize_formatted($images[$i]->getSize());
+				array_push($images_size, $size); 
+			}
 
-			return new Response();
-		}
+			return $this->render('member/product/one-product.html.twig', array(
+				'product'=>$product,
+				'preview_image'=>$preview_image,
+				'created_At'=>$created_At,
+				'images'=>$images,
+				'images_size'=>$images_size
+			));
+		}    	
 	}
-
+	
     /**
-     * @Route("/productdetails/{slug}", name="productdetails")
+     * @Route("/product/{slug}", name="product")
      */
     public function showProductDetails($slug)
     {
         $em = $this->getDoctrine()->getManager();
+
         $product = $em->getRepository('AppBundle:Product')
             ->findOneBy(
                 ['slug' => $slug]
@@ -220,9 +253,8 @@ class ProductController extends Controller
 
     }
 
-
     /**
-     * @Route("/product/{slug}", name="productShow")
+     * @Route("/productdetails/{slug}", name="productdetails")
      */
 	public function showProduct($slug)
 	{
@@ -236,14 +268,60 @@ class ProductController extends Controller
         	throw $this->createNotFoundException(
             	'No product found for id '.$product->Id
         	);
-    	}
+		}
+		
+		$preview_image = $this->getPreviewImgPathForProduct($product);
+		$created_At = $product->getCreatedAt()->format('d/m/Y');
 
-		print_r('Product with id: '.$product->getId().', name: '. $product->getName().', price: '. $product->getPrice().', galleries:');
-		print_r($product->getGallery());
-    	return new Response();
+		$galleries = $product->getGallery();
+		$imageIdInGallery = array();
+		foreach ($galleries as $key => $value) {
+			// fetch all gallery_media
+			$gallery_media_fetch = $em->getRepository('AppBundle:GalleryMedia')
+			->findBy(
+				['gallery_id' => $value],
+				['createdAt' => 'DESC']                   
+			);
+
+			foreach ($gallery_media_fetch as $key => $value) {
+				$media_id = $value->getMediaId();
+				array_push($imageIdInGallery, $media_id); 
+			}
+		}
+
+		$images = array(); 
+		$images_size = array();
+		for ($i=0; $i <sizeof($imageIdInGallery); $i++) { 
+			$images[$i] = $this->get('sonata.media.manager.media')
+				->findOneBy(
+					['id'=>$imageIdInGallery[$i]]
+				);
+			$size = $this->filesize_formatted($images[$i]->getSize());
+			array_push($images_size, $size); 
+		}
+		
+		return $this->render('public/product/one-product.html.twig', array(
+			'product'=>$product,
+			'preview_image'=>$preview_image,
+			'created_At'=>$created_At,
+			'images'=>$images,
+			'images_size'=>$images_size
+		));
+		
 	}
 
-
+	public function getPreviewImgPathForProduct($product)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $mediaIds = $em->getRepository('AppBundle:GalleryMedia')->findOneBy(
+            ['gallery_id' => $product->getGallery()]
+        );
+        $media = $this->get('sonata.media.manager.media')->findBy(
+            ['id' => $mediaIds->getMediaId()]
+		);
+		
+        return $media[0]->getProviderReference();
+	}
 
 	static public function slugify($text)
     {
@@ -270,5 +348,12 @@ class ProductController extends Controller
       }
     
       return $text;
+	}
+	
+	public function filesize_formatted($size)
+    {
+        $units = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+        $power = $size > 0 ? floor(log($size, 1024)) : 0;
+        return number_format($size / pow(1024, $power), 2, '.', ',') . ' ' . $units[$power];
     }
 }
