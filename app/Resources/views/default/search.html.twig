@@ -15,25 +15,14 @@
             <div class="single-main">
                 <div class="col-md-12 single-main-left">
                     <div class="sngl-top">
-                        <div class="col-md-12 single-top-right">
-                            <div class="single-para simpleCart_shelfItem">
-                                <h2>{{ shopowner.firstname }} {{ shopowner.surname }}</h2>
-                                <h5 class="item_price">Shop Description</h5>
-                                <p>{{ shopowner.longdescr }}</p>
-                                <ul class="tag-men">
-                                    <li><span>Bildanzahl des Shops:</span>
-                                        <span class="women1"> {{ numberOfProducts }}</span></li>
-                                </ul>
-                            </div>
+
                         </div>
                         <div class="clearfix"> </div>
                     </div>
                     <div class="tabs">
                         <ul class="menu_drop">
                             <li class="item1"><a href="#"><img src="{{ asset('images/arrow.png') }}" alt="">Products</a>
-                                <ul>
-                                    <li class="subitem1"><a href="#">Here you can find every product {{ shopowner.firstname }} {{ shopowner.surname }} is offering.</a></li>
-                                </ul>
+
                             </li>
                         </ul>
                     </div>
@@ -44,7 +33,6 @@
                                     <div class="product-one">
                                 {% endif %}
                                     {% if item.enabled %}
-
                                         <div class="col-md-4 product-left p-left">
                                             <div class="product-main simpleCart_shelfItem">
                                                 <a href="/productdetails/{{item.getSlug}}" class="mask">
@@ -52,10 +40,7 @@
                                                 <div class="product-bottom">
                                                     <h3>{{item.getName}}</h3>
                                                     <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>
-                                                    <form method="post" action="{{ path('checkout', { 'id' : item.id }) }}">
-                                                        <button type="submit" href="">ADD TO CART</button>
-                                                    </form>
-
+                                                    <button onclick=addBasketItem({{item.id}})>ADD TO CART</button>
                                                 </div>
                                             </div>
                                         </div>

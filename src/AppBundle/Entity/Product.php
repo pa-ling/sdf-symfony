@@ -9,8 +9,9 @@ use Application\Sonata\MediaBundle\Entity\Media;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * @ORM\Entity
  * @ORM\Table(name="product")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Product
 {
@@ -42,6 +43,13 @@ class Product
      * @ORM\Column(name="category", type="string", length=64)
      */
     protected $category;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=128)
+     */
+    protected $description;
 
     /**
      * @var array
@@ -98,6 +106,22 @@ class Product
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**

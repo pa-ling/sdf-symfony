@@ -24,6 +24,10 @@
             <input type="number" class="form-control" id="price" name="price" placeholder="Price">
         </div>
         <div class="form-group">
+            <label for="price">Description</label>
+            <input type="textfield" class="form-control" id="description" name="description" placeholder="Description">
+        </div>
+        <div class="form-group">
             <label for="galleries">Galleries</label><br>
             <select multiple="multiple" class='form-control' name="galleries[]" id="galleries" >
                 {% for gallery in galleries %}
@@ -32,7 +36,7 @@
             </select>
             <select class='form-control' name="category" id="category" >
                 {% for category in categories %}
-                    <option value="{{category.id}}">{{category.name}}</option>
+                    <option value="{{category.name}}">{{category.name}}</option>
                 {% endfor %}
             </select>
         </div>

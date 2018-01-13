@@ -50,6 +50,8 @@ class ProductController extends Controller
                 $date = new Datetime();
                 $user = $this->getUser()->getId();
                 $category = $data['category'];
+                $description = $data['description'];
+
 
                 $mediaIds = $em->getRepository('AppBundle:GalleryMedia')->findOneBy(
                     ['gallery_id' => $galleryId]
@@ -60,6 +62,7 @@ class ProductController extends Controller
                 );
 
                 $product = new Product();
+                $product->setDescription($description);
                 $product->setName($name);
                 $product->setSlug($slug);
                 $product->setImage($media->getProviderReference());

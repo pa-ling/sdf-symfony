@@ -13,6 +13,16 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
 
+            <ul class="nav navbar-nav navbar-right">
+                <form class="form-signin" action="{{ path('search') }}" method="post">
+                    <input type="keyword" id="keyword" class="form-control" name="keyword" placeholder="search" required/>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">search</button>
+                </form>
+            </ul>
+
+
+
+
           <ul class="nav navbar-nav navbar-right">
             {% if app.user %}    
                 <li class="dropdown">
