@@ -53,8 +53,6 @@ class PurchaseController extends Controller
         $purchsesByCustomer = array();
 
         foreach ($purchases as $purchase){
-            printf($purchase->getProducts()[0]->getOwnedBy(). '=='.$usrId);
-
             if($purchase->getProducts()[0]->getOwnedBy() == $usrId ){
                 array_push($purchsesByCustomer, $purchase);
             }
