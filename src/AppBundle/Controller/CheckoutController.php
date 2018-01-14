@@ -70,7 +70,6 @@ class CheckoutController extends Controller
 
     /**
      * @Route("/checkout", name="postCheckout")
-     * @Method({"POST"})
      */
     public function postCheckout(Request $request)
     {
@@ -156,6 +155,7 @@ class CheckoutController extends Controller
             array_push($cartItems, $id);
             $response->setStatusCode(Response::HTTP_OK);
             $response->headers->setCookie($this->createCookie($cartItems, "cart"));
+            $response->send();
         }
         else
         {

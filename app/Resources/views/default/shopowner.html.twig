@@ -43,15 +43,12 @@
                                                 <div class="product-bottom">
                                                     <h3>{{item.getName}}</h3>
                                                     <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>
-<<<<<<< HEAD
-                                                    <form method="post" action="{{ path('checkout', { 'id' : item.id }) }}">
-                                                        <button type="submit" href="">ADD TO CART</button>
-                                                    </form>
 
-=======
-                                                    {# <button onclick=addBasketItem({{item.id}})>ADD TO CART{{item.id}}</button> #}
-                                                    <a href="/checkout/{{item.id}}">ADD TO CART</a>
->>>>>>> 1d2a9444570be49e0a1e29600d1669e2393a7fa0
+
+
+                                                     <button onclick=addBasketItem({{item.id}})>ADD TO CART</button>
+
+
                                                 </div>
                                             </div>
                                         </div>

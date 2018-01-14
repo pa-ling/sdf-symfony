@@ -94,16 +94,20 @@
                         <li><a href="/gallery"><i class="fa fa-angle-double-right"></i> GALLERY</a></li>
                         <li><a href="/image"><i class="fa fa-angle-double-right"></i> IMAGE</a></li>
                         <li><a href="/showCategories"><i class="fa fa-angle-double-right"></i> CATEGORY</a></li>
+
                     </ul>
                     {%- endif -%}
                 </li>
                 <li>
-                    {%- if is_granted('ROLE_USER') -%}
+
                     <a href="#" data-toggle="collapse" data-target="#submenu-3"><i class="glyphicon glyphicon-shopping-cart"></i>  SHOP <i class="fa fa-fw fa-angle-down pull-right"></i></a>
                     <ul id="submenu-3" class="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) in ['/cart', '/basket'] ? '' : 'collapse' }}">
                         <li><a href="/purchase"><i class="fa fa-angle-double-right"></i>Purchase</a></li>
+                        {%- if is_granted('ROLE_PHOTOGRAPH') -%}
+                            <li><a href="/purchaseasseller"><i class="fa fa-angle-double-right"></i>SALES</a></li>
+                        {%- endif -%}
                     </ul>
-                    {%- endif -%}
+
                 </li>
             </ul>
         </div>
