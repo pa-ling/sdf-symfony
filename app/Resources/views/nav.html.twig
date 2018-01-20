@@ -3,14 +3,40 @@
         <div class="container">
             <a class="navbar-brand" href="/">Symfoto</a>
             <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    {%- if is_granted('ROLE_PHOTOGRAPH') -%}
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle nav-dropdown" data-toggle="dropdown">Media</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/gallery">My Galleries</a></li>
+                                <li><a href="/image">My Images</a></li>
+                                <li><a href="/showCategories">Categories</a></li>
+                            </ul>
+                        </li>
+                    {%- endif -%}
+                    <li class="dropdown">
+                        <a href="" class="dropdown-toggle nav-dropdown" data-toggle="dropdown">Shop</a>
+                        <ul class="dropdown-menu">
+                            {%- if is_granted('ROLE_PHOTOGRAPH') -%}
+                                <li><a href="{{ path('products') }}">My Products</a></li>
+                                <li><a href="/purchaseasseller">My Sales</a></li>
+                            {%- endif -%}
+                            <li><a href="/purchase">My Purchases</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{ path('newProduct') }}" class="nav-dropdown" style="background-color: #337ab7">New Product</a>
+                    </li>
+                </ul>
+
                 <ul class="nav navbar-nav navbar-right">
                     {% if app.user %}
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button"
+                            <a class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button"
                                aria-haspopup="true" aria-expanded="false">Hallo {{ app.user.username }}!<span
                                         class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/profile">Dashboard</a></li>
+                                <li><a href="/profile">My Profile</a></li>
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <li><a href="/admin">Admin Dashboard</a></li>
                                 {% endif %}

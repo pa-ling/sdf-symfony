@@ -1,4 +1,4 @@
-{% extends 'base-user.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block style %}
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
@@ -17,8 +17,6 @@
             {% for item in products %}
                 <div class="col-md-4 product-left p-left">
                     <div class="product-main simpleCart_shelfItem">
-
-
 
                         <a href="/productdetails/{{item.getSlug}}" class="mask">
                             <img style="width:100%;" src="/uploads/media/default/0001/01/{{ item.image }}">
