@@ -12,7 +12,7 @@ use AppBundle\Entity\Image;
 
 class SearchController extends Controller
 {
-        /**
+    /**
      * @Route("/search", name="search")
      */
     public function search(Request $request){
@@ -20,12 +20,15 @@ class SearchController extends Controller
         $data = $request->request->all();
         $keyword = $data['keyword'];
 
+        if ("" === $keyword)
+        {
+            return $this->redirectToRoute('photographers');
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         $products = $em->getRepository('AppBundle:Product')
             ->searchByCategoryAndDescription($keyword);
-
-
 
         return $this->render('default/search.html.twig', array(
             'products' => $products
