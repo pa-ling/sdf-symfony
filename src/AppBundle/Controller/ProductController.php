@@ -32,14 +32,7 @@ class ProductController extends Controller
 	{
         if ($this->get('security.authorization_checker')->isGranted('ROLE_PHOTOGRAPH')) {
 
-
-
-
             $em = $this->getDoctrine()->getManager();
-
-            // $image = $this->getDoctrine()
-            // 	->getRepository(Media::class)
-            // 	->find(2);
 
             if ($request->getMethod() == 'POST') {
                 $data = $request->request->all();
@@ -89,7 +82,7 @@ class ProductController extends Controller
 
 
 
-                return $this->render('member/product/product.html.twig', array(
+                return $this->render('default/product.html.twig', array(
                     'products' => $products
                 ));
             }
@@ -112,7 +105,7 @@ class ProductController extends Controller
 			);
         $categories = $em->getRepository('AppBundle:Category')->findAll();
 
-		return $this->render('member/product/new-product.html.twig', array(
+		return $this->render('default/create_product.html.twig', array(
 			'galleries'=>$galleries,
             'categories' => $categories
 		));
@@ -203,7 +196,7 @@ class ProductController extends Controller
 				array_push($images_size, $size); 
 			}
 
-			return $this->render('member/product/one-product.html.twig', array(
+			return $this->render('default/one-product.html.twig', array(
 				'product'=>$product,
 				'preview_image'=>$preview_image,
 				'created_At'=>$created_At,
@@ -212,46 +205,6 @@ class ProductController extends Controller
 			));
 		}    	
 	}
-	
-    /**
-     * @Route("/product/{slug}", name="product")
-     */
-    public function showProductDetails($slug)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $product = $em->getRepository('AppBundle:Product')
-            ->findOneBy(
-                ['slug' => $slug]
-            );
-
-        if (!$product) {
-            throw $this->createNotFoundException(
-                'No product found for id '.$product->Id
-            );
-        }
-
-
-        $mediaIDs = $em->getRepository('AppBundle:GalleryMedia')
-            ->findBy(
-                ['gallery_id' => $product->getGallery()]
-            );
-
-
-
-        $media = $this->get('sonata.media.manager.media')
-            ->findBy(
-                ['id' => $mediaIDs]
-            );
-
-
-        return $this->render('member/product/details.html.twig', array(
-            'product' => $product,
-            'media' => $media,
-
-        ));
-
-    }
 
     /**
      * @Route("/productdetails/{slug}", name="productdetails")
@@ -300,7 +253,7 @@ class ProductController extends Controller
 			array_push($images_size, $size); 
 		}
 		
-		return $this->render('public/product/one-product.html.twig', array(
+		return $this->render('default/one-product.html.twig', array(
 			'product'=>$product,
 			'preview_image'=>$preview_image,
 			'created_At'=>$created_At,
