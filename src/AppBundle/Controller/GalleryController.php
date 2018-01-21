@@ -78,7 +78,7 @@ class GalleryController extends Controller
             }
         }
 
-        return $this->render('default/gallery.html.twig', array(
+        return $this->render('default/galleries.html.twig', array(
             'galleries' => $galleries,
             'images' => $images,
             'createdAt' => $createdAt
@@ -204,7 +204,7 @@ class GalleryController extends Controller
         }
 
         if($gallery->getOwnedBy() === $user){
-            return $this->render('default/gallery-one.html.twig', array(
+            return $this->render('default/gallery.html.twig', array(
                 'gallery' => $gallery,
                 'images' => $images,
                 'slug' => '/gallery/'.$slug,

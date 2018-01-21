@@ -1,48 +1,46 @@
-{% extends 'base-user.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block style %}
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
 {% endblock %}
 
+{# {% block sidebar %}
+    {%- include 'sidebar.html.twig' -%}
+{% endblock %} #}
+
 {% block body %}
 {# <div class="small-body">
     <div class="container"> #}
-        <nav aria-label="breadcrumb" role="navigation">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item" aria-current="page">Gallery</li>
-            </ol>
-        </nav>
+        <h3>{{gallery.name}}</h3>
 
-        <h3>Galleries</h3>
+        <h3>Images</h3>
         <div class="row col-md-12 custyle">
             <table class="table table-striped custab">
                 <thead>
-                    <h6>New Gallery</h6>
-                    <form class="form-inline" action="gallery" method="post">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <input id="name" name="name" type="text" placeholder="Name" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <button type="submit" class="btn btn-primary">Create</button>
-                            </div>
-                        </div>                            
-                    </form>
+                    <div class="pull-left">
+                        <form action="/image/new/{{gallery.slug}}" method="POST" enctype="multipart/form-data">
+                            <span>Datei</span>
+                            <input type="file" name="images[]" multiple="">
+                            <input type="submit" class="btn" value="Hochladen">
+                        </form>
+                    </div>
                     <tr>
                         <th>Name</th>
-                        <th>Created At</th>
+                        <th>Uploaded At</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-                    {% for item in galleries %}
+                <tbody>
+                    {% for item in images %}
                         <tr>
-                            <td><a href="/gallery/{{item.slug}}">{{item.name}}</a></td>
+                            <td>
+                                <a href="/image/{{item.getProviderReference}}">{{item.getName}}</a>
+                            </td>
                             <td>{{ createdAt[loop.index - 1] }}</td>
-                            <td><a href="/gallery/delete/{{item.id}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                            <td><a href="/gallery/image/delete/{{item.id}}/{{gallery.slug}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
                         </tr>
                     {% endfor %}
+                </tbody>
             </table>
         </div>
     {# </div> <!-- /container -->

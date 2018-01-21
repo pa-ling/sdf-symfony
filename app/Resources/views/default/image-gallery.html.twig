@@ -1,4 +1,4 @@
-{% extends 'base-user.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block style %}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/table.css') }}">
@@ -7,15 +7,6 @@
 
 
 {% block body %}
-
-    <nav aria-label="breadcrumb" role="navigation">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/image">Image</a></li>
-            <li class="breadcrumb-item" aria-current="page"><a href="/image/{{image.getProviderReference}}">{{image.getName}}</a></li>
-            <li class="breadcrumb-item" aria-current="page">Update gallery</li>
-        </ol>
-    </nav>
-    
     <h5>Current Gallery: 
         {{ current_galleries[image.getId] | raw }}
     </h5>

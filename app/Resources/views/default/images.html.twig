@@ -1,8 +1,4 @@
-{% extends 'base-user.html.twig' %}
-
-{% block style %}
-    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
-{% endblock %}
+{% extends 'base.html.twig' %}
 
 {# {% block sidebar %}
     {%- include 'sidebar.html.twig' -%}
@@ -11,20 +7,12 @@
 {% block body %}
 {# <div class="small-body">
     <div class="container"> #}
-        <nav aria-label="breadcrumb" role="navigation">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/gallery">Gallery</a></li>
-                <li class="breadcrumb-item" aria-current="page">{{gallery.name}}</li>
-            </ol>
-        </nav>
-        <h3>{{gallery.name}}</h3>
-
-        <h3>Images</h3>
+        <h3>Image</h3>
         <div class="row col-md-12 custyle">
             <table class="table table-striped custab">
                 <thead>
                     <div class="pull-left">
-                        <form action="/image/new/{{gallery.slug}}" method="POST" enctype="multipart/form-data">
+                        <form action="/image/new/null" method="POST" enctype="multipart/form-data">
                             <span>Datei</span>
                             <input type="file" name="images[]" multiple="">
                             <input type="submit" class="btn" value="Hochladen">
@@ -32,7 +20,8 @@
                     </div>
                     <tr>
                         <th>Name</th>
-                        <th>Uploaded At</th>
+                        <th>Gallery</th>
+                        <th>Updated At</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -40,15 +29,20 @@
                     {% for item in images %}
                         <tr>
                             <td>
-                                <a href="/image/{{item.getProviderReference}}">{{item.getName}}</a>
+                                <a href="/image/{{item.getProviderReference}}">{{ item.getName }}</a>
+                            </td>
+                            <td>
+                                <p>
+                                    {{ current_galleries[item.id] | raw }}
+                                </p>
                             </td>
                             <td>{{ createdAt[loop.index - 1] }}</td>
-                            <td><a href="/gallery/image/delete/{{item.id}}/{{gallery.slug}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                            <td><a href="/image/delete/{{item.id}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-    {# </div> <!-- /container -->
+    {# </div>
 </div> #}
 {% endblock %}

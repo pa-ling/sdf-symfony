@@ -69,7 +69,7 @@ class ImageController extends Controller
             array_push($createdAt, $created_At);
         }
 
-        return $this->render('default/image.html.twig', array(
+        return $this->render('default/images.html.twig', array(
             'images' => $images,
             'current_galleries' => $current_galleries,
             'createdAt' => $createdAt
@@ -135,7 +135,7 @@ class ImageController extends Controller
                 ['createdAt' => 'DESC']
             );
 
-        return $this->render('default/image-one.html.twig', array(
+        return $this->render('default/image_details.html.twig', array(
             'image' => $image,
             'created_At' => $created_At,
             'size' => $size,

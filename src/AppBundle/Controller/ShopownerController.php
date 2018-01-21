@@ -13,6 +13,34 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ShopownerController extends Controller
 {
+    /**
+     * @Route("/photographers/shopowner/", name="myshopowner")
+     */
+    public function myShopownerAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $shopownerID = $this->getUser()->getId();
+
+        $shopowner = $em->getRepository('AppBundle:Photographers')->findOneBy(
+            ['userID' => $shopownerID]
+        );
+
+        $products = $em->getRepository('AppBundle:Product')->findBy(
+            ['owned_by' => $shopownerID,
+                'enabled'=>true]
+        );
+
+        foreach ($products as $product){
+            $product->setImage($this->getPreviewImgPathForProduct($product));
+        }
+
+        return $this->render('default/shopowner.html.twig', array(
+            'shopowner' => $shopowner,
+            'products' => $products,
+            'numberOfProducts' => count($products)
+        ));
+    }
 
     /**
      * @Route("/photographers/shopowner/{shopownerID}", name="shopowner")
