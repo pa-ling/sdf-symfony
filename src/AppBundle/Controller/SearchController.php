@@ -23,16 +23,16 @@ class SearchController extends Controller
         if ("" === $keyword)
         {
             return $this->redirectToRoute('photographers');
+        }else{
+            $em = $this->getDoctrine()->getManager();
+
+            $products = $em->getRepository('AppBundle:Product')
+                ->searchByCategoryAndDescription($keyword);
+
+            return $this->render('default/search.html.twig', array(
+                'products' => $products
+            ));
         }
-
-        $em = $this->getDoctrine()->getManager();
-
-        $products = $em->getRepository('AppBundle:Product')
-            ->searchByCategoryAndDescription($keyword);
-
-        return $this->render('default/search.html.twig', array(
-            'products' => $products
-        ));
 
     }
 

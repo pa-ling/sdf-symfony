@@ -8,30 +8,27 @@
 <div class="small-body">
     <div class="container">
 
-        <form class="form-signin" action="{{ path('photograph_registration') }}" method="post">
+        <h2>Photograph - Registrierung</h2><br>
 
-            <h2 class="form-signin-heading">Register as Photograph</h2>
-            <input type="hidden" name="_csrf_token"value="{{ csrf_token('authenticate') }}">
-            <input type="text" id="username" class="form-control" name ="username" placeholder="Username" required autofocus>
-            <input type="text" id="firstname" class="form-control" name ="firstname" placeholder="Firstname" required autofocus>
-            <input type="text" id="lastname" class="form-control" name ="lastname" placeholder="Lastname" required autofocus>
-            <input type="email" id="email" class="form-control" name ="email" placeholder="Email" required autofocus>
-            <input type="password" id="password" class="form-control" name="plainPassword.first" placeholder="Password" required/>
-            <input type="password" id="_password" class="form-control" name="plainPassword.second" placeholder="Password nochmal eigeben" required/>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Registrieren</button>
+                {{ form_start(form) }}
+                {{ form_row(form.username) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.plainPassword.first) }}
+                {{ form_row(form.plainPassword.second) }}
 
-            <div class="col-lg-12" style="margin-top: 20px;">
-                Hast du dich schon registriert? Melde dich <a href="{{ path('login') }}">jetzt an.</a>
-            </div>
-            <div class="col-lg-12" style="margin-top: 20px;">
-                Registriere dich als Fotograf <a href="{{ path('photograph_registration') }}">jetzt.</a>
-            </div>
-            <div class="col-lg-12" style="margin-top: 20px;">
-                Passwort vergessen? Klick <a href="{{ path('fos_user_resetting_request') }}">hier.</a>
-            </div>
-        </form>
+                <input type="text" class="form-control" name ="firstname" placeholder="Fristname">
+                <label for="shortDesc" class="sr-only">Fristname</label>
+                <input type="text" class="form-control" name ="lastname" placeholder="Lastname">
+                <label for="longDesc" class="sr-only">Lastname</label>
 
-    </div> <!-- /container -->
-</div>
+
+                <input type="text" id="shortDesc" class="form-control" name ="shortDesc" placeholder="shortDesc">
+                <label for="shortDesc" class="sr-only">shortDesc</label>
+                <input type="text" id="longDesc" class="form-control" name ="longDesc" placeholder="longDesc">
+                <label for="longDesc" class="sr-only">longDesc</label>
+                {{ form_end(form) }}
+        </div> <!-- /container -->
+    </div>
+</body>
 
 {% endblock %}

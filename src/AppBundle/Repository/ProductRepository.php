@@ -13,6 +13,7 @@ class ProductRepository extends EntityRepository
             ->createQuery(
                 'SELECT p FROM AppBundle:Product p 
                         where p.category like \'%' . $keyword . '%\' 
+                        or p.name like \'%' . $keyword . '%\'
                         or p.description like \'%' . $keyword . '%\''
             )
             ->getResult();
