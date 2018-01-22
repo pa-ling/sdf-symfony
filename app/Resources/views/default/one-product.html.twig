@@ -6,16 +6,18 @@
 {% endblock %}
 
 {% block body %}
-    <h3>Products</h3>
+    <h3>Product '{{product.getName}}'</h3>
     <div class="row">
         <div class="col-lg-2">
             <img style="width:100%;" src="/uploads/media/default/0001/01/{{ preview_image }}">
         </div>
         <div class="col-lg-10">
-            <p>Name: {{product.getName}}</p>
-            <p>Price: {{product.getPrice}}</p>
-            <p>Published: {{product.getEnabled ? 'YES' : 'NOT'}}</p>
-            <p>Created at: {{created_At}}</p>
+            <p><b>Category:</b> {{product.getCategory}}</p>
+            <p><b>Description:</b><br>
+                {{product.getDescription}}</p>
+            <p><b>Price:</b> {{product.getPrice}} €</p>
+            <p><b>Published:</b> {{product.getEnabled ? 'YES' : 'NOT'}}</p>
+            <p><b>Created at:</b> {{created_At}}</p>
         </div>
     </div>
     <h3>Images</h3>

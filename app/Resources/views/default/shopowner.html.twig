@@ -9,7 +9,6 @@
                         <div class="col-md-12 single-top-right">
                             <div class="single-para simpleCart_shelfItem">
                                 <h2>{{ shopowner.firstname }} {{ shopowner.surname }}</h2>
-                                <h5 class="item_price">Shop Description</h5>
                                 <p>{{ shopowner.longdescr }}</p>
                                 <ul class="tag-men">
                                     <li><span>Count of products in this shop:</span>
@@ -43,7 +42,7 @@
                                                 <div class="product-bottom">
                                                     <h3>{{item.getName}}</h3>
                                                     <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>
-                                                     <button onclick=addBasketItem({{item.id}})>ADD TO CART</button>
+                                                     <button class="btn btn-primary" onclick=addBasketItem({{item.id}})>ADD TO CART</button>
                                                 </div>
                                             </div>
                                         </div>
