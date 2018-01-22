@@ -98,6 +98,7 @@ class RegisterController extends Controller
             $em->persist($photographers);
             $em->flush();
 
+            return $this->redirect('/login');   
         }
 
         return $this->render(
