@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="ckeckout">
+		<div class="container">
+			<div class="ckeck-top heading">
+				<h2>Sales</h2>
+			</div>
+			<div class="ckeckout-top">
+				<div class="cart-items">
+					<div class="in-check">
+						<ul class="unit">
+							<li style="width: 20%"><span>Order number</span></li>
+							<li style="width: 40%"><span>Products (Price)</span></li>
+							<li style="width: 20%"><span>Date</span></li>
+							<li style="width: 10%"><span>Total Price</span></li>
+							<li style="width: 10%"><span>Paid</span></li>
+							<div class="clearfix"> </div>
+						</ul>
+
+						{% for purchase in purchases %}
+							<ul class="cart-header" id="cartitem{{ purchase.id }}" >
+								<div id="{{purchase.id}}"> </div>
+								<li style="width: 20%"><span class="cost">{{ purchase.id }}</span></li>
+								<li style="width: 40%"><span class="cost">
+									{% for product in purchase.products %}
+										{{ product.name }} ({{ product.price }} €)<br>
+									{% endfor %}
+								</span></li>
+								<li style="width: 20%"><span class="cost">{{ purchase.datetime|date("m/d/Y") }}</span></li>
+								<li style="width: 10%"><span class="cost">{{ purchase.sum }} €</span></li>
+								<li style="width: 10%">
+									<span class="cost">{{ purchase.isPaid ? 'YES' : 'NO' }}</span>
+                                    {% if not purchase.isPaid %}
+									    <a href="{{ path('purchaseasseller') }}/{{ purchase.id }}">Freigeben</a>
+                                    {% endif %}
+								</li>
+								<div class="clearfix"> </div>
+							</ul>
+						{% endfor %}
+					</div>
+				</div>
+		 	</div>
+		</div>
+	</div>
+	
+{% endblock %}
