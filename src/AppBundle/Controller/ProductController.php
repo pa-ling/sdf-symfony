@@ -33,6 +33,7 @@ class ProductController extends Controller
         if ($this->get('security.authorization_checker')->isGranted('ROLE_PHOTOGRAPH')) {
 
             $em = $this->getDoctrine()->getManager();
+			$user = $this->getUser()->getId();
 
             if ($request->getMethod() == 'POST') {
                 $data = $request->request->all();
@@ -51,7 +52,7 @@ class ProductController extends Controller
                 );
 
                 $media = $this->get('sonata.media.manager.media')->findOneBy(
-                    ['id' => $mediaIds]
+                    ['id' => $mediaIds->getMediaId()]
                 );
 
                 $product = new Product();
@@ -74,7 +75,10 @@ class ProductController extends Controller
             }else if ($request->getMethod() == 'GET') {
                 $products = $this->getDoctrine()
                     ->getRepository(Product::class)
-                    ->findAll();
+					->findBy(
+						['owned_by' => $user],
+						['createdAt' => 'DESC']
+					);
 
 				foreach ($products as $product){
 					$product->setImage($this->getPreviewImgPathForProduct($product));
@@ -207,14 +211,14 @@ class ProductController extends Controller
 	}
 
     /**
-     * @Route("/productdetails/{slug}", name="productdetails")
+     * @Route("/productdetails/{id}", name="productdetails")
      */
-	public function showProduct($slug)
+	public function showProduct($id)
 	{
 		$em = $this->getDoctrine()->getManager();
 		$product = $em->getRepository('AppBundle:Product')
 		->findOneBy(
-			['slug' => $slug]
+			['id' => $id]
 		);
 
     	if (!$product) {

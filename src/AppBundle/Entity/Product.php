@@ -47,7 +47,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=128)
+     * @ORM\Column(name="description", type="string", length=250)
      */
     protected $description;
 
