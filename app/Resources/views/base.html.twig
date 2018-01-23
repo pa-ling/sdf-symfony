@@ -16,19 +16,9 @@
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/symfony.css') }}">
 
-    <script href="{{ asset('js/simpleCart.min.js') }}"></script>
-
-    <script href="{{ asset('js/jquery.easydropdown.js') }}"></script>
-
-    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/memenu.css') }}">
-    <script href="{{ asset('js/memenu.js') }}"></script>
-
     {% javascripts '@jquery' '@bootstrap_js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
-
-
-    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/admin-user.css') }}">
 
     {% block style %}
     {% endblock %}
