@@ -26,6 +26,12 @@ class User extends BaseUser implements UserInterface
     protected $avatarUrl;
 
     /**
+     * @var string
+     * @ORM\Column(name="salt", type="string",nullable=true)
+     */
+    protected $salt;
+
+    /**
      * @var integer
      * @ORM\Column(name="nb_post", type="integer",nullable=true)
      */
@@ -86,6 +92,18 @@ class User extends BaseUser implements UserInterface
     public function setBanned($banned)
     {
         $this->banned = $banned;
+
+        return $this;
+    }
+
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
 
         return $this;
     }

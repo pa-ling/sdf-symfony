@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/signing.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="small-body">
+    {% if message %}
+        {{ message }}
+    {% endif %}
+</div>
+{% endblock %}
+

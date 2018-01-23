@@ -12,11 +12,10 @@ use AppBundle\Entity\Photographers;
 class RegisterController extends Controller
 {
     /**
-     * @Route("/register", name="register")
+     * @Route("/signup", name="signup")
      */
     public function userRegisterAction(Request $request)
     {
-
         $user = new User();
 
         $form = $this->createForm(new UserType(), $user);
@@ -40,7 +39,8 @@ class RegisterController extends Controller
                     $this->get('session')->getFlashBag()->add('error', 'Can\'t insert entity.');
 
                 }
-
+                
+            return $this->redirect('/login');
         }
 
         return $this->render(

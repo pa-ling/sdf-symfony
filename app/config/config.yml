@@ -257,3 +257,11 @@ jms_serializer:
             -
                 path: "%kernel.root_dir%/../vendor/sonata-project/user-bundle/Sonata/UserBundle/Resources/config/serializer/FOSUserBundle"
                 namespace_prefix: 'FOS\UserBundle'
+
+swiftmailer:
+    transport: '%mailer_transport%'
+    host:      '%mailer_host%'
+    username:  '%mailer_user%'
+    password:  '%mailer_password%'
+    port:      '%mailer_port%'
+    encryption: ssl
