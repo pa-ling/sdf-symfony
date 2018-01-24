@@ -29,7 +29,11 @@
 								</span></li>
 								<li style="width: 20%"><span class="cost">{{ purchase.datetime|date("m/d/Y") }}</span></li>
 								<li style="width: 10%"><span class="cost">{{ purchase.sum }} €</span></li>
-								<li style="width: 10%"><span class="cost">{{ purchase.isPaid ? 'YES' : 'NOT' }}</span><a href="{{ path('purchaseasseller') }}/{{ purchase.id }}">Freigeben</a></li>
+								<li style="width: 10%"><span class="cost">{{ purchase.isPaid ? 'YES' : 'NOT' }}</span>
+									{% if not purchase.isPaid %}
+										<a href="{{ path('purchaseasseller') }}/{{ purchase.id }}">Freigeben</a>
+									{% endif %}
+								</li>
 								<div class="clearfix"> </div>
 							</ul>
 						{% endfor %}

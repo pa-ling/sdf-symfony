@@ -28,8 +28,6 @@ class PurchaseController extends Controller
             ->getRepository(Purchase::class)
             ->findBy( ['user' => $usr->getId()]);
 
-
-
         return $this->render(
             'default/purchase.html.twig',
             array(
@@ -49,7 +47,7 @@ class PurchaseController extends Controller
         $purchases = $this->getDoctrine()
             ->getRepository(Purchase::class)
             ->findAll();
-
+        
         $purchsesByCustomer = array();
 
         foreach ($purchases as $purchase){
@@ -70,16 +68,56 @@ class PurchaseController extends Controller
      * @Route("/purchaseasseller/{id}", name="purchaseassellerid")
      */
     public function setPurchaseAsPaidById(Request $request, $id)
-    {
+    {   
+        // Get purchase data
         $purchase = $this->getDoctrine()
             ->getRepository(Purchase::class)
             ->findOneBy([ 'id' => $id]);
 
-        $purchase->setIsPaid(true);
+        if (!$purchase) {
+            throw $this->createNotFoundException(
+                'No purchase found for id '.$id
+            );
+        }
 
+        // Get user data
+        $userId = $purchase->getUser();
+        $user = $this->get('fos_user.user_manager')->findOneBy(
+            ['id' => $userId]
+        );
+        
+        if (!$user) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$product->Id
+            );
+        }
+
+        // Params for email
+        $app_url = $this->getParameter('app_url');
+        $link = $app_url.'/purchase';
+        $username = $user->getUsername();
+        $email = $user->getEmail();
+
+        // Update purchase paid status
+        $purchase->setIsPaid(true);
         $em = $this->getDoctrine()->getManager();
         $em->persist($purchase);
         $em->flush();
+
+        // Set email content
+        $swiftMailer = (new \Swift_Message('Purchase Product'))
+                ->setFrom('yoggifirmanda@gmail.com')
+                ->setTo($email)
+                ->setBody(
+                    $this->renderView(
+                        'emails/purchase_product.html.twig',
+                        array('username' => $username, 'link'=> $link)
+                    ),
+                    'text/html'
+                );
+        
+        // Send email
+        $this->get('mailer')->send($swiftMailer);
 
         return $this->redirectToRoute('purchaseasseller');
     }
