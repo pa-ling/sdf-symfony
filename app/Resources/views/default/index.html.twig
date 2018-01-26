@@ -24,7 +24,9 @@
                                 </a>
                                 <div class="product-bottom">
                                     <h3>{{ item.getFirstname }} {{ item.surname }}</h3>
-                                    <p>{{ item.shortdescr }}</p>
+                                    <p>
+                                        {{ item.shortdescr|length > 30 ? item.shortdescr|slice(0, 30) ~ '...' : item.shortdescr  }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
