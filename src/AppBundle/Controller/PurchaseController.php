@@ -58,7 +58,7 @@ class PurchaseController extends Controller
         }
 
         return $this->render(
-            'default/purchaseSeller.html.twig',
+            'default/sales.html.twig',
             array(
                 'purchases' => $purchsesByCustomer
             )

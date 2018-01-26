@@ -14,27 +14,30 @@
         </div>
         <div class="form-group">
             <label for="price">Price</label>
-            <input type="number" class="form-control" id="price" name="price" placeholder="Price">
+            <input type="number" class="form-control" id="price" name="price" placeholder="€">
         </div>
         <div class="form-group">
             <label for="price">Description</label>
-            <input type="textfield" class="form-control" id="description" name="description" placeholder="Description">
+            <textarea class="form-control" id="description" name="description" placeholder="Description"></textarea>
         </div>
         <div class="form-group">
-            <label for="galleries">Galleries</label><br>
-            <select multiple="multiple" class='form-control' name="galleries[]" id="galleries" >
+            <label for="galleries">Galleries</label>
+            <select multiple name="galleries[]" id="galleries" >
                 {% for gallery in galleries %}
                     <option value="{{gallery.id}}">{{gallery.name}}</option>
                 {% endfor %}
             </select>
-            <select class='form-control' name="category" id="category" >
+        </div>
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select name="category" id="category" >
                 {% for category in categories %}
                     <option value="{{category.name}}">{{category.name}}</option>
                 {% endfor %}
             </select>
         </div>
 
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 {% endblock %}
 
@@ -43,8 +46,25 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#galleries').multiselect({
-            enableFiltering: true
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            disableIfEmpty: true,
+            disabledText: 'No Galleries',
+            maxHeight: 250,
+            buttonClass: 'btn btn-link',
+            allSelectedText: 'All Galleries',
+            numberDisplayed: 3
         });
     })
+
+    $(document).ready(function() {
+        $('#category').multiselect({
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            maxHeight: 250,
+            buttonClass: 'btn btn-link'
+        });
+    })
+
 </script>
 {% endblock %}
