@@ -1,32 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{# {% block sidebar %}
-    {%- include 'sidebar.html.twig' -%}
-{% endblock %} #}
-
 {% block body %}
-	<!--<input id="cartId"><button onclick=addcartItem()>+</button>-->
-
-	<script>
-		function addcartItem() {
-			var request = new XMLHttpRequest();
-			var item = document.getElementById("cartId").value;
-			request.open("POST", "checkout/" + item);
-			request.addEventListener('load', function(event) {
-				window.location.reload();
-			})
-			request.send();
-		}
-	</script>
-
 	<div class="ckeckout">
 		<div class="container">
 			<div class="ckeck-top heading">
-				<h2>Checkout</h2>
+				<h2>Categories</h2>
 			</div>
 			<div class="ckeckout-top">
 				<div class="cart-items">
-					<h3>My Cart</h3>
 					<div class="in-check">
 						<ul class="unit">
 							<li><span>#</span></li>
@@ -41,13 +22,25 @@
 								<div class="clearfix"> </div>
 							</ul>
 						{% endfor %}
-
+						<ul class="cart-header" >
+							<li><br></li>
+							<li>
+								<form action="{{ path('addCategory') }}" method="post">
+									<div class="row">
+										<div class="col-md-10">
+											<div class="form-group">
+												<input name="categoryName" type="text" placeholder="New Category" class="form-control" required>
+											</div>
+										</div>
+										<div class="col-md-2">
+											<button type="submit" name="order" value="order" class="btn btn-primary">+</button>
+										</div>
+									</div>
+								</form>
+							</li>
+							<div class="clearfix"> </div>
+						</ul>
 					</div>
-                    <br>
-					<form action="{{ path('addCategory') }}" method="post">
-						<input name="categoryName" type="text" >
-						<button name="order" value="order" class="btn btn-primary pull-right">addCategory</button>
-					</form>
 				</div>
 		 	</div>
 		</div>

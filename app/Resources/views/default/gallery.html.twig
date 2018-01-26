@@ -11,7 +11,7 @@
 {% block body %}
 {# <div class="small-body">
     <div class="container"> #}
-        <h3>{{gallery.name}}</h3>
+        <h3>Gallery "{{gallery.name}}"</h3>
 
         <h3>Images</h3>
         <div class="row col-md-12 custyle">
@@ -19,11 +19,11 @@
                 <thead>
                     <div class="pull-left">
                         <form action="/image/new/{{gallery.slug}}" method="POST" enctype="multipart/form-data">
-                            <span>Datei</span>
                             <input type="file" name="images[]" multiple="">
-                            <input type="submit" class="btn" value="Hochladen">
+                            <input type="submit" class="btn" value="Upload">
                         </form>
                     </div>
+                    <br>
                     <tr>
                         <th>Name</th>
                         <th>Uploaded At</th>
