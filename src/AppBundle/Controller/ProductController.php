@@ -39,9 +39,18 @@ class ProductController extends Controller
                 $data = $request->request->all();
                 $price = $data['price'];
                 $galleryId = $data['galleries'];
-                $name= $data['name'];
-                $slug = $this->slugify($name);
-                $date = new Datetime();
+				$name= $data['name'];
+				$date = new Datetime();
+
+				$slug = $this->slugify($name);
+				$product = $em->getRepository('AppBundle:Product')
+					->findOneBy(
+						['slug' => $slug]
+					);
+				if($product){
+					$slug = $slug.'-'.$date->getTimestamp();
+				}
+			
                 $user = $this->getUser()->getId();
                 $category = $data['category'];
                 $description = $data['description'];
