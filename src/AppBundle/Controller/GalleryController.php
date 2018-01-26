@@ -57,7 +57,17 @@ class GalleryController extends Controller
 
             $slug = $this->slugify($name);
             
+            $gallery = $em->getRepository('AppBundle:Gallery')
+                ->findOneBy(
+                    ['slug' => $slug]
+                );
+
             $date = new Datetime();
+
+            if($gallery){
+                $slug = $slug.'-'.$date->getTimestamp();
+            }
+
             try{
                 $gallery = new Gallery();
                 $gallery->setName($name);
