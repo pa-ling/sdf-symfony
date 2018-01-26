@@ -1,77 +1,90 @@
 {% block nav %}
-    <nav class="navbar navbar-custom navbar-fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="/">Symfoto</a>
-            <div id="navbar" class="navbar-collapse collapse">
-                {% if app.user %}
-                <ul class="nav navbar-nav navbar-left">
-                    {%- if is_granted('ROLE_PHOTOGRAPH') -%}
-                        <li class="dropdown">
-                            <a href="" class="dropdown-toggle nav-dropdown" data-toggle="dropdown">Media</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/gallery">My Galleries</a></li>
-                                {#<li><a href="/image">My Images</a></li>#}
-                                <li><a href="/showCategories">Categories</a></li>
-                            </ul>
-                        </li>
-                    {%- endif -%}
-                    <li class="dropdown">
-                        <a href="" class="dropdown-toggle nav-dropdown" data-toggle="dropdown">Shop</a>
-                        <ul class="dropdown-menu">
-                            {%- if is_granted('ROLE_PHOTOGRAPH') -%}
-                                <li><a href="{{ path('myshopowner') }}">My Shop</a></li>
-                                <li><a href="{{ path('products') }}">My Products</a></li>
-                                <li><a href="/purchaseasseller">My Sales</a></li>
-                            {%- endif -%}
-                            <li><a href="/purchase">My Purchases</a></li>
-                        </ul>
-                    </li>
-                    {%- if is_granted('ROLE_PHOTOGRAPH') -%}
-                    <li>
-                        <a href="{{ path('newProduct') }}" class="nav-dropdown" style="background-color: #337ab7">New Product</a>
-                    </li>
-                    {%- endif -%}
-                </ul>
-                {% endif %}
+    <nav class="navbar navbar-inverse" role="navigation">
+<div class="container">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="/">Symfoto</a>
+  </div>
 
-                <ul class="nav navbar-nav navbar-right">
-                    {% if app.user %}
-                        <li class="dropdown">
-                            <a class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button"
-                               aria-haspopup="true" aria-expanded="false">Hello {{ app.user.username }}!<span
-                                        class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/profile">My Profile</a></li>
-                                {% if is_granted('ROLE_ADMIN') %}
-                                    <li><a href="/admin">Admin Dashboard</a></li>
-                                {% endif %}
-                                <li role="separator" class="divider"></li>
-                                <li><a href="/logout">Logout</a></li>
-                            </ul>
-                        </li>
-                    {% else %}
-                        <li><a href="/login" class="nav-dropdown">Login/Register</a></li>
-                    {% endif %}
-                    <li>
-                        <a href="/checkout" class="nav-dropdown">
-                            <img src="{{ asset('images/cart-1.png') }}" alt=""/>
-                        </a>
-                    </li>
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    {% if app.user %}
+    <ul class="nav navbar-nav">
+      {%- if is_granted('ROLE_PHOTOGRAPH') -%}
+            <li class="dropdown">
+                <a href="" class="dropdown-toggle nav-dropdown" data-toggle="dropdown">Media</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/gallery">My Galleries</a></li>
+                    {#<li><a href="/image">My Images</a></li>#}
+                    <li><a href="/showCategories">Categories</a></li>
                 </ul>
+            </li>
+        {%- endif -%}
+        <li class="dropdown">
+            <a href="" class="dropdown-toggle nav-dropdown" data-toggle="dropdown">Shop</a>
+            <ul class="dropdown-menu">
+                {%- if is_granted('ROLE_PHOTOGRAPH') -%}
+                    <li><a href="{{ path('myshopowner') }}">My Shop</a></li>
+                    <li><a href="{{ path('products') }}">My Products</a></li>
+                    <li><a href="/purchaseasseller">My Sales</a></li>
+                {%- endif -%}
+                <li><a href="/purchase">My Purchases</a></li>
+            </ul>
+        </li>
+        {%- if is_granted('ROLE_PHOTOGRAPH') -%}
+        <li>
+            <a href="{{ path('newProduct') }}" class="nav-dropdown" style="background-color: brown">New Product</a>
+        </li>
+        {%- endif -%}
+    </ul>
+    {% endif %}
+    <div class="col-sm-3 col-md-3">
+        <form class="navbar-form" action="{{ path('search') }}" role="search" method="post">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" name="keyword">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
             </div>
         </div>
-    </nav>
-    <div class="header-bottom">
-        <div class="container">
-            <div class="col-md-4 pull-right">
-                <div class="search-bar">
-                    <form class="form-signin" action="{{ path('search') }}" method="post">
-                        <input type="text" id="keyword" name="keyword" placeholder="Search">
-                        <input type="submit" value="">
-                    </form>
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+      </li>
+      {% if app.user %}
+        <li class="dropdown">
+            <a class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button"
+                aria-haspopup="true" aria-expanded="false">Hello {{ app.user.username }}!<span
+                        class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/profile">My Profile</a></li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="/admin">Admin Dashboard</a></li>
+                {% endif %}
+                <li role="separator" class="divider"></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </li>
+        {% else %}
+            <li><a href="/login" class="nav-dropdown">Login/Register</a></li>
+        {% endif %}
+        <li>
+            <a href="/checkout" class="nav-dropdown">
+                <svg class="cart-svg " width="16 " height="16 " viewBox="0 0 16 16 ">
+                    <path d="M15.32 2.405H4.887C3 2.405 2.46.805 2.46.805L2.257.21C2.208.085 2.083 0 1.946 0H.336C.1 0-.064.24.024.46l.644 1.945L3.11 9.767c.047.137.175.23.32.23h8.418l-.493 1.958H3.768l.002.003c-.017 0-.033-.003-.05-.003-1.06 0-1.92.86-1.92 1.92s.86 1.92 1.92 1.92c.99 0 1.805-.75 1.91-1.712l5.55.076c.12.922.91 1.636 1.867 1.636 1.04 0 1.885-.844 1.885-1.885 0-.866-.584-1.593-1.38-1.814l2.423-8.832c.12-.433-.206-.86-.655-.86 " fill="#fff "></path>
+                </svg>
+                <!--<span class="item-number ">0</span>-->
+            </a>
+        </li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+  </div>
+</nav>
 
 {% endblock %}
