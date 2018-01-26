@@ -30,7 +30,8 @@ class SearchController extends Controller
                 ->searchByCategoryAndDescription($keyword);
 
             return $this->render('default/search.html.twig', array(
-                'products' => $products
+                'products' => $products,
+                'keyword' => $keyword
             ));
         }
 
