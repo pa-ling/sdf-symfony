@@ -190,11 +190,14 @@ class GalleryController extends Controller
         
         // populate alle images from media__media where id included #imageIdArray
         $images = array(); 
+        $images_size = array();
         for ($i=0; $i <sizeof($imageIdInGallery); $i++) { 
             $images[$i] = $this->get('sonata.media.manager.media')
                 ->findOneBy(
                     ['id'=>$imageIdInGallery[$i]]
                 );
+            $size = $this->filesize_formatted($images[$i]->getSize());
+            array_push($images_size, $size); 
         }
 
         $createdAt = array();
@@ -208,7 +211,8 @@ class GalleryController extends Controller
                 'gallery' => $gallery,
                 'images' => $images,
                 'slug' => '/gallery/'.$slug,
-                'createdAt' => $createdAt            
+                'createdAt' => $createdAt,
+                'images_size'=>$images_size           
             ));
         }
     }
@@ -238,6 +242,13 @@ class GalleryController extends Controller
       }
     
       return $text;
+    }
+
+    public function filesize_formatted($size)
+    {
+        $units = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+        $power = $size > 0 ? floor(log($size, 1024)) : 0;
+        return number_format($size / pow(1024, $power), 2, '.', ',') . ' ' . $units[$power];
     }
 
 }

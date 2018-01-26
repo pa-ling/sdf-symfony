@@ -12,10 +12,14 @@
             <table class="table table-striped custab">
                 <thead>
                     <div class="pull-left">
-                        <form action="/image/new/null" method="POST" enctype="multipart/form-data">
-                            <span>Datei</span>
-                            <input type="file" name="images[]" multiple="">
-                            <input type="submit" class="btn" value="Upload">
+                        <p>Select images from your computer</p>
+                        <form action="/image/new/null"  method="post" enctype="multipart/form-data">
+                            <div class="form-inline">
+                            <div class="form-group">
+                                <input type="file" name="images[]" multiple>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-primary">Upload images</button>
+                            </div>
                         </form>
                     </div>
                     <tr>
