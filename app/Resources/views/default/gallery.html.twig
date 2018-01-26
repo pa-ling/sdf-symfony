@@ -20,6 +20,11 @@
 {% block body %}
 {# <div class="small-body">
     <div class="container"> #}
+        <ol class="breadcrumb breadcrumb-arrow">
+            <li><a href="/gallery">Gallery</a></li>
+            <li class="active">{{gallery.name}}</li>
+        </ol>
+
         <h3>Images of Gallery "{{gallery.name}}"</h3>
         <div>
             <p>Add images from your computer</p>

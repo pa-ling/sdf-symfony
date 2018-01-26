@@ -6,6 +6,11 @@
 
 
 {% block body %}
+    <ol class="breadcrumb breadcrumb-arrow">
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/gallery/{{current_galleries[image.getId]}}">{{current_galleries[image.getId] | raw }}</a></li>
+        <li class="active">{{image.name}}</li>
+    </ol>
     <h3>Image</h3>
     <div class="row">
         <div class="col-lg-4">
