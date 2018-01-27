@@ -161,6 +161,7 @@ class CheckoutController extends Controller
         else
         {
             $response->setStatusCode(Response::HTTP_PRECONDITION_FAILED);
+            $response->send();
         }
 
         return $response;

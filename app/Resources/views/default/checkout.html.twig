@@ -16,6 +16,7 @@
 		{
 			$('.close1').on('click', function(c)
 			{
+				waitingDialog.show('Loading...', {dialogSize: 'sm', progressType: 'info'});
 				var itemId = c.target.id;
 				var selectorForCartItem = '#cartitem' + itemId;
 				$(selectorForCartItem).fadeOut('slow', function(c)
@@ -25,6 +26,19 @@
 
 				var request = new XMLHttpRequest();
 				request.open("DELETE", "checkout_delete/" + itemId);
+				request.addEventListener('load', function(event) {
+					if (request.status >= 200 && request.status < 300) {
+						$('#notification').text('You have successfully deleted the item from your cart.');
+						waitingDialog.hide();
+					} else if(request.code == 'undefined' || request.code == null){
+						$('#notification').text('Item has already been deleted.');
+						waitingDialog.hide();
+					} else {
+						$('#notification').text('Action success.');               
+						waitingDialog.hide();
+					}
+					$('#notification').show();
+				});
 				request.send();
 			});
 		});
@@ -35,6 +49,8 @@
     <div class="col-md-12">
         <div class="ckeck-top heading">
             <h2>Your Checkout</h2>
+        </div>
+		<div class="alert alert-success" id="notification" style="display:none">
         </div>
         <div class="tabs">
             <ul class="menu_drop">

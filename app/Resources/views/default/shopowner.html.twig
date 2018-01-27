@@ -6,6 +6,8 @@
         <div class="ckeck-top heading">
             <h2>My Shop</h2>
         </div>
+        <div class="alert alert-success" id="notification" style="display:none">
+        </div>
         <div class="col-md-12 single-main-left">
             <div class="sngl-top">
                 <div class="col-md-12 single-top-right">
@@ -62,9 +64,22 @@
 {% block script %}
 <script type="text/javascript">
     function addBasketItem(item) {
-        console.log("addBasketItem "+  item);
+        $('#notification').hide();
+        waitingDialog.show('Loading...', {dialogSize: 'sm', progressType: 'info'});
         var request = new XMLHttpRequest();
         request.open("POST", "/post_checkout/"+ item);
+        request.addEventListener('load', function(event) {
+            if (request.status >= 200 && request.status < 300) {
+                $('#notification').text('You have successfully checked out one item. Please check your cart to proceed your order.');
+                waitingDialog.hide();
+            } else if(request.code == 'undefined' || request.code == null){
+                $('#notification').text('Item already in your basket.');
+                waitingDialog.hide();
+            } else {
+                $('#notification').text('Please check your cart to proceed your order.');                waitingDialog.hide();
+            }
+            $('#notification').show();
+        });
         request.send();
     }
 </script>
