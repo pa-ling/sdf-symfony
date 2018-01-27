@@ -6,6 +6,11 @@
         <div class="ckeck-top heading">
             <h2>My Purchase</h2>
         </div>
+		{% if message %}
+			<div class="alert alert-success">
+				{{ message }}
+            </div>		
+		{% endif %}
         <div class="tabs">
             <ul class="menu_drop">
                 <li class="item1"><a>List of purchases</a></li>
@@ -19,7 +24,7 @@
 							<li style="width: 40%"><span>Products / Price</span></li>
 							<li style="width: 20%"><span>Date</span></li>
 							<li style="width: 10%"><span>Total Price</span></li>
-							<li style="width: 10%"><span>Paid</span></li>
+							<li style="width: 10%"><span>Paid (Approved by seller)</span></li>
 							<div class="clearfix"> </div>
 						</ul>
 

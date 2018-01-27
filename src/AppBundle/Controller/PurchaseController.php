@@ -17,22 +17,40 @@ use ZipArchive;
 class PurchaseController extends Controller
 {
 
+    function status($code){
+        $message = array(
+            201=>'You have successfully ordered your item. After the seller approves your purchase, you will be available to download it.',
+        );
+        return $message[$code];
+    }
+
     /**
      * @Route("/purchase", name="purchase")
      *
      */
     public function getPurchaseAsCustomer(Request $request)
     {
+        $message = null;
+        $status = 'default';
+
         $usr = $this->get('security.context')->getToken()->getUser();
 
         $purchases = $this->getDoctrine()
             ->getRepository(Purchase::class)
             ->findBy( ['user' => $usr->getId()]);
 
+        $query = $request->query->all();
+        if(count($query)>0){
+            $status = 'success';
+            $message = $this->status($query['code']); 
+        }
+
         return $this->render(
             'default/purchase.html.twig',
             array(
-                'purchases' => $purchases
+                'purchases' => $purchases,
+                'message' => $message,
+                'status' => $status
             )
         );
 
@@ -106,7 +124,7 @@ class PurchaseController extends Controller
         $em->flush();
 
         // Set email content
-        $swiftMailer = (new \Swift_Message('Purchase Product'))
+        $swiftMailer = (new \Swift_Message('[Symfoto] Purchase Product'))
                 ->setFrom('yoggifirmanda@gmail.com')
                 ->setTo($email)
                 ->setBody(

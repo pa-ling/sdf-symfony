@@ -69,7 +69,7 @@ class CheckoutController extends Controller
     }
 
     /**
-     * @Route("/post_checkout", name="postCheckout")
+     * @Route("/checkout", name="postCheckout")
      */
     public function postCheckout(Request $request)
     {
@@ -117,9 +117,11 @@ class CheckoutController extends Controller
         $em->persist($purchase);
         $em->flush();
 
-        $response = $this->render(
-            'default/purchase_success.html.twig'
-        );
+        // $response = $this->render(
+        //     'default/purchase_success.html.twig'
+        // );
+        return $this->redirect('/purchase?code=201');
+
         $response->headers->setCookie($this->createCookie(array(), "cart"));
 
         return $response;

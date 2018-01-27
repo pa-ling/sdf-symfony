@@ -79,7 +79,7 @@ class SecurityController extends Controller
 
             $link = $app_url.'/reset/password/'.$email.'/'.$salt;
 
-            $swiftMailer = (new \Swift_Message('Forgot Password'))
+            $swiftMailer = (new \Swift_Message('[Symfoto] Forgot Password'))
                 ->setFrom('yoggifirmanda@gmail.com')
                 ->setTo($email)
                 ->setBody(
