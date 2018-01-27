@@ -57,36 +57,42 @@
             </ul>
         </div>
         <div class="latestproducts">
-            {% for item in products %}
-                {% if (loop.index % 3) >= 0 %}
-                    {% if (loop.index % 3) == 1 %}
-                        <div class="product-one">
-                    {% endif %}
-                        {% if item.enabled %}
-                            <div class="col-sm-3 product-left p-left">
-                                <div class="product-main simpleCart_shelfItem">
-                                    <a href="/productdetails/{{item.getId}}" class="mask">
-                                        <div class="thumbnail">
-                                            <img src="/uploads/media/default/0001/01/thumb_{{ item.getImage }}_default_small.png">
+            {% if not products %}
+                <div class="alert alert-info">
+                    No product available
+                </div>
+            {% else %}
+                {% for item in products %}
+                    {% if (loop.index % 3) >= 0 %}
+                        {% if (loop.index % 3) == 1 %}
+                            <div class="product-one">
+                        {% endif %}
+                            {% if item.enabled %}
+                                <div class="col-sm-3 product-left p-left">
+                                    <div class="product-main simpleCart_shelfItem">
+                                        <a href="/productdetails/{{item.getId}}" class="mask">
+                                            <div class="thumbnail">
+                                                <img src="/uploads/media/default/0001/01/thumb_{{ item.getImage }}_default_small.png">
+                                            </div>
+                                        </a>
+                                        <div class="product-bottom">
+                                            <div class="alert alert-success" id="notification-{{item.getId}}" style="display:none">
+                                            </div>
+                                            <h3>{{item.getName}}</h3>
+                                            <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>
+                                            <button class="btn btn-primary" onclick=addBasketItem({{item.id}})>ADD TO CART</button>
                                         </div>
-                                    </a>
-                                    <div class="product-bottom">
-                                        <div class="alert alert-success" id="notification-{{item.getId}}" style="display:none">
-                                        </div>
-                                        <h3>{{item.getName}}</h3>
-                                        <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>
-                                        <button class="btn btn-primary" onclick=addBasketItem({{item.id}})>ADD TO CART</button>
                                     </div>
                                 </div>
+                            {% endif %}
+                        {% if (loop.index % 3) == 0 or (loop.index) == (loop.last)%}
+                            <div class="clearfix"></div>
                             </div>
                         {% endif %}
-                    {% if (loop.index % 3) == 0 or (loop.index) == (loop.last)%}
-                        <div class="clearfix"></div>
-                        </div>
+                    {% else %}
                     {% endif %}
-                {% else %}
-                {% endif %}
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 </div>

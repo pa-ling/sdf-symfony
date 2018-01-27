@@ -72,7 +72,7 @@ class ProductController extends Controller
                 $product->setPrice($price);
                 $product->setCategory($category);
                 $product->setGallery($galleryId);
-                $product->setEnabled(false);
+                $product->setEnabled(true);
                 $product->setOwnedBy($user);
                 $product->setCreatedAt($date);
                 $product->setUpdatedAt($date);

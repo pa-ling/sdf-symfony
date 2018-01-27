@@ -1,5 +1,30 @@
 {% extends 'base.html.twig' %}
 
+{% block style %}
+<style>
+.thumbnail {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+}
+.thumbnail img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+}
+.thumbnail img.portrait {
+  width: 100%;
+  height: auto;
+}
+</style>
+{% endblock %}
+
 {% block body %}
 
 	<script>
@@ -70,11 +95,12 @@
 							<ul class="cart-header" id="cartitem{{item.id}}" >
 								<div class="close1" id="{{item.id}}"> </div>
 								<li><span class="cost">{{ loop.index }}</span></li>
-								<li><span class="cost">
-										<a class="mask">
-                            				<img style="width:50%;" src="/uploads/media/default/0001/01/{{ item.image }}">
-                        				</a>
-									</span>
+								<li>
+									<a href="/productdetails/{{item.id}}">
+										<div class="thumbnail">
+											<img src="/uploads/media/default/0001/01/{{ item.image }}">
+										</div>
+									</a>
 								</li>
 								<li><span class="cost">{{item.name}}</span></li>
 								<li><span class="cost">{{item.price}} €</span></li>

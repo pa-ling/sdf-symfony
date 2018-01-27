@@ -2,9 +2,33 @@
 
 {% block style %}
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
+
+<style>
+.thumbnail {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  overflow: hidden;
+}
+.thumbnail img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+}
+.thumbnail img.portrait {
+  width: 100%;
+  height: auto;
+}
+</style>
 {% endblock %}
 
 {% block body %}
+
 <div class="main-body">
     <div class="col-md-12">
         <div class="ckeck-top heading">
@@ -18,13 +42,19 @@
         {% for item in products %}
             <div class="col-sm-12 col-md-6 col-lg-3">
                 <div class="product-main simpleCart_shelfItem">
-
                     <a href="/productdetails/{{item.getId}}" class="mask">
-                        <img style="width:80%;" src="/uploads/media/default/0001/01/thumb_{{ item.getImage }}_default_small.png">
+                        <div class="thumbnail">
+                            <img src="/uploads/media/default/0001/01/thumb_{{ item.getImage }}_default_small.png">
+                        </div>
                     </a>
                     <div class="product-bottom">
                         <h3>{{item.getName}}</h3>
-                        <p>Published: {{item.getEnabled ? 'YES' : 'NOT'}}
+                        <p>Published: 
+                            {% if item.getEnabled %} 
+                                <span class="badge" style="background-color:green">YES</span>
+                            {% else %} 
+                                <span class="badge" style="background-color:#a9a9a9">NOT</span>
+                            {% endif %}
                         </p>
                         <p>
                             {% if item.getEnabled %} <a href="/myproduct/{{item.getId}}/0">UNPUBLISH</a> {% else %} <a href="/myproduct/{{item.getId}}/1">PUBLISH</a> {% endif %}
