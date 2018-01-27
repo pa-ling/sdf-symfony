@@ -31,8 +31,6 @@
         <div class="ckeck-top heading">
             <h2>My Shop</h2>
         </div>
-        <div class="alert alert-success" id="notification" style="display:none">
-        </div>
         <div class="col-md-12 single-main-left">
             <div class="sngl-top">
                 <div class="col-md-12 single-top-right">
@@ -67,6 +65,8 @@
                                             </div>
                                         </a>
                                         <div class="product-bottom">
+                                            <div class="alert alert-success" id="notification-{{item.getId}}" style="display:none">
+                                            </div>
                                             <h3>{{item.getName}}</h3>
                                             <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>
                                                 <button class="btn btn-primary" onclick=addBasketItem({{item.id}})>ADD TO CART</button>
@@ -90,21 +90,20 @@
 {% block script %}
 <script type="text/javascript">
     function addBasketItem(item) {
-        $('#notification').hide();
+        $('#notification-'+item).hide();
         waitingDialog.show('Loading...', {dialogSize: 'sm', progressType: 'info'});
         var request = new XMLHttpRequest();
         request.open("POST", "/post_checkout/"+ item);
         request.addEventListener('load', function(event) {
             if (request.status >= 200 && request.status < 300) {
-                $('#notification').text('You have successfully checked out one item. Please check your cart to proceed your order.');
-                waitingDialog.hide();
+                $('#notification-'+item).text('You have successfully checked out one item. Please check your cart to proceed your order.');
             } else if(request.code == 'undefined' || request.code == null){
-                $('#notification').text('Item already in your basket.');
-                waitingDialog.hide();
+                $('#notification-'+item).text('This item already in your basket.');
             } else {
-                $('#notification').text('Please check your cart to proceed your order.');                waitingDialog.hide();
+                $('#notification-'+item).text('Please check your cart to proceed your order.');                waitingDialog.hide();
             }
-            $('#notification').show();
+            $('#notification-'+item).show();
+            waitingDialog.hide();
         });
         request.send();
     }

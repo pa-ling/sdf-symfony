@@ -29,15 +29,13 @@
 				request.addEventListener('load', function(event) {
 					if (request.status >= 200 && request.status < 300) {
 						$('#notification').text('You have successfully deleted the item from your cart.');
-						waitingDialog.hide();
 					} else if(request.code == 'undefined' || request.code == null){
 						$('#notification').text('Item has already been deleted.');
-						waitingDialog.hide();
 					} else {
 						$('#notification').text('Action success.');               
-						waitingDialog.hide();
 					}
 					$('#notification').show();
+					waitingDialog.hide();
 				});
 				request.send();
 			});
