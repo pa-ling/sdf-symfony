@@ -2,42 +2,63 @@
 
 {% block style %}
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/table.css') }}">
+    <style>
+     .breadcrumb {background: rgba(224, 224, 224, 1); border: 0px solid rgba(102, 98, 98, 1); border-radius: 0px; display: block;}
+        .breadcrumb li {font-size: 14px;}
+        .breadcrumb a {color: rgba(66, 139, 202, 1);}
+        .breadcrumb a:hover {color: rgba(42, 100, 150, 1);}
+        .breadcrumb>.active {color: rgba(153, 153, 153, 1);}
+        .breadcrumb>li+li:before {color: rgba(204, 204, 204, 1); content: "\002F\00a0";}
+    </style>
 {% endblock %}
 
 {% block body %}
-{# <div class="small-body">
-    <div class="container"> #}
-        <h3>Galleries</h3>
-        <div class="row col-md-12 custyle">
-            <table class="table table-striped custab">
-                <thead>
+<div class="main-body">
+    <div class="col-md-12">
+        <div class="ckeck-top heading">
+            <h2>List of Galleries</h2>
+            <p>Create your own galleries and store your photos!</p>
+        </div>
+        <ol class="breadcrumb breadcrumb-arrow">
+            <li class="active">Gallery</li>
+        </ol>
+        <hr>
+        <div class="col-sm-12 col-md-6">
+            <div class="custyle">
+                <table class="table table-striped custab">
                     <form class="form-inline" action="gallery" method="post">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <input id="name" name="name" type="text" placeholder="New Gallery" class="form-control" required>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <button type="submit" class="btn btn-primary">Create</button>
                             </div>
                         </div>                            
                     </form>
-                    <tr>
-                        <th>Name</th>
-                        <th>Created At</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                    {% for item in galleries %}
+                    <thead>
                         <tr>
-                            <td><a href="/gallery/{{item.slug}}">{{item.name}}</a></td>
-                            <td>{{ createdAt[loop.index - 1] }}</td>
-                            <td><a href="/gallery/delete/{{item.id}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                            <th>Name</th>
+                            <th>Created At</th>
+                            <th>Action</th>
                         </tr>
-                    {% endfor %}
-            </table>
+                    </thead>
+                        {% for item in galleries %}
+                            <tr>
+                                <td><a href="/gallery/{{item.slug}}">{{item.name}}</a></td>
+                                <td>{{ createdAt[loop.index - 1] }}</td>
+                                <td><a href="/gallery/delete/{{item.id}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                            </tr>
+                        {% endfor %}
+                </table>
+            </div>
         </div>
-    {# </div> <!-- /container -->
-</div> #}
+        <div class="col-sm-12 col-md-6">
+            <img style="width:100%;max-width:500px" src="{{ asset('images/npglondon.jpg') }}">
+            <p>Source: <a href="https://www.visitlondon.com/de/sehen-und-erleben/ort/95587-national-portrait-gallery">National Portrait Gallery</a></p>
+        </div>
+     </div> <!-- /container -->
+</div> 
 {% endblock %}

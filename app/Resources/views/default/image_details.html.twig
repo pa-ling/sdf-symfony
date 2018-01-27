@@ -2,36 +2,67 @@
 
 {% block style %}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/table.css') }}">
+    <style>
+     .breadcrumb {background: rgba(224, 224, 224, 1); border: 0px solid rgba(102, 98, 98, 1); border-radius: 0px; display: block;}
+        .breadcrumb li {font-size: 14px;}
+        .breadcrumb a {color: rgba(66, 139, 202, 1);}
+        .breadcrumb a:hover {color: rgba(42, 100, 150, 1);}
+        .breadcrumb>.active {color: rgba(153, 153, 153, 1);}
+        .breadcrumb>li+li:before {color: rgba(204, 204, 204, 1); content: "\002F\00a0";}
+    </style>
 {% endblock %}
 
+{% block script %}
+    <script src="//rawgithub.com/ashleydw/lightbox/master/dist/ekko-lightbox.js"></script>
+    <script>
+        $(document).ready(function() {                
+            $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+                event.preventDefault();
+                $(this).ekkoLightbox();
+            });                                        
+        }); 
+
+    </script>
+{% endblock %}
 
 {% block body %}
-    <ol class="breadcrumb breadcrumb-arrow">
-        <li><a href="/gallery">Gallery</a></li>
-        <li><a href="/gallery/{{current_galleries[image.getId]}}">{{current_galleries[image.getId] | raw }}</a></li>
-        <li class="active">{{image.name}}</li>
-    </ol>
-    <h3>Image</h3>
-    <div class="row">
-        <div class="col-lg-4">
-            <img style="width:100%;" src="/uploads/media/{{image.getContext}}/0001/01/thumb_{{image.getId}}_default_navsec.{{image.getExtension}}">
+<div class="main-body">
+    <div class="col-md-12">
+        <div class="ckeck-top heading">
+            <h2>Image "{{image.name}}"</h2>
         </div>
-        <div class="col-lg-4">
-            <p>Name: {{image.getName}}</p>
-            <p>Gallery : 
-                {% if current_galleries %}
-                    {{current_galleries[image.getId] | raw }}
-                {% else %}
-                    -
-                {% endif %}
-                <a class="btn btn-info" href="/image/{{image.getProviderReference}}/gallery">Update Gallery</a> 
-            </p>
-            <p>Type: {{image.getContentType}}</p>
-            <p>Size: {{size}}</p>
-            <p>Resolution: {{image.getHeight}}(h) x {{image.getWidth}}(w)</p>
-            <p>Uploaded at: {{created_At}}</p>
-            <input type="hidden" id="media_id" value="{{image.getId}}">
+        <ol class="breadcrumb breadcrumb-arrow">
+            <li><a href="/gallery">Gallery</a></li>
+            <li><a href="/gallery/{{current_galleries[image.getId]}}">{{current_galleries[image.getId] | raw }}</a></li>
+            <li class="active">{{image.name}}</li>
+        </ol>
+        <hr>
+        <div class="row">
+            <div class="col-lg-4">
+                <a href="/uploads/media/default/0001/01/{{image.getProviderReference}}" title="{{image.getName}}" class="zoom" data-title="..." data-footer="{{image.getName}}" data-type="image" data-toggle="lightbox">
+                    <div class="thumbnail">
+                        <img src="/uploads/media/default/0001/01/{{image.getProviderReference}}" alt="{{image.getName}}" />
+                    </div>
+                </a>
+                {# <img style="width:100%;" src="/uploads/media/{{image.getContext}}/0001/01/thumb_{{image.getId}}_default_navsec.{{image.getExtension}}"> #}
+            </div>
+            <div class="col-lg-4">
+                <p>Name: {{image.getName}}</p>
+                <p>Gallery : 
+                    {% if current_galleries %}
+                        {{current_galleries[image.getId]}}
+                    {% else %}
+                        -
+                    {% endif %}
+                    <!--<a class="btn btn-info" href="/image/{{image.getProviderReference}}/gallery">Update Gallery</a>--> 
+                </p>
+                <p>Type: {{image.getContentType}}</p>
+                <p>Size: {{size}}</p>
+                <p>Resolution: {{image.getHeight}}(h) x {{image.getWidth}}(w)</p>
+                <p>Uploaded at: {{created_At}}</p>
+                <input type="hidden" id="media_id" value="{{image.getId}}">
+            </div>
         </div>
     </div>
-
+</div>
 {% endblock %}

@@ -2,30 +2,49 @@
 
 {% block style %}
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/image-gallery.css') }}">
-{% endblock %}
-
-{% block script %}
-    <script src="//rawgithub.com/ashleydw/lightbox/master/dist/ekko-lightbox.js"></script>
-    <script>
-        $(document).ready(function() {                
-            $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
-                event.preventDefault();
-                $(this).ekkoLightbox();
-            });                                        
-        }); 
-
-    </script>
+    <style>
+     .breadcrumb {background: rgba(224, 224, 224, 1); border: 0px solid rgba(102, 98, 98, 1); border-radius: 0px; display: block;}
+        .breadcrumb li {font-size: 14px;}
+        .breadcrumb a {color: rgba(66, 139, 202, 1);}
+        .breadcrumb a:hover {color: rgba(42, 100, 150, 1);}
+        .breadcrumb>.active {color: rgba(153, 153, 153, 1);}
+        .breadcrumb>li+li:before {color: rgba(204, 204, 204, 1); content: "\002F\00a0";}
+    </style>
+    <style>
+.thumbnail {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+}
+.thumbnail img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+}
+.thumbnail img.portrait {
+  width: 100%;
+  height: auto;
+}
+</style>
 {% endblock %}
 
 {% block body %}
-{# <div class="small-body">
-    <div class="container"> #}
+<div class="main-body">
+    <div class="col-md-12">
+        <div class="ckeck-top heading">
+            <h2>Gallery "{{gallery.name}}"</h2>
+        </div>
         <ol class="breadcrumb breadcrumb-arrow">
             <li><a href="/gallery">Gallery</a></li>
             <li class="active">{{gallery.name}}</li>
         </ol>
-
-        <h3>Images of Gallery "{{gallery.name}}"</h3>
+        <hr>
         <div>
             <p>Add images from your computer</p>
             <form action="/image/new/{{gallery.slug}}"  method="post" enctype="multipart/form-data">
@@ -43,13 +62,18 @@
             <article class="col-xs-12 col-sm-6 col-md-2">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <a href="/uploads/media/default/0001/01/{{item.getProviderReference}}" title="{{item.getName}}" class="zoom" data-title="{{gallery.name}}" data-footer="Name: {{item.getName}}| Dimension: {{item.getHeight}}x{{item.getWidth}}| Size: {{ images_size[loop.index - 1] }}" data-type="image" data-toggle="lightbox">
-                            <img src="/uploads/media/default/0001/01/{{item.getProviderReference}}" alt="{{item.getName}}" />
-                            <span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
+                        <a href="/image/{{item.getProviderReference}}">
+                            <div class="thumbnail">
+                                <img src="/uploads/media/default/0001/01/{{item.getProviderReference}}" alt="{{item.getName}}" />
+                            </div>
                         </a>
                     </div>
                     <div class="panel-footer">
-                        <h4><a href="/image/{{item.getProviderReference}}" title="{{item.getName}}">{{item.getName}}</a></h4>
+                        <h4>
+                            <a href="/image/{{item.getProviderReference}}" title="{{item.getName}}">
+                                {{ item.getName|length > 10 ? item.getName|slice(0, 10) ~ '...' : item.getName  }}
+                            </a>
+                        </h4>
                         <span class="pull-right">
                             <a href="/gallery/image/delete/{{item.id}}/{{gallery.slug}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a>
                         </span>
@@ -58,7 +82,7 @@
             </article>
             {% endfor %}                                            
         </section>
-    {# </div> <!-- /container -->
-</div> #}
+    </div> <!-- /container -->
+</div> 
 
 {% endblock %}

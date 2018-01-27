@@ -105,9 +105,11 @@ class ImageController extends Controller
                         );
                     if (!empty($gallery)) {
                         if (empty($categorix[$value->getMediaId()])) {
-                            $categorix[$value->getMediaId()][] = '<a href="/gallery/' . $gallery->getSlug() . '">' . $gallery->getName() . '</a>';
+                            // $categorix[$value->getMediaId()][] = '<a href="/gallery/' . $gallery->getSlug() . '">' . $gallery->getName() . '</a>';
+                            $categorix[$value->getMediaId()][] = $gallery->getName();
                         } else {
-                            array_push($categorix[$value->getMediaId()], '<a href="/gallery/' . $gallery->getSlug() . '">' . $gallery->getName() . '</a>');
+                            // array_push($categorix[$value->getMediaId()], '<a href="/gallery/' . $gallery->getSlug() . '">' . $gallery->getName() . '</a>');
+                            array_push($categorix[$value->getMediaId()], $gallery->getName());
                         }
                     }
                 } else {
