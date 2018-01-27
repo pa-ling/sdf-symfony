@@ -10,24 +10,42 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class SecurityController extends Controller
 {
+    function status($code){
+        $message = array(
+            201=>'Thank you for joining us. Please check your email and click the confirmation link to finish your registration.',
+            202=>'You have successfully reset your password.',
+            203=>'Please check your email. If you do not receive email from us, please submit again.'
+        );
+        return $message[$code];
+    }
+
     /**
      * @Route("/secure/login", name="login")
      */
     public function loginAction(Request $request)
     {
-
         $message = null;
-        $authenticationUtils = $this->get('security.authentication_utils');
-        $error = $authenticationUtils->getLastAuthenticationError();
+        $status = null; // true=success, false=error
+
+        $helper = $this->get('security.authentication_utils');
+        $error = $helper->getLastAuthenticationError();
 
         if ($error) {
-            $message = "Name oder Passwort waren falsch!";
+            $status = false;
+            $message = $error->getMessage();
+        }
+
+        $query = $request->query->all();
+        if(count($query)>0){
+            $status = true;
+            $message = $this->status($query['code']); 
         }
 
         return $this->render(
             'security/login.html.twig',
             array(
-                'message' => $message
+                'message' => $message,
+                'status' => $status
             )
         );
     }
@@ -74,14 +92,9 @@ class SecurityController extends Controller
             ;
 
             $this->get('mailer')->send($swiftMailer);
-        
-            $message = 'Please check your email. If you do not receive email from us, please submit again';
+                        
+            return $this->redirect('/login?code=203');
             
-            return $this->render('emails/info.html.twig',
-                array(
-                    'message' => $message
-                )    
-            );
         }
 
         return $this->render('security/forgot_password.html.twig',
@@ -105,7 +118,7 @@ class SecurityController extends Controller
 
         if (!$user) {
             throw $this->createNotFoundException(
-                'No product found for id '.$product->Id
+                'No user found for email '.$email
             );
         }
 
@@ -160,7 +173,7 @@ class SecurityController extends Controller
             $user->setPassword($password);
             $em->flush();
 
-            return $this->redirect('/login');
+            return $this->redirect('/login?code=202');
         }else{
             $message = 'Password not matched';
 

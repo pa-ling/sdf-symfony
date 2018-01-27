@@ -18,7 +18,7 @@
 
             <h2 class="form-signin-heading">Please sign in</h2>
             {% if message %}
-                    {{ message }}
+                    <p style="{{ status ? 'color:blue;':'color:red;' }}">{{ message }}</p>
             {% endif %}
             <input type="hidden" name="_csrf_token"value="{{ csrf_token('authenticate') }}">
             <label for="username" class="sr-only">Name</label>
