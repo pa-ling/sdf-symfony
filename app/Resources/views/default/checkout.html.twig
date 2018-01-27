@@ -1,11 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{# {% block sidebar %}
-    {%- include 'sidebar.html.twig' -%}
-{% endblock %} #}
-
 {% block body %}
-	<!--<input id="cartId"><button onclick=addcartItem()>+</button>-->
 
 	<script>
 		function addcartItem() {
@@ -35,14 +30,19 @@
 		});
 	</script>
 
-	<div class="ckeckout">
-		<div class="container">
-			<div class="ckeck-top heading">
-				<h2>Checkout</h2>
-			</div>
+<div class="main-body">
+	<div class="main-body">
+    <div class="col-md-12">
+        <div class="ckeck-top heading">
+            <h2>Your Checkout</h2>
+        </div>
+        <div class="tabs">
+            <ul class="menu_drop">
+                <li class="item1"><a>My Cart</a></li>
+            </ul>
+        </div>
 			<div class="ckeckout-top">
 				<div class="cart-items">
-					<h3>My Cart</h3>
 					<div class="in-check">
 						<ul class="unit">
 							<li><span>#</span></li>

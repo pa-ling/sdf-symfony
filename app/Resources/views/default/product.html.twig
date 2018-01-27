@@ -5,12 +5,18 @@
 {% endblock %}
 
 {% block body %}
-
-    <h3>Products</h3>
-    <div class="col-md-9 prdt-left">
-        <div class="product-one">
+<div class="main-body">
+    <div class="col-md-12">
+        <div class="ckeck-top heading">
+            <h2>My Product</h2>
+        </div>
+        <div class="tabs">
+            <ul class="menu_drop">
+                <li class="item1"><a>List of Products</a></li>
+            </ul>
+        </div>
         {% for item in products %}
-            <div class="col-md-4 product-left p-left">
+            <div class="col-sm-12 col-md-6 col-lg-3">
                 <div class="product-main simpleCart_shelfItem">
 
                     <a href="/productdetails/{{item.getId}}" class="mask">

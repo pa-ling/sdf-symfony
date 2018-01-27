@@ -1,28 +1,36 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container">
-	<div class="col-md-6 col-sm-12">
-		<h2>
+<div class="main-body">
+	<div class="col-md-12">
+		<div class="ckeck-top heading">
+			<h2>
 			Categories
-			{% if app.user %}
+				{% if app.user %}
             	{%- if is_granted('ROLE_PHOTOGRAPH') -%}
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">+</button>
 				{%- endif -%}
 			{% endif %}
-		</h2>
-	</div>
-	
-	<div class="col-sm-12">
+			</h2>
+			<p>
+			 Below is the list of the categories. If you would like to create ones, signup as photographer.
+			</p>
+		</div>
+
+		<div class="tabs">
+            <ul class="menu_drop">
+                <li class="item1"><a>List of categories</a></li>
+            </ul>
+        </div>
+
 		{% for category in categories %}
-		<div class="col-md-2">
+		<div class="col-sm-6 col-md-4 col-lg-2">
 			<h3>
 				<a href="/sort?q={{category.name}}">#{{category.name}} ({{categories_count[loop.index - 1]}})</a> 
 			</h3>
 		</div>
 		{% endfor %}
 	</div>
-	
 </div>
 
 <!-- Modal -->
