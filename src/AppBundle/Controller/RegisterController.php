@@ -42,7 +42,7 @@ class RegisterController extends Controller
                     $app_url = $this->getParameter('app_url');
                     $link = $app_url.'/user/confirm/'.$email.'/'.$salt;
 
-                    $swiftMailer = (new \Swift_Message('Confirm Registration'))
+                    $swiftMailer = (new \Swift_Message('[Symfoto] Confirm User Registration'))
                         ->setFrom('yoggifirmanda@gmail.com')
                         ->setTo($email)
                         ->setBody(
@@ -51,16 +51,15 @@ class RegisterController extends Controller
                                 array('username' => $username, 'link'=> $link)
                             ),
                             'text/html'
-                        )
-                    ;
+                        );
 
                     $this->get('mailer')->send($swiftMailer);
-                } catch(\Doctrine\DBAL\DBALException $e) {
-                    $this->get('session')->getFlashBag()->add('error', 'Can\'t insert entity.');
 
+                    return $this->redirect('/login?code=201');
+
+                } catch(\Doctrine\DBAL\DBALException $e) {
+                    $this->get('session')->getFlashBag()->add('error', 'Can\'t insert entity user.');
                 }
-                
-            return $this->redirect('/login?code=201');
         }
 
         return $this->render(
@@ -138,30 +137,53 @@ class RegisterController extends Controller
             $user->setPassword($password);
             $user->setRoles(array('ROLE_PHOTOGRAPH'));
             $user->addRole('ROLE_PHOTOGRAPH');
-            $user->setEnabled(true);
+            $user->setEnabled(false);
+
+            $salt = $user->getSalt();
+            $username = $user->getUsername();
+            $email = $user->getEmail();
 
             try{
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
 
+                $app_url = $this->getParameter('app_url');
+                $link = $app_url.'/user/confirm/'.$email.'/'.$salt;
+
+                $swiftMailer = (new \Swift_Message('[Symfoto] Confirm Photographer Registration'))
+                    ->setFrom('yoggifirmanda@gmail.com')
+                    ->setTo($email)
+                    ->setBody(
+                        $this->renderView(
+                            'emails/user_confirm.html.twig',
+                            array('username' => $username, 'link'=> $link)
+                        ),
+                        'text/html'
+                    );
+
+                $this->get('mailer')->send($swiftMailer);
+                
+                try{
+                    $photographers = new Photographers();
+                    $photographers->setUserId($user->getId());
+                    $photographers->setLongdescr($longDesc);
+                    $photographers->setShortdescr($shortDesc);
+                    $photographers->setSurname($firstname);
+                    $photographers->setFirstname($lastname);
+
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($photographers);
+                    $em->flush();
+
+                    return $this->redirect('/login?code=201');
+
+                } catch(\Doctrine\DBAL\DBALException $e) {
+                    $this->get('session')->getFlashBag()->add('error', 'Can\'t insert entity photographer.');
+                }
             } catch(\Doctrine\DBAL\DBALException $e) {
-                $this->get('session')->getFlashBag()->add('error', 'Can\'t insert entity.');
-
+                $this->get('session')->getFlashBag()->add('error', 'Can\'t insert entity user.');
             }
-
-            $photographers = new Photographers();
-            $photographers->setUserId($user->getId());
-            $photographers->setLongdescr($longDesc);
-            $photographers->setShortdescr($shortDesc);
-            $photographers->setSurname($firstname);
-            $photographers->setFirstname($lastname);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($photographers);
-            $em->flush();
-
-            return $this->redirect('/login');   
         }
 
         return $this->render(
