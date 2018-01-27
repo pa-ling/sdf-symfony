@@ -17,15 +17,15 @@
                         {% if (loop.index % 3) == 1 %}
                             <div class="product-one">
                         {% endif %}
-                        <div class="col-md-4 product-left p-left">
+                        <div class="col-md-3 product-left p-left">
                             <div class="product-main simpleCart_shelfItem">
                                 <a href="{{ path('shopowner', { 'shopownerID' : item.userid }) }}" class="mask">
-                                    <img src="https://api.adorable.io/avatars/285/{{item.getId}}.png" width="250" height="260" class="navHorizontalCenter" sizes="(max-width: 250px) 100vw, 250px">
+                                    <img src="https://api.adorable.io/avatars/285/{{item.getId}}.png" width="175" height="175" class="navHorizontalCenter" sizes="(max-width: 175px) 100vw, 175px">
                                 </a>
                                 <div class="product-bottom">
                                     <h3>{{ item.getFirstname }} {{ item.surname }}</h3>
                                     <p>
-                                        {{ item.shortdescr|length > 30 ? item.shortdescr|slice(0, 30) ~ '...' : item.shortdescr  }}
+                                        {{ item.shortdescr|length > 20 ? item.shortdescr|slice(0, 20) ~ '...' : item.shortdescr  }}
                                     </p>
                                 </div>
                             </div>
