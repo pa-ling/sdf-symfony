@@ -69,7 +69,7 @@ class CheckoutController extends Controller
     }
 
     /**
-     * @Route("/checkout", name="postCheckout")
+     * @Route("/post_checkout", name="postCheckout")
      */
     public function postCheckout(Request $request)
     {
@@ -127,7 +127,8 @@ class CheckoutController extends Controller
     }
 
     /**
-     * @Route("/checkout/{id}", name="postCheckoutItem")
+     * @Route("/post_checkout/{id}", name="postCheckoutItem")   
+     * @Method({"POST"})
      */
     public function postCheckoutItem(Request $request, $id)
     {
@@ -162,11 +163,11 @@ class CheckoutController extends Controller
             $response->setStatusCode(Response::HTTP_PRECONDITION_FAILED);
         }
 
-        return $this->redirect('/checkout');   
+        return $response;
     }
 
     /**
-     * @Route("/checkout/{id}", name="deleteCheckoutItem")
+     * @Route("/checkout_delete/{id}", name="deleteCheckoutItem")
      * @Method({"DELETE"})
      */
     public function deleteCheckoutItem(Request $request, $id)

@@ -37,6 +37,7 @@
                                     <div class="product-main simpleCart_shelfItem">
                                         <a href="/productdetails/{{item.getId}}" class="mask">
                                             <img style="width:80%;" src="/uploads/media/default/0001/01/thumb_{{ item.getImage }}_default_small.png">
+                                        </a>
                                         <div class="product-bottom">
                                             <h3>{{item.getName}}</h3>
                                             <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>
@@ -63,8 +64,7 @@
     function addBasketItem(item) {
         console.log("addBasketItem "+  item);
         var request = new XMLHttpRequest();
-        console.log("{{ path('checkout') }}")
-        request.open("GET", "{{ path('checkout') }}/"+ item);
+        request.open("POST", "/post_checkout/"+ item);
         request.send();
     }
 </script>
