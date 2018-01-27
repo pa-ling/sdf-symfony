@@ -9,7 +9,8 @@
     <h3>Product '{{product.getName}}'</h3>
     <div class="row">
         <div class="col-lg-2">
-            <img style="width:100%;" src="/uploads/media/default/0001/01/{{ preview_image }}">
+            <img style="width:80%;" src="/uploads/media/default/0001/01/thumb_{{ product.id }}_default_small.jpg">
+
         </div>
         <div class="col-lg-10">
             <p><b>Category:</b> {{product.getCategory}}</p>
@@ -33,7 +34,7 @@
                     {% for item in images %}
                         <tr>
                             <td>
-                                <a class="group4"  title="{{item.getName}}|{{item.getHeight}}x{{item.getWidth}}|{{ images_size[loop.index - 1] }}" href="/uploads/media/default/0001/01/{{ item.getProviderReference }}">
+                                <a class="group4"  title="{{item.getName}}|{{item.getHeight}}x{{item.getWidth}}|{{ images_size[loop.index - 1] }}" href="/uploads/media/default/0001/01/thumb_{{ product.id }}_default_small.jpg">
                                     {{item.getName}}
                                 </a>
                             </td>

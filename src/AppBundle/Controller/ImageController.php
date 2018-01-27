@@ -412,14 +412,42 @@ class ImageController extends Controller
                                 $uploads = move_uploaded_file($tmpFilePath[$i], $newFilePath);
                                 if ($uploads) {
                                     $file = $newFilePath;
+
+
+                                    $im = imagecreatefromjpeg($file);
+
+                                    // wir erstellen ein Wasserzeichen mit GD
+                                    $stamp = imagecreatetruecolor(100, 70);
+                                    imagefilledrectangle($stamp, 0, 0, 99, 69, 0x0000FF);
+                                    imagefilledrectangle($stamp, 9, 9, 90, 60, 0xFFFFFF);
+                                    imagestring($stamp, 5, 20, 20, 'SDF', 0x0000FF);
+                                    imagestring($stamp, 3, 20, 40, '(c) 2018', 0x0000FF);
+
+                                    // Ränder setzen, Dimensionen ermitteln
+                                    $marge_right = 10;
+                                    $marge_bottom = 10;
+                                    $sx = imagesx($stamp);
+                                    $sy = imagesy($stamp);
+
+                                    // Wasserzeichen mit einer Transparenz von 50% über das Foto legen
+                                    imagecopymerge($im, $stamp, imagesx($im) - $sx - $marge_right, imagesy($im) - $sy - $marge_bottom, 0, 0, imagesx($stamp), imagesy($stamp), 50);
+
+                                    // Bild speichern, aufräumen
+                                    imagepng($im, $newFilePathThumbDefaultSmall);
+                                    imagedestroy($im);
+
+
+
+
+
                                     $this->smart_resize_image($file, null, '230', '150', false, $newFilePathThumbAdmin, false, false, 100);
                                     $this->compress($file, $newFilePathThumbAdmin, 40);
                                     $this->smart_resize_image($file, null, '230', '150', false, $newFilePathThumbDefaultNav, false, false, 100);
                                     $this->compress($file, $newFilePathThumbDefaultNav, 45);
                                     $this->smart_resize_image($file, null, '230', '150', false, $newFilePathThumbDefaultNavSec, false, false, 100);
                                     $this->compress($file, $newFilePathThumbDefaultNavSec, 30);
-                                    $this->smart_resize_image($file, null, '230', '150', false, $newFilePathThumbDefaultSmall, false, false, 100);
-                                    $this->compress($file, $newFilePathThumbDefaultSmall, 50);
+                                    //$this->smart_resize_image($file, null, '230', '150', false, $newFilePathThumbDefaultSmall, false, false, 100);
+                                    //$this->compress($file, $newFilePathThumbDefaultSmall, 50);
                                 }
                             } catch (Exception $e) {
                                 print_r($e);
