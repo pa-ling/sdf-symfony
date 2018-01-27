@@ -1,5 +1,30 @@
 {% extends 'base.html.twig' %}
 
+{% block style %}
+<style>
+.thumbnail {
+  position: relative;
+  width: 330px;
+  height: 330px;
+  overflow: hidden;
+}
+.thumbnail img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+}
+.thumbnail img.portrait {
+  width: 100%;
+  height: auto;
+}
+</style>
+{% endblock %}
+
 {% block body %}
 <div class="main-body">
     <div class="col-md-12">
@@ -31,14 +56,15 @@
                 {% for item in products %}
                     {% if (loop.index % 3) >= 0 %}
                         {% if (loop.index % 3) == 1 %}
-                            <div class="product-one">
                         {% endif %}
                             {% if item.enabled %}
 
-                                <div class="col-md-4 product-left p-left">
+                                <div class="col-sm-12 col-lg-4 col-md-3  product-left p-left">
                                     <div class="product-main simpleCart_shelfItem">
                                         <a href="/productdetails/{{item.getId}}" class="mask">
-                                            <img style="width:80%;" src="/uploads/media/default/0001/01/thumb_{{ item.getImage }}_default_small.png">
+                                            <div class="thumbnail">
+                                                <img style="width:100%;" src="/uploads/media/default/0001/01/thumb_{{ item.getImage }}_default_small.png">
+                                            </div>
                                         </a>
                                         <div class="product-bottom">
                                             <h3>{{item.getName}}</h3>
