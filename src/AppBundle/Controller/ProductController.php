@@ -251,13 +251,13 @@ class ProductController extends Controller
         	);
 		}
 		
-		$category_id = $product->getCategory();
-		$category = $em->getRepository('AppBundle:Category')
-		->findOneBy(
-			['id' => $category_id]
-		);
+		// $category_id = $product->getCategory();
+		// $category = $em->getRepository('AppBundle:Category')
+		// ->findOneBy(
+		// 	['id' => $category_id]
+		// );
 
-		$product->setCategory($category->getName());
+		// $product->setCategory($category->getName());
 
 		$preview_image = $this->getPreviewImgPathForProduct($product);
 		$created_At = $product->getCreatedAt()->format('d/m/Y');

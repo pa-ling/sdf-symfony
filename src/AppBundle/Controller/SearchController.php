@@ -29,6 +29,25 @@ class SearchController extends Controller
             $products = $em->getRepository('AppBundle:Product')
                 ->searchByCategoryAndDescription($keyword);
 
+            foreach ($products as $product){
+                $galleries = $product->getGallery();
+                $imageIdInGallery = array();
+                foreach ($galleries as $key => $value) {
+                    // fetch all gallery_media
+                    $gallery_media_fetch = $em->getRepository('AppBundle:GalleryMedia')
+                    ->findBy(
+                        ['gallery_id' => $value],
+                        ['createdAt' => 'DESC']                   
+                    );
+
+                    foreach ($gallery_media_fetch as $key => $value) {
+                        $media_id = $value->getMediaId();
+                        array_push($imageIdInGallery, $media_id); 
+                    }
+                }
+                $product->setImage($imageIdInGallery[0]);
+            }
+
             return $this->render('default/search.html.twig', array(
                 'products' => $products,
                 'keyword' => $keyword
@@ -37,4 +56,44 @@ class SearchController extends Controller
 
     }
 
+    /**
+     * @Route("/sort", name="sort")
+     */
+    public function sort(Request $request){
+        $query = $request->query->all();
+        if(count($query)>0){
+            $keyword= $query['q'];
+ 
+            $em = $this->getDoctrine()->getManager();
+
+            $products = $em->getRepository('AppBundle:Product')
+                ->searchByCategoryAndDescription($keyword);
+
+            foreach ($products as $product){
+                $galleries = $product->getGallery();
+                $imageIdInGallery = array();
+                foreach ($galleries as $key => $value) {
+                    // fetch all gallery_media
+                    $gallery_media_fetch = $em->getRepository('AppBundle:GalleryMedia')
+                    ->findBy(
+                        ['gallery_id' => $value],
+                        ['createdAt' => 'DESC']                   
+                    );
+
+                    foreach ($gallery_media_fetch as $key => $value) {
+                        $media_id = $value->getMediaId();
+                        array_push($imageIdInGallery, $media_id); 
+                    }
+                }
+                $product->setImage($imageIdInGallery[0]);
+            }
+
+            return $this->render('default/search.html.twig', array(
+                'products' => $products,
+                'keyword' => $keyword
+            ));
+        }else{
+            return $this->redirectToRoute('photographers');
+        }
+    }
 }

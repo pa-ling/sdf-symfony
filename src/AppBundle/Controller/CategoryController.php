@@ -22,8 +22,17 @@ class CategoryController extends Controller
 
         $categories = $em->getRepository('AppBundle:Category')->findAll();
 
+        $categories_count = array();
+        foreach ($categories as $category){
+            $keyword = $category->getName();
+            $products = $em->getRepository('AppBundle:Product')
+                ->searchByCategoryAndDescription($keyword);
+            array_push($categories_count,count($products));
+        }
+
         return $this->render('default/category.html.twig', array(
             'categories' => $categories,
+            'categories_count'=>$categories_count
         ));
 
     }

@@ -28,10 +28,10 @@
                                     <div class="product-one">
                                 {% endif %}
                                     {% if item.enabled %}
-                                        <div class="col-md-4 product-left p-left">
+                                        <div class="col-sm-3 product-left p-left">
                                             <div class="product-main simpleCart_shelfItem">
                                                 <a href="/productdetails/{{item.getId}}" class="mask">
-                                                    <img style="width:80%;" src="/uploads/media/default/0001/01/thumb_{{ item.id }}_default_small.png">
+                                                    <img style="width:80%;" src="/uploads/media/default/0001/01/thumb_{{ item.getImage }}_default_small.png">
                                                 <div class="product-bottom">
                                                     <h3>{{item.getName}}</h3>
                                                     <h4><span class="item_price">€ {{ item.getPrice }}</span></h4>

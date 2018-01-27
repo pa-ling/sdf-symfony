@@ -1,49 +1,61 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-	<div class="ckeckout">
-		<div class="container">
-			<div class="ckeck-top heading">
-				<h2>Categories</h2>
-			</div>
-			<div class="ckeckout-top">
-				<div class="cart-items">
-					<div class="in-check">
-						<ul class="unit">
-							<li><span>#</span></li>
-							<li><span>Name</span></li>
-							<div class="clearfix"> </div>
-						</ul>
-
-						{% for category in categories %}
-							<ul class="cart-header" id="cartitem{{category.id}}" >
-								<li><span class="cost">{{ loop.index }}</span></li>
-								<li><span class="cost">{{category.name}}</span></li>
-								<div class="clearfix"> </div>
-							</ul>
-						{% endfor %}
-						<ul class="cart-header" >
-							<li><br></li>
-							<li>
-								<form action="{{ path('addCategory') }}" method="post">
-									<div class="row">
-										<div class="col-md-10">
-											<div class="form-group">
-												<input name="categoryName" type="text" placeholder="New Category" class="form-control" required>
-											</div>
-										</div>
-										<div class="col-md-2">
-											<button type="submit" name="order" value="order" class="btn btn-primary">+</button>
-										</div>
-									</div>
-								</form>
-							</li>
-							<div class="clearfix"> </div>
-						</ul>
-					</div>
-				</div>
-		 	</div>
-		</div>
+<div class="container">
+	<div class="col-md-6 col-sm-12">
+		<h2>
+			Categories
+			{% if app.user %}
+            	{%- if is_granted('ROLE_PHOTOGRAPH') -%}
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">+</button>
+				{%- endif -%}
+			{% endif %}
+		</h2>
 	</div>
 	
+	<div class="col-sm-12">
+		{% for category in categories %}
+		<div class="col-md-2">
+			<h3>
+				<a href="/sort?q={{category.name}}">#{{category.name}} ({{categories_count[loop.index - 1]}})</a> 
+			</h3>
+		</div>
+		{% endfor %}
+	</div>
+	
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create new category</h5>
+      </div>
+      <div class="modal-body">
+        <form action="{{ path('addCategory') }}" method="post">
+			<div class="row">
+				<div class="col-md-10">
+					<div class="form-group">
+						<input name="categoryName" type="text" placeholder="New Category" class="form-control" required>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<button type="submit" name="order" value="order" class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+	$('#myModal').on('shown.bs.modal', function () {
+		$('#myInput').trigger('focus')
+	})
+
+</script>
 {% endblock %}
