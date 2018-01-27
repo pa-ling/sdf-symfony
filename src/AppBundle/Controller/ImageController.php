@@ -407,7 +407,7 @@ class ImageController extends Controller
                                 $newFilePathThumbAdmin = $pathfolder . "/thumb_" . $uploadedMedia->getId() . "_admin." . $ext;
                                 $newFilePathThumbDefaultNav = $pathfolder . "/thumb_" . $uploadedMedia->getId() . "_default_nav." . $ext;
                                 $newFilePathThumbDefaultNavSec = $pathfolder . "/thumb_" . $uploadedMedia->getId() . "_default_navsec." . $ext;
-                                $newFilePathThumbDefaultSmall = $pathfolder . "/thumb_" . $uploadedMedia->getId() . "_default_small." . $ext;
+                                $newFilePathThumbDefaultSmall = $pathfolder . "/thumb_" . $uploadedMedia->getId() . "_default_small.png";
 
                                 $uploads = move_uploaded_file($tmpFilePath[$i], $newFilePath);
                                 if ($uploads) {

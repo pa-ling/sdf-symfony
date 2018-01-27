@@ -32,7 +32,22 @@ class ShopownerController extends Controller
         );
 
         foreach ($products as $product){
-            $product->setImage($this->getPreviewImgPathForProduct($product));
+            $galleries = $product->getGallery();
+            $imageIdInGallery = array();
+            foreach ($galleries as $key => $value) {
+                // fetch all gallery_media
+                $gallery_media_fetch = $em->getRepository('AppBundle:GalleryMedia')
+                ->findBy(
+                    ['gallery_id' => $value],
+                    ['createdAt' => 'DESC']                   
+                );
+    
+                foreach ($gallery_media_fetch as $key => $value) {
+                    $media_id = $value->getMediaId();
+                    array_push($imageIdInGallery, $media_id); 
+                }
+            }
+            $product->setImage($imageIdInGallery[0]);
         }
 
         return $this->render('default/shopowner.html.twig', array(
@@ -59,8 +74,25 @@ class ShopownerController extends Controller
         );
 
         foreach ($products as $product){
-            $product->setImage($this->getPreviewImgPathForProduct($product));
+            $galleries = $product->getGallery();
+            $imageIdInGallery = array();
+            foreach ($galleries as $key => $value) {
+                // fetch all gallery_media
+                $gallery_media_fetch = $em->getRepository('AppBundle:GalleryMedia')
+                ->findBy(
+                    ['gallery_id' => $value],
+                    ['createdAt' => 'DESC']                   
+                );
+
+                foreach ($gallery_media_fetch as $key => $value) {
+                    $media_id = $value->getMediaId();
+                    array_push($imageIdInGallery, $media_id); 
+                }
+            }
+            $product->setImage($imageIdInGallery[0]);
         }
+
+        
 
         return $this->render('default/shopowner.html.twig', array(
             'shopowner' => $shopowner,
