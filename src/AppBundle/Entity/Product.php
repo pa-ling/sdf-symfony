@@ -40,7 +40,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="category", type="string", length=64)
+     * @ORM\Column(name="category", type="integer")
      */
     protected $category;
 

@@ -32,9 +32,10 @@
             <label for="category">Category</label>
             <select name="category" id="category" >
                 {% for category in categories %}
-                    <option value="{{category.name}}">{{category.name}}</option>
+                    <option value="{{category.id}}">{{category.name}}</option>
                 {% endfor %}
             </select>
+            or <a target="_blank" href="/showCategories">Create new one</a>
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
