@@ -50,6 +50,7 @@
     <div class="col-md-12">
         <div class="ckeck-top heading">
             <h2>Search '{{ keyword }}'</h2>
+            <p>Result of searched keyword. Unpublished products will not appear on the list.</p>
         </div>
         <div class="tabs">
             <ul class="menu_drop">
@@ -59,7 +60,7 @@
         <div class="latestproducts">
             {% if not products %}
                 <div class="alert alert-info">
-                    No product available
+                    No product available.
                 </div>
             {% else %}
                 {% for item in products %}
