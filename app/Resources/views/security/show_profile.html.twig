@@ -1,0 +1,77 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends 'base.html.twig' %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/profile.css') }}">
+{% endblock %}
+
+{% block body %}
+ <div class="main-body">
+    <div class="col-md-12">
+        <div class="ckeck-top heading">
+            <h2>My Profile</h2>
+        </div>
+        <ol class="breadcrumb breadcrumb-arrow">
+            <li class="active">My Profile</li>
+        </ol>
+        <hr>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+            <h3 class="panel-title">{{ user.username }}</h3>
+            </div>
+            <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3 col-lg-3 " align="center"> 
+                    <img alt="User Pic"  width="100%" class="img-circle img-responsive" src="https://api.adorable.io/avatars/285/{{userData.userid}}.png" width="300" height="300" class="navHorizontalCenter" sizes="(max-width: 300px) 100vw, 300px">
+                </div>
+                
+                <div class=" col-md-9 col-lg-9 "> 
+                <table class="table table-user-information">
+                    <tbody>
+                        <tr>
+                            <td>Name:</td>
+                            <td>{{userData.firstname}} {{userData.lastname}}</td>
+                        </tr>
+                            <td>Gender</td>
+                            <td>{{userData.gender}}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                        </tr>
+                        </tr>
+                            <td>Location</td>
+                            <td>{{userData.location}}</td>
+                        </tr>
+                        <tr>
+                            <td>Phone Number</td>
+                            <td>{{userData.phone}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Last updated</td>
+                            <td>{{updatedAt}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <a href="/profile/edit" class="btn btn-primary">Edit Profile</a>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -68,7 +68,7 @@
                 aria-haspopup="true" aria-expanded="false">Hello {{ app.user.username }}!<span
                         class="caret"></span></a>
             <ul class="dropdown-menu">
-                <li><a href="/profile">My Profile</a></li>
+                <li><a href="/myprofile">My Profile</a></li>
                 {% if is_granted('ROLE_ADMIN') %}
                     <li><a href="/admin">Admin Dashboard</a></li>
                 {% endif %}

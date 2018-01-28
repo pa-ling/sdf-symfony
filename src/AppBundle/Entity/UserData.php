@@ -60,6 +60,13 @@ class UserData
     private $phone;
 
     /**
+     * @var datetime $updatedAt
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -169,6 +176,22 @@ class UserData
     public function setPhone($phone)
     {
         $this->phone = $phone;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setUpdatedAt(\DateTime $updatedAt = null)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
   
 }

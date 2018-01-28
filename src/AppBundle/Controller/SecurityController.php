@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Entity\UserData;
-
+use \Datetime;
 
 class SecurityController extends Controller
 {
@@ -194,6 +194,55 @@ class SecurityController extends Controller
     }
 
     /**
+     * @Route("/myprofile", name="showProfile")
+     */
+    public function showProfile(Request $request)
+	{  
+        $status = 'default';
+        $message = null;
+
+        $user = $this->getUser();
+
+        $userId = $user->getId();
+
+        if (!$user) {
+            return $this->redirect('/info?code=301&status=warning');
+        }else{
+            $em = $this->getDoctrine()->getManager();
+            $userData = $em->getRepository('AppBundle:UserData')
+                ->findOneBy(
+                    ['userid' => $userId]
+                );
+
+            $date = new Datetime();
+
+            if (!$userData) {
+                $userData = [];
+                $userData['userid'] = $userId;
+                $userData['gender'] = null;
+                $userData['firstname'] = null;
+                $userData['lastname'] = null;
+                $userData['location'] = null;
+                $userData['phone'] = null;
+                $userData['updatedAt'] = $date;
+                $updatedAt = $this->time_elapsed_string($date->format("Y-m-d H:i:s"));
+            }else{
+                $updatedAt = $this->time_elapsed_string($userData->getUpdatedAt()->format("Y-m-d H:i:s"));
+            }
+
+            return $this->render('security/show_profile.html.twig',
+                array(
+                    'user' => $user,
+                    'userData' => $userData,
+                    'status' => $status,
+                    'message' => $message,
+                    'updatedAt' => $updatedAt
+                )
+            );
+        }
+    }
+
+    /**
      * @Route("/profile/edit", name="editProfile")
      * @Method({"GET","POST"})
      */
@@ -214,6 +263,8 @@ class SecurityController extends Controller
         if (!$user) {
             return $this->redirect('/info?code=301&status=warning');
         }else{
+            $date = new Datetime();
+
             if ($request->getMethod() == 'GET') {
                 $genders = ['Male','Female'];
         
@@ -230,8 +281,10 @@ class SecurityController extends Controller
                     $userData['lastname'] = null;
                     $userData['location'] = null;
                     $userData['phone'] = null;
-
-                   
+                    $userData['updatedAt'] = $date;
+                    $updatedAt = $this->time_elapsed_string($date->format("Y-m-d H:i:s"));
+                }else{
+                    $updatedAt = $this->time_elapsed_string($userData->getUpdatedAt()->format("Y-m-d H:i:s"));
                 }
 
                 return $this->render('security/edit_profile.html.twig',
@@ -239,7 +292,8 @@ class SecurityController extends Controller
                         'userData' => $userData,
                         'genders' => $genders,
                         'status' => $status,
-                        'message' => $message
+                        'message' => $message,
+                        'updatedAt' => $updatedAt
                     )
                 );
 
@@ -266,6 +320,7 @@ class SecurityController extends Controller
                     $userData->setGender($gender);
                     $userData->setLocation($location);
                     $userData->setPhone($phone);
+                    $userData->setUpdatedAt($date);
                     $em->persist($userData);
                 }else{
                     $userData->setFirstname($firstname);
@@ -273,6 +328,7 @@ class SecurityController extends Controller
                     $userData->setGender($gender);
                     $userData->setLocation($location);
                     $userData->setPhone($phone);
+                    $userData->setUpdatedAt($date);
                 }
                 $em->flush();
                 return $this->redirect('/profile/edit?status=success&code=204');
@@ -300,5 +356,34 @@ class SecurityController extends Controller
                 'message' => $message
             )
         );
+    }
+
+    function time_elapsed_string($datetime, $full = false) {
+        $now = new DateTime;
+        $ago = new DateTime($datetime);
+        $diff = $now->diff($ago);
+    
+        $diff->w = floor($diff->d / 7);
+        $diff->d -= $diff->w * 7;
+    
+        $string = array(
+            'y' => 'year',
+            'm' => 'month',
+            'w' => 'week',
+            'd' => 'day',
+            'h' => 'hour',
+            'i' => 'minute',
+            's' => 'second',
+        );
+        foreach ($string as $k => &$v) {
+            if ($diff->$k) {
+                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+            } else {
+                unset($string[$k]);
+            }
+        }
+    
+        if (!$full) $string = array_slice($string, 0, 1);
+        return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
 }
