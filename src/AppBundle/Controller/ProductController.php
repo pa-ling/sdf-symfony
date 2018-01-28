@@ -7,6 +7,8 @@ use Application\Sonata\MediaBundle\Entity\Media as Media;
 namespace AppBundle\Controller;
 
 use Application\Sonata\MediaBundle\Entity\Media;
+use phpDocumentor\Reflection\Types\Array_;
+use phpDocumentor\Reflection\Types\Null_;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -132,8 +134,20 @@ class ProductController extends Controller
 			);
         $categories = $em->getRepository('AppBundle:Category')->findAll();
 
+        $galleriesWithImages = array();
+
+        foreach ($galleries as $gallery) {
+
+            $galleryMedia = $em->getRepository('AppBundle:GalleryMedia')->findBy(
+                ['gallery_id' => $gallery->getId()]
+            );
+            if(count($galleryMedia) > 0){
+                array_push($galleriesWithImages, $gallery);
+            }
+        }
+        
 		return $this->render('default/create_product.html.twig', array(
-			'galleries'=>$galleries,
+			'galleries'=>$galleriesWithImages,
             'categories' => $categories
 		));
 	}
