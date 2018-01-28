@@ -19,7 +19,7 @@ class UserType extends AbstractType
                     'second_options' => array('label' => 'Passwort wiederholen:', 'attr' => array('class' => 'input-text','data-rule' => 'required')),
                     )
                  )
-            ->add('save', 'submit', array('label' => 'REGISTRIEREN','attr' => array('class' => 'input-btn')))
+            ->add('save', 'submit', array('label' => 'REGISTER','attr' => array('class' => 'input-btn')))
             ;
     }
 

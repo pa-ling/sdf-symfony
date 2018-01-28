@@ -19,8 +19,8 @@ class PhotographersAdmin extends Admin
                 ->add('firstname', 'text', array(
                     'label' => 'First Name',
                     'help' => 'Hier kann der Vorname des Fotografen erstellt werden. <p>* Der Vorname ist ein Pflichtfeld.</p>'))
-                ->add('surname', 'text', array(
-                    'label' => 'Surname',
+                ->add('lastname', 'text', array(
+                    'label' => 'lastname',
                     'help' => 'Hier kann der Name des Fotografen erstellt werden. <p>* Der Name ist ein Pflichtfeld.</p>'))
                 ->add('shortdescr', 'textarea', array('required' => false,
                     'label' => 'Short Description',
@@ -46,8 +46,8 @@ class PhotographersAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('firstname', null, array('label' => 'First Name'))
-            ->add('surname', null, array('label' => 'Surname'))
+            ->add('firstname', null, array('label' => 'Firstname'))
+            ->add('lastname', null, array('label' => 'Lastname'))
             ->add('shortdescr', null, array('label' => 'Short Description'))
             ->add('longdescr', null, array('label' => 'Long Description'))
             ->add('previmage', null, array('label' => 'Preview Image'))

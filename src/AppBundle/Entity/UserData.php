@@ -67,6 +67,27 @@ class UserData
     private $updatedAt;
 
     /**
+     * @var datetime $createdAt
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="longdescr", type="string", length=2048, nullable=true)
+     */
+    private $longdescr;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="shortdescr", type="string", length=1024, nullable=true)
+     */
+    private $shortdescr;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -178,6 +199,38 @@ class UserData
         $this->phone = $phone;
     }
 
+     /**
+     * @return string
+     */
+    public function getLongdescr()
+    {
+        return $this->longdescr;
+    }
+
+    /**
+     * @param string $longdescr
+     */
+    public function setLongdescr($longdescr)
+    {
+        $this->longdescr = $longdescr;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShortdescr()
+    {
+        return $this->shortdescr;
+    }
+
+    /**
+     * @param string $shortdescr
+     */
+    public function setShortdescr($shortdescr)
+    {
+        $this->shortdescr = $shortdescr;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -192,6 +245,22 @@ class UserData
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCreatedAt(\DateTime $createdAt = null)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
   
 }

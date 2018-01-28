@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-<div class="small-body">
+<div class="main-body">
     <div class="container">
 
         <h6>
@@ -25,16 +25,16 @@
             <input type="text" id="username" class="form-control" name ="_username" placeholder="Username" required autofocus>
             <label for="password" class="sr-only">Password</label>
             <input type="password" id="password" class="form-control" name="_password" placeholder="Password" required/>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">login</button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">LOGIN</button>
 
             <div class="col-lg-12" style="margin-top: 20px;">
-                Du bist noch nicht registriert? Registriere dich <a href="{{ path('signup') }}">jetzt.</a>
+                You haven't registered yet? Register<a href="{{ path('signup') }}"> now.</a>
             </div>
             <div class="col-lg-12" style="margin-top: 20px;">
-                Registriere dich als Fotograf <a href="{{ path('photograph_registration') }}">jetzt.</a>
+                Register as Photographer<a href="{{ path('photograph_registration') }}"> now.</a>
             </div>
             <div class="col-lg-12" style="margin-top: 20px;">
-                Passwort vergessen? Klick <a href="{{ path('forgot_password') }}">hier.</a>
+                Forget password? Click <a href="{{ path('forgot_password') }}">here.</a>
             </div>
         </form>
 

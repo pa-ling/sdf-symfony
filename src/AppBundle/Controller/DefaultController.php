@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Entity\UserData;
 
 class DefaultController extends Controller
 {
@@ -22,10 +23,24 @@ class DefaultController extends Controller
     public function partnerAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $photographersAll = $em->getRepository('AppBundle:Photographers')->findAll();
+
+        $users = $this->get('fos_user.user_manager')->findAll();
+
+        $photographers = array();
+        foreach($users as $user){
+            $roles = $user->getRoles();
+            if( in_array( "ROLE_PHOTOGRAPH" ,$roles ) )
+            {
+                $userData = $em->getRepository('AppBundle:UserData')
+                    ->findOneBy(
+                        ['userid' => $user->getId()]
+                    );
+                array_push($photographers,$userData);
+            }
+        }
 
         return $this->render('default/index.html.twig', array(
-            'photographersAll' => $photographersAll
+            'photographers' => $photographers
         ));
     }
 }
