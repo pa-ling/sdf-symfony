@@ -31,7 +31,7 @@
         </div>
         <div class="form-group">
             <label for="galleries">Galleries</label>
-            <select multiple name="galleries[]" id="galleries" >
+            <select multiple name="galleries[]" id="galleries" required>
                 {% for gallery in galleries %}
                     <option value="{{gallery.id}}">{{gallery.name}}</option>
                 {% endfor %}
