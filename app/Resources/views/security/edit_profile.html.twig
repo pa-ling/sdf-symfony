@@ -1,0 +1,96 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="main-body">
+    <div class="col-md-12">
+        <div class="ckeck-top heading">
+            <h2>Edit My Profile</h2>
+        </div>
+        <ol class="breadcrumb breadcrumb-arrow">
+            <li><a href="/profile">Profile</a></li>
+            <li class="active">Edit Profile</li>
+        </ol>
+        <hr>
+
+        {% if message %}
+            <div class="alert alert-{{ status }}">
+                {{ message }}
+            </div>		
+        {% endif %}
+
+        <div class="col-md-6 col-sm-12">
+            <form class="form-horizontal" action="/profile/edit" method="POST">
+                <fieldset>
+
+                <input type="hidden" name="userid" value="{{ userData.userid }}">
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="textinput">First Name</label>
+                    <div class="col-sm-8">
+                    <input type="text" value="{{ userData.firstname }}" name="firstname" placeholder="First Name" class="form-control">
+                    </div>
+                </div>
+
+                    <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="textinput">Last Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" value="{{ userData.lastname }}" name="lastname" placeholder="Last Name" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="gender">Gender</label>
+                    <div class="col-sm-8">          
+                        <select class="form-control" name="gender" id="gender">
+                            {# <option value="{{ userData.gender }}" selected>{{ userData.gender }}</option> #}
+                            {% for gender in genders %}
+                                <option value="{{ gender }}" {{ userData.gender == gender ? 'selected':''}}>{{ gender }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="textinput">Location</label>
+                    <div class="col-sm-8">
+                        <input type="text" value="{{ userData.location }}" name="location" placeholder="Location" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="textinput">Telephone</label>
+                    <div class="col-sm-8">
+                        <input type="text" value="{{ userData.phone }}" name="phone" placeholder="Telephone" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                    </div>
+                </div>
+
+                </fieldset>
+            </form>
+        </div><!-- /.col-lg-12 -->
+        <div class="col-md-6 col-sm-12">
+            <img src="https://api.adorable.io/avatars/285/{{userData.userid}}.png" width="300" height="300" class="navHorizontalCenter" sizes="(max-width: 300px) 100vw, 300px">
+        </div>
+</div>
+{% endblock %}

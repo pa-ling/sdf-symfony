@@ -3,7 +3,7 @@
 {% block body %}
 <div class="main-body">
     {% if message %}
-        <div class="alert alert-info">
+        <div class="alert alert-{{ status }}">
             {{ message }}
         </div>		
     {% endif %}

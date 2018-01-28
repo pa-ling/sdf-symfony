@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use AppBundle\Entity\UserData;
 
 
 class SecurityController extends Controller
@@ -14,7 +15,12 @@ class SecurityController extends Controller
         $message = array(
             201=>'Thank you for joining us. Please check your email and click the confirmation link to finish your registration.',
             202=>'You have successfully reset your password.',
-            203=>'Please check your email. If you do not receive email from us, please submit again.'
+            203=>'Please check your email. If you do not receive email from us, please submit again.',
+            
+            204=>'You have succesfully update your profile.',
+
+            301=>'No user found',
+            302=>'No user data found'
         );
         return $message[$code];
     }
@@ -185,5 +191,114 @@ class SecurityController extends Controller
                 )
             );
         }        
+    }
+
+    /**
+     * @Route("/profile/edit", name="editProfile")
+     * @Method({"GET","POST"})
+     */
+    public function editProfile(Request $request)
+	{      
+        $status = 'default';
+        $message = null;
+
+        $query = $request->query->all();
+        if(count($query)>0){
+            $status = $query['status']; 
+            $message = $this->status($query['code']); 
+        }
+
+        $user = $this->getUser()->getId();
+        $em = $this->getDoctrine()->getManager();
+
+        if (!$user) {
+            return $this->redirect('/info?code=301&status=warning');
+        }else{
+            if ($request->getMethod() == 'GET') {
+                $genders = ['Male','Female'];
+        
+                $userData = $em->getRepository('AppBundle:UserData')
+                    ->findOneBy(
+                        ['userid' => $user]
+                    );
+                if (!$userData) {
+                    $userid = $user;
+                    $userData = [];
+                    $userData['userid'] = $userid;
+                    $userData['gender'] = null;
+                    $userData['firstname'] = null;
+                    $userData['lastname'] = null;
+                    $userData['location'] = null;
+                    $userData['phone'] = null;
+
+                   
+                }
+
+                return $this->render('security/edit_profile.html.twig',
+                    array(
+                        'userData' => $userData,
+                        'genders' => $genders,
+                        'status' => $status,
+                        'message' => $message
+                    )
+                );
+
+            }else{
+                $data = $request->request->all();
+                $firstname = $data['firstname'];
+                $lastname = $data['lastname'];
+                $gender = $data['gender'];
+                $location = $data['location'];
+                $phone = $data['phone'];
+                $userid = $data['userid'];
+
+                $userData = $em->getRepository('AppBundle:UserData')
+                    ->findOneBy(
+                        ['userid' => $userid]
+                    );
+
+                if (!$userData) {
+                    $userData = new UserData();
+
+                    $userData->setUserId($userid);
+                    $userData->setFirstname($firstname);
+                    $userData->setLastname($lastname);
+                    $userData->setGender($gender);
+                    $userData->setLocation($location);
+                    $userData->setPhone($phone);
+                    $em->persist($userData);
+                }else{
+                    $userData->setFirstname($firstname);
+                    $userData->setLastname($lastname);
+                    $userData->setGender($gender);
+                    $userData->setLocation($location);
+                    $userData->setPhone($phone);
+                }
+                $em->flush();
+                return $this->redirect('/profile/edit?status=success&code=204');
+            }
+        }
+    }
+
+    /**
+     * @Route("/info", name="info")
+     */
+	public function infoAction(Request $request)
+	{      
+        $message = null;
+        $status = 'default';
+
+        $query = $request->query->all();
+        if(count($query)>0){
+            $status = $query['status']; 
+            $message = $this->status($query['code']); 
+        }
+
+        return $this->render('security/info.html.twig',
+            array(
+                'status' => $status,
+                'message' => $message
+            )
+        );
     }
 }
