@@ -64,7 +64,7 @@
                     <div class="panel-body">
                         <a href="/image/{{item.getProviderReference}}">
                             <div class="thumbnail">
-                                <img src="/uploads/media/default/0001/01/{{item.getProviderReference}}" alt="{{item.getName}}" />
+                                <img src="/uploads/media/default/0001/01/thumb_{{item.id}}_default_small.png" alt="{{item.getName}}" />
                             </div>
                         </a>
                     </div>
@@ -75,7 +75,7 @@
                             </a>
                         </h4>
                         <span class="pull-right">
-                            <a href="/gallery/image/delete/{{item.id}}/{{gallery.slug}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a>
+                            <a href="/gallery/image/delete/{{item.id}}/{{gallery.slug}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a>
                         </span>
                     </div>
                 </div>

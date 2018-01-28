@@ -218,7 +218,7 @@ class PurchaseController extends Controller
 						['id'=>$imageIdInGallery[$i]]
                     );
                 $provider_reference_without_ext = preg_replace('/\\.[^.\\s]{3,4}$/', '', $images[$i]->getProviderReference());
-                $images_url[$i] = getcwd().'/uploads/media/default/0001/01/'.$images[$i]->getId().$provider_reference_without_ext.'.png';
+                $images_url[$i] = getcwd().'/uploads/media/default/0001/01/'.$images[$i]->getProviderReference();
             }
 
             $files = $images_url;

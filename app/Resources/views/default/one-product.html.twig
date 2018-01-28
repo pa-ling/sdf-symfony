@@ -18,7 +18,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-6">
-                <img style="width:100%;max-width:400px;" src="/uploads/media/default/0001/01/thumb_{{ product.getImage }}_default_small.png">
+                <img style="width:100%;max-width:500px;" src="/uploads/media/default/0001/01/thumb_{{ product.getImage }}_default_small.png">
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6">
                 <p><b>Category:</b> {{product.getCategory}}</p>
@@ -40,7 +40,7 @@
                         {% for item in images %}
                             <tr>
                                 <td>
-                                    <a class="group4"  title="{{item.getName}}|{{item.getHeight}}x{{item.getWidth}}|{{ images_size[loop.index - 1] }}" href="/uploads/media/default/0001/01/{{ images_prev[loop.index - 1]}}">
+                                    <a class="group4"  title="{{item.getName}}|{{item.getHeight}}x{{item.getWidth}}|{{ images_size[loop.index - 1] }}" href="/uploads/media/default/0001/01/thumb_{{item.id}}_default_small.png">
                                         {{item.getName}}
                                     </a>
                                 </td>
