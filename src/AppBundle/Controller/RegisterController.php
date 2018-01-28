@@ -89,6 +89,17 @@ class RegisterController extends Controller
 
                 $this->get('mailer')->send($swiftMailer);
 
+                $date = new Datetime();
+
+                $userData = new UserData();
+                $userData->setUserId($user->getId());
+                $userData->setCreatedAt($date);
+                $userData->setUpdatedAt($date);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($userData);
+                $em->flush();
+
                 return $this->redirect('/login?code=201');
 
             } catch(\Doctrine\DBAL\DBALException $e) {
