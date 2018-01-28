@@ -10,11 +10,16 @@
 
         <h2>User - Registrierung</h2><br>
 
-                {{ form_start(form) }}
-                {{ form_row(form.username) }}
-                {{ form_row(form.email) }}
-                {{ form_row(form.plainPassword.first) }}
-                {{ form_row(form.plainPassword.second) }}
+                {{ form_start(form, {'attr': {'class': 'form-register'}}) }}
+
+
+        {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder': 'Username', 'required': 'true'}}) }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email', 'required': 'true'}}) }}
+        {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'Password', 'required': 'true'}}) }}
+        {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Re-Password', 'required': 'true'}}) }}
+
+        {{ form_widget(form.save, {'attr': {'class': 'btn btn-lg btn-primary btn-block'}}) }}
+
 
                 {{ form_end(form) }}
         </div> <!-- /container -->

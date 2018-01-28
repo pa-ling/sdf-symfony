@@ -10,23 +10,26 @@
 
         <h2>Photograph - Registrierung</h2><br>
 
-                {{ form_start(form) }}
-                {{ form_row(form.username) }}
-                {{ form_row(form.email) }}
-                {{ form_row(form.plainPassword.first) }}
-                {{ form_row(form.plainPassword.second) }}
+                {{ form_start(form, {'attr': {'class': 'form-register'}}) }}
+                {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder': 'Username', 'required': 'true'}}) }}
+                {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email', 'required': 'true'}}) }}
+                {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'Password', 'required': 'true'}}) }}
+                {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Re-Password', 'required': 'true'}}) }}
 
-                <input type="text" class="form-control" name ="firstname" placeholder="Fristname">
+                <input type="text" class="form-control" name ="firstname" placeholder="Firstname" required>
                 <label for="shortDesc" class="sr-only">Fristname</label>
-                <input type="text" class="form-control" name ="lastname" placeholder="Lastname">
+                <input type="text" class="form-control" name ="lastname" placeholder="Lastname" required>
                 <label for="longDesc" class="sr-only">Lastname</label>
 
 
-                <input type="text" id="shortDesc" class="form-control" name ="shortDesc" placeholder="shortDesc">
+                <input type="text" id="shortDesc" class="form-control" name ="shortDesc" placeholder="Short Description" required>
                 <label for="shortDesc" class="sr-only">shortDesc</label>
-                <input type="text" id="longDesc" class="form-control" name ="longDesc" placeholder="longDesc">
+                <input type="text" id="longDesc" class="form-control" name ="longDesc" placeholder="Long Description" required>
                 <label for="longDesc" class="sr-only">longDesc</label>
+
+                 {{ form_widget(form.save, {'attr': {'class': 'btn btn-lg btn-primary btn-block'}}) }}
                 {{ form_end(form) }}
+
         </div> <!-- /container -->
     </div>
 </body>
