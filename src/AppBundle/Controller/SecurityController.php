@@ -204,6 +204,13 @@ class SecurityController extends Controller
 
         $userId = $user->getId();
 
+        $roles = $user->getRoles();
+        $photographer = false;
+        if( in_array( "ROLE_PHOTOGRAPH" ,$roles ) )
+        {
+            $photographer= true;
+        }
+
         if (!$user) {
             return $this->redirect('/info?code=301&status=warning');
         }else{
@@ -235,7 +242,8 @@ class SecurityController extends Controller
                     'userData' => $userData,
                     'status' => $status,
                     'message' => $message,
-                    'updatedAt' => $updatedAt
+                    'updatedAt' => $updatedAt,
+                    'photographer'=>$photographer
                 )
             );
         }
@@ -256,7 +264,16 @@ class SecurityController extends Controller
             $message = $this->status($query['code']); 
         }
 
-        $user = $this->getUser()->getId();
+        $user = $this->getUser();
+        $userId = $user->getId();
+
+        $roles = $user->getRoles();
+        $photographer = false;
+        if( in_array( "ROLE_PHOTOGRAPH" ,$roles ) )
+        {
+            $photographer= true;
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         if (!$user) {
@@ -269,7 +286,7 @@ class SecurityController extends Controller
         
                 $userData = $em->getRepository('AppBundle:UserData')
                     ->findOneBy(
-                        ['userid' => $user]
+                        ['userid' => $userId]
                     );
                 if (!$userData) {
                     $userid = $user;
@@ -292,7 +309,8 @@ class SecurityController extends Controller
                         'genders' => $genders,
                         'status' => $status,
                         'message' => $message,
-                        'updatedAt' => $updatedAt
+                        'updatedAt' => $updatedAt,
+                        'photographer' => $photographer
                     )
                 );
 
@@ -304,7 +322,10 @@ class SecurityController extends Controller
                 $location = $data['location'];
                 $phone = $data['phone'];
                 $userid = $data['userid'];
-
+                if($photographer){
+                    $shortdescr = $data['shortdescr'];
+                    $longdescr = $data['longdescr'];
+                }
                 $userData = $em->getRepository('AppBundle:UserData')
                     ->findOneBy(
                         ['userid' => $userid]
@@ -319,6 +340,10 @@ class SecurityController extends Controller
                     $userData->setGender($gender);
                     $userData->setLocation($location);
                     $userData->setPhone($phone);
+                    if($photographer){
+                        $userData->setLongdescr($longdescr);
+                        $userData->setShortdescr($shortdescr);
+                    }
                     $userData->setUpdatedAt($date);
                     $em->persist($userData);
                 }else{
@@ -327,6 +352,10 @@ class SecurityController extends Controller
                     $userData->setGender($gender);
                     $userData->setLocation($location);
                     $userData->setPhone($phone);
+                    if($photographer){
+                        $userData->setLongdescr($longdescr);
+                        $userData->setShortdescr($shortdescr);
+                    }
                     $userData->setUpdatedAt($date);
                 }
                 $em->flush();

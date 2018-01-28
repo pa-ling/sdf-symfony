@@ -78,6 +78,21 @@ file that was distributed with this source code.
                     </div>
                 </div>
 
+                {% if photographer %}
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="shortdescr">Short Description</label>
+                    <div class="col-sm-8">
+                        <input type="text" value="{{ userData.shortdescr }}" name="shortdescr" placeholder="Short Description" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="longdescr">Long Description</label>
+                    <div class="col-sm-8">
+                        <textarea type="text" name="longdescr" placeholder="Long Description" class="form-control">{{ userData.longdescr }}</textarea>
+                    </div>
+                </div>
+                {% endif %}
+
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-8">
                     <div class="pull-right">

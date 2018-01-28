@@ -59,7 +59,21 @@ file that was distributed with this source code.
                             <td>{{userData.phone}}
                             </td>
                         </tr>
+                        {% if photographer %}
                         <tr>
+                            <td>Short Description</td>
+                            <td>
+                                {{userData.shortdescr ? userData.shortdescr:''}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Long Description</td>
+                            <td>
+                                {{userData.longdescr ? userData.longdescr: ''}}
+                            </td>
+                        </tr>
+                        {% endif %}
+                                                <tr>
                             <td>Last updated</td>
                             <td>{{updatedAt}}
                             </td>
