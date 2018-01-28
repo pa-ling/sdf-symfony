@@ -281,11 +281,17 @@ class ProductController extends Controller
 
 		$images = array(); 
 		$images_size = array();
+		$images_prev = array();
 		for ($i=0; $i <sizeof($imageIdInGallery); $i++) { 
 			$images[$i] = $this->get('sonata.media.manager.media')
 				->findOneBy(
 					['id'=>$imageIdInGallery[$i]]
 				);
+
+			$provider_reference_without_ext = preg_replace('/\\.[^.\\s]{3,4}$/', '', $images[$i]->getProviderReference());
+			$image_prev = $images[$i]->getId().$provider_reference_without_ext.'.png';
+			array_push($images_prev, $image_prev); 
+			
 			$size = $this->filesize_formatted($images[$i]->getSize());
 			array_push($images_size, $size); 
 		}
@@ -295,7 +301,8 @@ class ProductController extends Controller
 			'preview_image'=>$preview_image,
 			'created_At'=>$created_At,
 			'images'=>$images,
-			'images_size'=>$images_size
+			'images_size'=>$images_size,
+			'images_prev'=>$images_prev
 		));
 		
 	}

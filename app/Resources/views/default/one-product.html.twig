@@ -40,7 +40,7 @@
                         {% for item in images %}
                             <tr>
                                 <td>
-                                    <a class="group4"  title="{{item.getName}}|{{item.getHeight}}x{{item.getWidth}}|{{ images_size[loop.index - 1] }}" href="/uploads/media/default/0001/01/thumb_{{ item.id }}_default_small.png">
+                                    <a class="group4"  title="{{item.getName}}|{{item.getHeight}}x{{item.getWidth}}|{{ images_size[loop.index - 1] }}" href="/uploads/media/default/0001/01/{{ images_prev[loop.index - 1]}}">
                                         {{item.getName}}
                                     </a>
                                 </td>
