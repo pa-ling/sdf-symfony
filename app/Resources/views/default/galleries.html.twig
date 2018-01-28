@@ -42,14 +42,14 @@
                         <tr>
                             <th>Name</th>
                             <th>Created At</th>
-                            <th>Action</th>
+                            {# <th>Action</th> #}
                         </tr>
                     </thead>
                         {% for item in galleries %}
                             <tr>
                                 <td><a href="/gallery/{{item.slug}}">{{item.name}}</a></td>
                                 <td>{{ createdAt[loop.index - 1] }}</td>
-                                <td><a href="/gallery/delete/{{item.id}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                                {# <td><a href="/gallery/delete/{{item.id}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td> #}
                             </tr>
                         {% endfor %}
                 </table>

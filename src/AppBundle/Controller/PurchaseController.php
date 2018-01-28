@@ -39,6 +39,12 @@ class PurchaseController extends Controller
             ->getRepository(Purchase::class)
             ->findBy( ['user' => $usr->getId()]);
 
+        $createdAt = array();
+        foreach ($purchases as $key => $value) {
+            $created_At = $this->time_elapsed_string($value->getDatetime()->format("Y-m-d H:i:s"));
+            array_push($createdAt, $created_At);
+        }
+
         $query = $request->query->all();
         if(count($query)>0){
             $status = 'success';
@@ -50,7 +56,8 @@ class PurchaseController extends Controller
             array(
                 'purchases' => $purchases,
                 'message' => $message,
-                'status' => $status
+                'status' => $status,
+                'createdAt' => $createdAt
             )
         );
 
@@ -69,16 +76,20 @@ class PurchaseController extends Controller
         
         $purchsesByCustomer = array();
 
+        $createdAt = array();
         foreach ($purchases as $purchase){
             if($purchase->getProducts()[0]->getOwnedBy() == $usrId ){
                 array_push($purchsesByCustomer, $purchase);
+                $created_At = $this->time_elapsed_string($purchase->getDatetime()->format("Y-m-d H:i:s"));
+                array_push($createdAt, $created_At);
             }
         }
 
         return $this->render(
             'default/sales.html.twig',
             array(
-                'purchases' => $purchsesByCustomer
+                'purchases' => $purchsesByCustomer,
+                'createdAt' => $createdAt
             )
         );
     }
@@ -228,5 +239,34 @@ class PurchaseController extends Controller
             return $this->redirect('/purchase');
         }
 
+    }
+
+    function time_elapsed_string($datetime, $full = false) {
+        $now = new DateTime;
+        $ago = new DateTime($datetime);
+        $diff = $now->diff($ago);
+    
+        $diff->w = floor($diff->d / 7);
+        $diff->d -= $diff->w * 7;
+    
+        $string = array(
+            'y' => 'year',
+            'm' => 'month',
+            'w' => 'week',
+            'd' => 'day',
+            'h' => 'hour',
+            'i' => 'minute',
+            's' => 'second',
+        );
+        foreach ($string as $k => &$v) {
+            if ($diff->$k) {
+                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+            } else {
+                unset($string[$k]);
+            }
+        }
+    
+        if (!$full) $string = array_slice($string, 0, 1);
+        return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
 }

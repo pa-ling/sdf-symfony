@@ -65,7 +65,7 @@ class ImageController extends Controller
 
         $createdAt = array();
         foreach ($images as $key => $value) {
-            $created_At = $value->getCreatedAt()->format('d/m/Y');
+            $created_At = $this->time_elapsed_string($value->getCreatedAt()->format("Y-m-d H:i:s"));
             array_push($createdAt, $created_At);
         }
 
@@ -120,7 +120,7 @@ class ImageController extends Controller
                 $current_galleries[$key] = implode(", ", $value);
             }
         }
-        $created_At = $image->getCreatedAt()->format('d/m/Y');
+        $created_At = $this->time_elapsed_string($image->getCreatedAt()->format("Y-m-d H:i:s"));
         $size = $this->filesize_formatted($image->getSize());
 
         if (!$image) {
@@ -634,6 +634,35 @@ class ImageController extends Controller
         }
 
         return true;
+    }
+
+    function time_elapsed_string($datetime, $full = false) {
+        $now = new DateTime;
+        $ago = new DateTime($datetime);
+        $diff = $now->diff($ago);
+    
+        $diff->w = floor($diff->d / 7);
+        $diff->d -= $diff->w * 7;
+    
+        $string = array(
+            'y' => 'year',
+            'm' => 'month',
+            'w' => 'week',
+            'd' => 'day',
+            'h' => 'hour',
+            'i' => 'minute',
+            's' => 'second',
+        );
+        foreach ($string as $k => &$v) {
+            if ($diff->$k) {
+                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+            } else {
+                unset($string[$k]);
+            }
+        }
+    
+        if (!$full) $string = array_slice($string, 0, 1);
+        return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
 
 }

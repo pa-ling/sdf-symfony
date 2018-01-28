@@ -33,7 +33,7 @@ class GalleryController extends Controller
         
         $createdAt = array();
         foreach ($galleries as $key => $value) {
-            $created_At = $value->getCreatedAt()->format('d/m/Y');
+            $created_At = $this->time_elapsed_string($value->getCreatedAt()->format("Y-m-d H:i:s"));
             array_push($createdAt, $created_At);
         }
 
@@ -216,7 +216,7 @@ class GalleryController extends Controller
         $createdAt = array();
         if ($images) {
             foreach ($images as $key => $value) {
-                $created_At = $value->getCreatedAt()->format('d/m/Y');
+                $created_At = $this->time_elapsed_string($value->getCreatedAt()->format("Y-m-d H:i:s"));
                 array_push($createdAt, $created_At);
             }
         }
@@ -264,6 +264,35 @@ class GalleryController extends Controller
         $units = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
         $power = $size > 0 ? floor(log($size, 1024)) : 0;
         return number_format($size / pow(1024, $power), 2, '.', ',') . ' ' . $units[$power];
+    }
+
+    function time_elapsed_string($datetime, $full = false) {
+        $now = new DateTime;
+        $ago = new DateTime($datetime);
+        $diff = $now->diff($ago);
+    
+        $diff->w = floor($diff->d / 7);
+        $diff->d -= $diff->w * 7;
+    
+        $string = array(
+            'y' => 'year',
+            'm' => 'month',
+            'w' => 'week',
+            'd' => 'day',
+            'h' => 'hour',
+            'i' => 'minute',
+            's' => 'second',
+        );
+        foreach ($string as $k => &$v) {
+            if ($diff->$k) {
+                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+            } else {
+                unset($string[$k]);
+            }
+        }
+    
+        if (!$full) $string = array_slice($string, 0, 1);
+        return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
 
 }
