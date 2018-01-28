@@ -206,16 +206,21 @@ class GalleryController extends Controller
                 ->findOneBy(
                     ['id'=>$imageIdInGallery[$i]]
                 );
-            $size = $this->filesize_formatted($images[$i]->getSize());
-            array_push($images_size, $size); 
+            
+            if ($images[$i]) {
+                $size = $this->filesize_formatted($images[$i]->getSize());
+                array_push($images_size, $size); 
+            }
         }
 
         $createdAt = array();
-        foreach ($images as $key => $value) {
-            $created_At = $value->getCreatedAt()->format('d/m/Y');
-            array_push($createdAt, $created_At);
+        if ($images) {
+            foreach ($images as $key => $value) {
+                $created_At = $value->getCreatedAt()->format('d/m/Y');
+                array_push($createdAt, $created_At);
+            }
         }
-
+        
         if($gallery->getOwnedBy() === $user){
             return $this->render('default/gallery.html.twig', array(
                 'gallery' => $gallery,

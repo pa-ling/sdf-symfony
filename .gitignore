@@ -19,3 +19,4 @@
 !var/sessions/.gitkeep
 !var/SymfonyRequirements.php
 /.idea/*
+/web/*.zip

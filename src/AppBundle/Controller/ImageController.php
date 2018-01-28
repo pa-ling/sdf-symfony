@@ -411,10 +411,12 @@ class ImageController extends Controller
                                 $newFilePathThumbDefaultNavSec = $pathfolder . "/thumb_" . $uploadedMedia->getId() . "_default_navsec." . $ext;
                                 $newFilePathThumbDefaultSmall = $pathfolder . "/thumb_" . $uploadedMedia->getId() . "_default_small.png";
 
+                                $provider_reference_without_ext = preg_replace('/\\.[^.\\s]{3,4}$/', '', $media['provider_reference']);
+                                $newFileWaterMark = $pathfolder . '/'. $uploadedMedia->getId() .$provider_reference_without_ext.'.png';
+
                                 $uploads = move_uploaded_file($tmpFilePath[$i], $newFilePath);
                                 if ($uploads) {
                                     $file = $newFilePath;
-
 
                                     $im = imagecreatefromjpeg($file);
 
@@ -435,12 +437,8 @@ class ImageController extends Controller
                                     imagecopymerge($im, $stamp, imagesx($im) - $sx - $marge_right, imagesy($im) - $sy - $marge_bottom, 0, 0, imagesx($stamp), imagesy($stamp), 50);
 
                                     // Bild speichern, aufräumen
-                                    imagepng($im, $newFilePathThumbDefaultSmall);
+                                    imagepng($im, $newFileWaterMark);
                                     imagedestroy($im);
-
-
-
-
 
                                     $this->smart_resize_image($file, null, '230', '150', false, $newFilePathThumbAdmin, false, false, 100);
                                     $this->compress($file, $newFilePathThumbAdmin, 40);
@@ -448,8 +446,8 @@ class ImageController extends Controller
                                     $this->compress($file, $newFilePathThumbDefaultNav, 45);
                                     $this->smart_resize_image($file, null, '230', '150', false, $newFilePathThumbDefaultNavSec, false, false, 100);
                                     $this->compress($file, $newFilePathThumbDefaultNavSec, 30);
-                                    //$this->smart_resize_image($file, null, '230', '150', false, $newFilePathThumbDefaultSmall, false, false, 100);
-                                    //$this->compress($file, $newFilePathThumbDefaultSmall, 50);
+                                    $this->smart_resize_image($file, null, '230', '150', false, $newFilePathThumbDefaultSmall, false, false, 100);
+                                    $this->compress($file, $newFilePathThumbDefaultSmall, 50);
                                 }
                             } catch (Exception $e) {
                                 print_r($e);

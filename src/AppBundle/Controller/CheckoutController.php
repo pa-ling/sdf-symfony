@@ -27,34 +27,38 @@ class CheckoutController extends Controller
 
         $sum = 0;
         if ($cookie)
-        {
+        {   
             foreach ($cookie as $id)
-            {
+            {   
+
                 $product = $this->getDoctrine()
                     ->getRepository(Product::class)
                     ->find($id);
+                
+                if ($product) {
+                    $item = null;
 
-                $item = null;
-                if ($product->getImage())
-                {   
-                    $item = $product->getImage();
-                }else{
-                    $product->setImage($this->getPreviewImgPathForProduct($product));
+                    if ($product->getImage())
+                    {   
+                        $item = $product->getImage();
+                    }else{
+                        $product->setImage($this->getPreviewImgPathForProduct($product));
+                    }
+
+                    if ($product->getGallery())
+                    {
+                        //$item = $product.getGallery();
+                    }
+
+                    $sum += $product->getPrice();
+                    $item = array(
+                        'id' => $product->getId(),
+                        'name' => $product->getName(), //TODO: Get name of image or gallery
+                        'price' => $product->getPrice(),
+                        'image' => $product->getImage(), //TODO: Get image or first image of gallery
+                    );
+                    array_push($cartItems, $item);
                 }
-
-                if ($product->getGallery())
-                {
-                    //$item = $product.getGallery();
-                }
-
-                $sum += $product->getPrice();
-                $item = array(
-                    'id' => $product->getId(),
-                    'name' => $product->getName(), //TODO: Get name of image or gallery
-                    'price' => $product->getPrice(),
-                    'image' => $product->getImage(), //TODO: Get image or first image of gallery
-                );
-                array_push($cartItems, $item);
             }
         }
 

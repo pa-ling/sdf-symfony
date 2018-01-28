@@ -19,7 +19,7 @@ class PurchaseController extends Controller
 
     function status($code){
         $message = array(
-            201=>'You have successfully ordered your item. After the seller approves your purchase, you will be available to download it.',
+            201=>'You have successfully ordered your item. After the seller approves your purchase, you will get an email and be available to download it.',
         );
         return $message[$code];
     }
@@ -206,21 +206,24 @@ class PurchaseController extends Controller
 					->findOneBy(
 						['id'=>$imageIdInGallery[$i]]
                     );
-                $images_url[$i] = $app_url.'/uploads/media/default/0001/01/'.$images[$i]->getProviderReference();
+                $provider_reference_without_ext = preg_replace('/\\.[^.\\s]{3,4}$/', '', $images[$i]->getProviderReference());
+                $images_url[$i] = getcwd().'/uploads/media/default/0001/01/'.$images[$i]->getId().$provider_reference_without_ext.'.png';
             }
 
-            /**
-             * TODO
-             * Download as ZIP
-             */
             $files = $images_url;
-            $zipname = $userId.'-purchase.zip';
+            $zipname = './download/'.$userId.'-symfoto-purchase.zip';
             $zip = new ZipArchive;
             $zip->open($zipname, ZipArchive::CREATE);
             foreach ( $files as $file) {
-                $zip->addFile($file);
+                $zip->addFile($file,basename($file));
             }
             $zip->close();
+            header("Content-type: application/zip"); 
+            header("Content-Disposition: attachment; filename=".$zipname);
+            header("Content-length: " . filesize($zipname));
+            header("Pragma: no-cache"); 
+            header("Expires: 0"); 
+            readfile($zipname);
 
             return $this->redirect('/purchase');
         }
