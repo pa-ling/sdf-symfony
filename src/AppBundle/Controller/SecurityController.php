@@ -16,8 +16,7 @@ class SecurityController extends Controller
             201=>'Thank you for joining us. Please check your email and click the confirmation link to finish your registration.',
             202=>'You have successfully reset your password.',
             203=>'Please check your email. If you do not receive email from us, please submit again.',
-            
-            204=>'You have succesfully update your profile.',
+            204=>'You have succesfully updated your profile.',
 
             301=>'No user found',
             302=>'No user data found'
