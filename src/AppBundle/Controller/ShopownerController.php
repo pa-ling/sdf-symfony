@@ -13,6 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ShopownerController extends Controller
 {
+
+    function status($code){
+        $message = array(
+            301=>'Shopowner not found.',
+        );
+        return $message[$code];
+    }
+
     /**
      * @Route("/photographers/shopowner/", name="myshopowner")
      */
@@ -22,9 +30,10 @@ class ShopownerController extends Controller
 
         $shopownerID = $this->getUser()->getId();
 
-        $shopowner = $em->getRepository('AppBundle:Photographers')->findOneBy(
-            ['userID' => $shopownerID]
-        );
+        $shopowner = $em->getRepository('AppBundle:UserData')
+            ->findOneBy(
+                ['userid' => $shopownerID]
+            );
 
         $products = $em->getRepository('AppBundle:Product')->findBy(
             ['owned_by' => $shopownerID,
@@ -62,11 +71,21 @@ class ShopownerController extends Controller
      */
     public function shopownerAction(Request $request, $shopownerID)
     {
+        $message = null;
+        $status = 'default';
+
+        $query = $request->query->all();
+        if(count($query)>0){
+            $status = $query['status'];
+            $message = $this->status($query['code']); 
+        }
+
         $em = $this->getDoctrine()->getManager();
 
-        $shopowner = $em->getRepository('AppBundle:Photographers')->findOneBy(
-            ['userID' => $shopownerID]
-        );
+        $shopowner = $em->getRepository('AppBundle:UserData')
+            ->findOneBy(
+                ['userid' => $shopownerID]
+            );
 
         $products = $em->getRepository('AppBundle:Product')->findBy(
             ['owned_by' => $shopownerID,
@@ -92,12 +111,12 @@ class ShopownerController extends Controller
             $product->setImage($imageIdInGallery[0]);
         }
 
-        
-
         return $this->render('default/shopowner.html.twig', array(
             'shopowner' => $shopowner,
             'products' => $products,
-            'numberOfProducts' => count($products)
+            'numberOfProducts' => count($products),
+            'message'=>$message,
+            'status' => $status
         ));
     }
 

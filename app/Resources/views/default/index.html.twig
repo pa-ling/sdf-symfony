@@ -22,8 +22,8 @@
                     {% endif %}
                     <div class="col-md-3 product-left p-left">
                         <div class="product-main simpleCart_shelfItem">
-                            <a href="{{ path('shopowner', { 'shopownerID' : item.getId }) }}" class="mask">
-                                <img src="https://api.adorable.io/avatars/285/{{item.getId}}.png" width="175" height="175" class="navHorizontalCenter" sizes="(max-width: 175px) 100vw, 175px">
+                            <a href="{{ path('shopowner', { 'shopownerID' : item.getUserId }) }}" class="mask">
+                                <img src="https://api.adorable.io/avatars/285/{{item.getUserId}}.png" width="175" height="175" class="navHorizontalCenter" sizes="(max-width: 175px) 100vw, 175px">
                             </a>
                             <div class="product-bottom">
                                 <h3>{{ item.firstname }} {{ item.lastname }}</h3>

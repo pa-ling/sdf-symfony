@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\UserData;
+use \Datetime;
 
 class RegisterController extends Controller
 {
@@ -123,7 +124,7 @@ class RegisterController extends Controller
             $status = $query['status'];
             $message = $this->status($query['code']); 
         }
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $request->request->all();
             $shortDesc = $data['shortDesc'];
@@ -179,12 +180,16 @@ class RegisterController extends Controller
                 $this->get('mailer')->send($swiftMailer);
                 
                 try{
+                    $date = new Datetime();
+
                     $userData = new UserData();
                     $userData->setUserId($user->getId());
                     $userData->setLongdescr($longDesc);
                     $userData->setShortdescr($shortDesc);
                     $userData->setFirstname($firstname);
                     $userData->setLastname($lastname);
+                    $userData->setCreatedAt($date);
+                    $userData->setUpdatedAt($date);
 
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($userData);

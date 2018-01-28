@@ -27,15 +27,17 @@ class DefaultController extends Controller
         $users = $this->get('fos_user.user_manager')->findAll();
 
         $photographers = array();
-        foreach($users as $user){
-            $roles = $user->getRoles();
-            if( in_array( "ROLE_PHOTOGRAPH" ,$roles ) )
-            {
-                $userData = $em->getRepository('AppBundle:UserData')
-                    ->findOneBy(
-                        ['userid' => $user->getId()]
-                    );
-                array_push($photographers,$userData);
+        if($users){
+            foreach($users as $user){
+                $roles = $user->getRoles();
+                if( in_array( "ROLE_PHOTOGRAPH" ,$roles ) )
+                {
+                    $userData = $em->getRepository('AppBundle:UserData')
+                        ->findOneBy(
+                            ['userid' => $user->getId()]
+                        );
+                    array_push($photographers,$userData);
+                }
             }
         }
 
