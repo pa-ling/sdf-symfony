@@ -18,12 +18,11 @@
             {% for item in photographers %}
                 {% if (loop.index % 3) >= 0 %}
                     {% if (loop.index % 3) == 1 %}
-                        <div class="product-one">
                     {% endif %}
-                    <div class="col-md-3 product-left p-left">
+                    <div class="col-md-3">
                         <div class="product-main simpleCart_shelfItem">
                             <a href="{{ path('shopowner', { 'shopownerID' : item.getUserId }) }}" class="mask">
-                                <img src="https://api.adorable.io/avatars/285/{{item.getUserId}}.png" width="175" height="175" class="navHorizontalCenter" sizes="(max-width: 175px) 100vw, 175px">
+                                <img src="https://api.adorable.io/avatars/285/{{item.getUserId}}.png" width="200" height="200" class="navHorizontalCenter" sizes="(max-width: 200px) 100vw, 200px">
                             </a>
                             <div class="product-bottom">
                                 <h3>{{ item.firstname }} {{ item.lastname }}</h3>
