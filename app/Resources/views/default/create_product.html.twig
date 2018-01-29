@@ -19,7 +19,7 @@
     <form action="/myproduct" method="POST">
         <div class="form-group">
             <label for="name">Name</label>
-            <input id="name" name="name" type="text" placeholder="Name" class="form-control" required title="Name has a character maximum of 100" pattern="^[A-Za-z0-9_]{1,100}$">
+            <input id="name" name="name" type="text" placeholder="Name" class="form-control" required title="Name has a character maximum of 100" maxlength="100">
         </div>
         <div class="form-group">
             <label for="price">Price (€)</label>
@@ -27,7 +27,7 @@
         </div>
         <div class="form-group">
             <label for="price">Description (max 200 characters)</label>
-            <textarea rows="3" cols="50" class="form-control" id="description" name="description" placeholder="Description" title="Description has a character maximum of 200" pattern="^[A-Za-z0-9_]{1,200}$" maxlength="200" minlength="5"></textarea>
+            <textarea rows="3" cols="50" class="form-control" id="description" name="description" placeholder="Description" title="Description has a character maximum of 200" maxlength="200"></textarea>
         </div>
         <div class="form-group">
             <label for="galleries">Galleries</label>

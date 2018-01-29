@@ -19,15 +19,15 @@
         {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email', 'required': 'true'}}) }}
         {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'Password', 'required': 'true','title':'UpperCase, LowerCase, Number/SpecialChar and min 8 Chars'}}) }}
         {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Re-Password', 'required': 'true', 'title':'UpperCase, LowerCase, Number/SpecialChar and min 8 Chars'}}) }}
-        <input type="text" class="form-control" name ="firstname" placeholder="Firstname" required>
+        <input type="text" maxlength="100" class="form-control" name ="firstname" placeholder="Firstname" required title="Firstname have a character maximum of 100">
         <label for="shortDesc" class="sr-only">Fristname</label>
-        <input type="text" class="form-control" name ="lastname" placeholder="Lastname" required>
+        <input type="text" maxlength="100" class="form-control" name ="lastname" placeholder="Lastname" required title="Lastname have a character maximum of 100">
         <label for="longDesc" class="sr-only">Lastname</label>
 
 
-        <input type="text" id="shortDesc" class="form-control" name ="shortDesc" placeholder="Short Description" title="Short description have a character maximum of 100" pattern="^[A-Za-z0-9_]{1,100}$" required>
+        <input type="text" id="shortDesc" class="form-control" name ="shortDesc" placeholder="Short Description" title="Short description have a character maximum of 100"  maxlength="100" required>
         <label for="shortDesc" class="sr-only">shortDesc</label>
-        <textarea rows="5" cols="50" type="text" id="longDesc" class="form-control" name ="longDesc" placeholder="Long Description" title="Short description has a character maximum of 500" pattern="^[A-Za-z0-9_]{1,500}$" required></textarea>
+        <textarea rows="5" cols="50" type="text" id="longDesc" class="form-control" name ="longDesc" placeholder="Long Description" title="Short description has a character maximum of 500" maxlength="500" required></textarea>
         <label for="longDesc" class="sr-only">longDesc</label>
 
         {{ form_widget(form.save, {'attr': {'class': 'btn btn-lg btn-primary btn-block'}}) }}
