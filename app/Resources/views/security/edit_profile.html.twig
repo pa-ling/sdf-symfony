@@ -39,7 +39,7 @@ file that was distributed with this source code.
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="textinput">First Name</label>
                     <div class="col-sm-8">
-                    <input type="text" value="{{ userData.firstname }}" name="firstname" placeholder="First Name" class="form-control">
+                    <input type="text" value="{{ userData.firstname }}" name="firstname" placeholder="First Name" class="form-control" title="Firstname has a character maximum of 20" pattern="^[A-Za-z0-9_]{1,20}$">
                     </div>
                 </div>
 
@@ -47,7 +47,7 @@ file that was distributed with this source code.
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="textinput">Last Name</label>
                     <div class="col-sm-8">
-                        <input type="text" value="{{ userData.lastname }}" name="lastname" placeholder="Last Name" class="form-control">
+                        <input type="text" value="{{ userData.lastname }}" name="lastname" placeholder="Last Name" class="form-control" title="Lastname has a character maximum of 20" pattern="^[A-Za-z0-9_]{1,20}$">
                     </div>
                 </div>
 
@@ -67,14 +67,14 @@ file that was distributed with this source code.
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="textinput">Location</label>
                     <div class="col-sm-8">
-                        <input type="text" value="{{ userData.location }}" name="location" placeholder="Location" class="form-control">
+                        <input type="text" value="{{ userData.location }}" name="location" placeholder="Location" class="form-control" placeholder="First Name" class="form-control" title="Location has a character maximum of 20" pattern="^[A-Za-z0-9_]{1,20}$">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="textinput">Telephone</label>
                     <div class="col-sm-8">
-                        <input type="text" value="{{ userData.phone }}" name="phone" placeholder="Telephone" class="form-control">
+                        <input type="number" value="{{ userData.phone }}" name="phone" placeholder="Telephone" class="form-control">
                     </div>
                 </div>
 
@@ -82,13 +82,13 @@ file that was distributed with this source code.
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="shortdescr">Short Description</label>
                     <div class="col-sm-8">
-                        <input type="text" value="{{ userData.shortdescr }}" name="shortdescr" placeholder="Short Description" class="form-control">
+                        <input type="text" value="{{ userData.shortdescr }}" name="shortdescr" placeholder="Short Description" class="form-control" title="Location has a character maximum of 100" pattern="^[A-Za-z0-9_]{1,100}$">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="longdescr">Long Description</label>
                     <div class="col-sm-8">
-                        <textarea type="text" name="longdescr" placeholder="Long Description" class="form-control">{{ userData.longdescr }}</textarea>
+                        <textarea type="text" name="longdescr" placeholder="Long Description" class="form-control" title="Location has a character maximum of 500" pattern="^[A-Za-z0-9_]{1,500}$">{{ userData.longdescr }}</textarea>
                     </div>
                 </div>
                 {% endif %}

@@ -25,9 +25,9 @@
         <label for="longDesc" class="sr-only">Lastname</label>
 
 
-        <input type="text" id="shortDesc" class="form-control" name ="shortDesc" placeholder="Short Description" required>
+        <input type="text" id="shortDesc" class="form-control" name ="shortDesc" placeholder="Short Description" title="Short description have a character maximum of 100" pattern="^[A-Za-z0-9_]{1,100}$" required>
         <label for="shortDesc" class="sr-only">shortDesc</label>
-        <textarea type="text" id="longDesc" class="form-control" name ="longDesc" placeholder="Long Description" required></textarea>
+        <textarea rows="5" cols="50" type="text" id="longDesc" class="form-control" name ="longDesc" placeholder="Long Description" title="Short description has a character maximum of 500" pattern="^[A-Za-z0-9_]{1,500}$" required></textarea>
         <label for="longDesc" class="sr-only">longDesc</label>
 
         {{ form_widget(form.save, {'attr': {'class': 'btn btn-lg btn-primary btn-block'}}) }}
