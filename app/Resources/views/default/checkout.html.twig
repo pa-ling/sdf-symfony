@@ -113,7 +113,7 @@
                     <br>
 					{%- if app.user -%}
 						<form action="" method="post">
-							<button name="order" value="order" class="btn btn-primary pull-right">Order</button>
+							<button name="order" value="order" class="btn btn-primary pull-right"{%- if cartItems|length == 0 -%} disabled {% endif %}>Order</button>
 						</form>
                     {% else %}
 						<button class="btn btn-secondary pull-right">Login to proceed order</button>
