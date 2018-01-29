@@ -310,7 +310,8 @@ class SecurityController extends Controller
                         'status' => $status,
                         'message' => $message,
                         'updatedAt' => $updatedAt,
-                        'photographer' => $photographer
+                        'photographer' => $photographer,
+                        'userId' => $userId
                     )
                 );
 
@@ -330,7 +331,7 @@ class SecurityController extends Controller
                     ->findOneBy(
                         ['userid' => $userid]
                     );
-
+                
                 if (!$userData) {
                     $userData = new UserData();
 
