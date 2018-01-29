@@ -34,7 +34,6 @@ class PurchaseController extends Controller
         $status = 'default';
 
         $user = $this->getUser();
-        $userId = $user->getId();
         
         if(!$user){
             return $this->redirect('/login');
@@ -42,7 +41,7 @@ class PurchaseController extends Controller
 
         $purchases = $this->getDoctrine()
             ->getRepository(Purchase::class)
-            ->findBy( ['user' => $userId]);
+            ->findBy( ['user' => $user->getId()]);
 
         $createdAt = array();
         if($purchases){
