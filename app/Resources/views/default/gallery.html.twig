@@ -45,6 +45,11 @@
             <li class="active">{{gallery.name}}</li>
         </ol>
         <hr>
+        {% if message %}
+			<div class="alert alert-{{ status }}">
+				{{ message }}
+            </div>		
+		{% endif %}
         <div>
             <p>Add images from your computer</p>
             <form action="/image/new/{{gallery.slug}}"  method="post" enctype="multipart/form-data">

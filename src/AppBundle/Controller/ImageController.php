@@ -337,10 +337,21 @@ class ImageController extends Controller
                     $media['provider_status'] = 1;
 
                     $provider_reference = strtolower($this->generateRandomString(40));
-                    $ext = pathinfo($media['name'], PATHINFO_EXTENSION);
+                    $ext = strtolower(pathinfo($media['name'], PATHINFO_EXTENSION));
                     $media['provider_reference'] = $provider_reference . '.' . $ext;
+                    
+                    $acceptedExt = ['jpg','jpeg'];
+
+                    if (!in_array($ext, $acceptedExt))
+                    {
+                        return $this->redirect($redirectUrl.'?code=301&status=warning');
+                    }
 
                     $media['provider_metadata'] = (object)array('filename' => $media['name']);
+                    
+                    if(empty($_FILES["images"]["tmp_name"][$i])){
+                        return $this->redirect($redirectUrl.'?code=302&status=warning');
+                    }
 
                     $image_info = getimagesize($_FILES["images"]["tmp_name"][$i]);
                     $media['width'] = $image_info[0];

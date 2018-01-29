@@ -14,7 +14,14 @@ use Application\Sonata\MediaBundle\Entity\Media;
 use \Datetime;
 
 class GalleryController extends Controller
-{
+{   
+    function status($code){
+        $message = array(
+            301=>'Accepted image file extensions: jpg, jpeg.',
+            302=>'Broken one or some of uploaded images.',
+        );
+        return $message[$code];
+    }
 
     /**
      * @Route("/gallery", name="getGalleryLists")
@@ -166,10 +173,19 @@ class GalleryController extends Controller
     /**
      * @Route("/gallery/{slug}", name="galleryOne")
      */
-    public function show($slug)
+    public function show(Request $request,$slug)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser()->getId();
+        
+        $message = null;
+        $status = 'default';
+
+        $query = $request->query->all();
+        if(count($query)>0){
+            $status = $query['status'];
+            $message = $this->status($query['code']); 
+        }
 
         /**
          * Get all gallery owned_by = user_id
@@ -227,7 +243,9 @@ class GalleryController extends Controller
                 'images' => $images,
                 'slug' => '/gallery/'.$slug,
                 'createdAt' => $createdAt,
-                'images_size'=>$images_size           
+                'images_size'=>$images_size,
+                'message'=> $message,
+                'status' => $status           
             ));
         }
     }
