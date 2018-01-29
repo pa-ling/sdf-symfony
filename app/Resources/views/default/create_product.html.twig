@@ -40,11 +40,12 @@
         <div class="form-group">
             <label for="category">Category</label>
             <select name="category" id="category" >
+                <option value="">No Category</option>
                 {% for category in categories %}
                     <option value="{{category.name}}">{{category.name}}</option>
                 {% endfor %}
             </select>
-            or <a target="_blank" href="/showCategories">Create new one</a>
+            or <a href="/showCategories">Create new one</a>
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>

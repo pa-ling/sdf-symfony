@@ -8,7 +8,7 @@
 			Categories
 				{% if app.user %}
             	{%- if is_granted('ROLE_PHOTOGRAPH') -%}
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">+</button>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">+New</button>
 				{%- endif -%}
 			{% endif %}
 			</h2>
@@ -23,10 +23,15 @@
             </ul>
         </div>
 
+		<div class="col-sm-6 col-md-4 col-lg-2">
+			<h3>
+				<a href="/sort?q=null">#NoCategory</a> 
+			</h3>
+		</div>
 		{% for category in categories %}
 		<div class="col-sm-6 col-md-4 col-lg-2">
 			<h3>
-				<a href="/sort?q={{category.name}}">#{{category.name}} ({{categories_count[loop.index - 1]}})</a> 
+				<a href="/sort?q={{category.name}}">#{{category.name}}</a> 
 			</h3>
 		</div>
 		{% endfor %}
@@ -45,7 +50,7 @@
 			<div class="row">
 				<div class="col-md-10">
 					<div class="form-group">
-						<input name="categoryName" type="text" placeholder="New Category" class="form-control" required>
+						<input name="categoryName" type="text" placeholder="New Category" class="form-control" required pattern="^[A-Za-z0-9_]{1,10}$" title="Category with character maximum of 10 and no space">
 					</div>
 				</div>
 				<div class="col-md-2">

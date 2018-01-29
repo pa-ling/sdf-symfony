@@ -55,9 +55,8 @@ class ProductController extends Controller
 			
                 $user = $this->getUser()->getId();
                 $category = $data['category'];
-                $description = $data['description'];
-
-
+				$description = $data['description'];
+				
                 $mediaIds = $em->getRepository('AppBundle:GalleryMedia')->findOneBy(
                     ['gallery_id' => $galleryId]
                 );

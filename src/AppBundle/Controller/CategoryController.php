@@ -26,7 +26,9 @@ class CategoryController extends Controller
         foreach ($categories as $category){
             $keyword = $category->getName();
             $products = $em->getRepository('AppBundle:Product')
-                ->searchByCategoryAndDescription($keyword);
+                ->findBy(
+                    ['category'=>$keyword]
+                );
             array_push($categories_count,count($products));
         }
 

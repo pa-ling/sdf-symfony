@@ -63,11 +63,19 @@ class SearchController extends Controller
         $query = $request->query->all();
         if(count($query)>0){
             $keyword= $query['q'];
- 
+            
             $em = $this->getDoctrine()->getManager();
-
-            $products = $em->getRepository('AppBundle:Product')
-                ->searchByCategoryAndDescription($keyword);
+            if($keyword=='null'){
+                $products = $em->getRepository('AppBundle:Product')
+                    ->findBy(
+                        ['category'=>'']
+                    );
+            }else{
+                $products = $em->getRepository('AppBundle:Product')
+                    ->findBy(
+                        ['category'=>$keyword]
+                    );
+            }            
 
             foreach ($products as $product){
                 $galleries = $product->getGallery();
