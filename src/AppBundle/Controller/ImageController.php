@@ -330,6 +330,7 @@ class ImageController extends Controller
                 $tmpFilePath = $_FILES["images"]['tmp_name'];
                 if ($tmpFilePath != "") {
                     $media['name'] = $_FILES["images"]["name"][$i];
+                    $filename = pathinfo($_FILES["images"]["name"][$i], PATHINFO_FILENAME);
 
                     // $media['description'] = null;
                     $media['enabled'] = 0;
@@ -347,7 +348,7 @@ class ImageController extends Controller
                         return $this->redirect($redirectUrl.'?code=301&status=warning');
                     }
 
-                    $media['provider_metadata'] = (object)array('filename' => $media['name']);
+                    $media['provider_metadata'] = (object)array('filename' => $filename);
                     
                     if(empty($_FILES["images"]["tmp_name"][$i])){
                         return $this->redirect($redirectUrl.'?code=302&status=warning');
@@ -372,12 +373,12 @@ class ImageController extends Controller
 
                     $mediax = new Media();
                     $mediax->preUpdate();
-                    $mediax->setName($media['name']);
+                    $mediax->setName($filename);
                     $mediax->setEnabled($media['enabled']);
                     $mediax->setProviderName($media['provider_name']);
                     $mediax->setProviderStatus($media['provider_status']);
                     $mediax->setProviderReference($media['provider_reference']);
-                    $mediax->setProviderMetadata(array('filename' => $media['name']));
+                    $mediax->setProviderMetadata(array('filename' => $filename));
                     $mediax->setWidth($media['width']);
                     $mediax->setHeight($media['height']);
                     $mediax->setContentType($media['content_type']);
