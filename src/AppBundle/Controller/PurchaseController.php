@@ -35,14 +35,20 @@ class PurchaseController extends Controller
 
         $usr = $this->get('security.context')->getToken()->getUser();
 
+        if($usr){
+            return $this->redirect('/login');
+        }
+
         $purchases = $this->getDoctrine()
             ->getRepository(Purchase::class)
             ->findBy( ['user' => $usr->getId()]);
 
         $createdAt = array();
-        foreach ($purchases as $key => $value) {
-            $created_At = $this->time_elapsed_string($value->getDatetime()->format("Y-m-d H:i:s"));
-            array_push($createdAt, $created_At);
+        if($purchases){
+            foreach ($purchases as $key => $value) {
+                $created_At = $this->time_elapsed_string($value->getDatetime()->format("Y-m-d H:i:s"));
+                array_push($createdAt, $created_At);
+            }
         }
 
         $query = $request->query->all();
