@@ -111,14 +111,12 @@
 					</div>
                     <h3 class="text-right">Sum: {{ sum }} €</h3>
                     <br>
-					{%- if is_granted('ROLE_USER') -%}
+					{%- if app.user -%}
 						<form action="" method="post">
 							<button name="order" value="order" class="btn btn-primary pull-right">Order</button>
 						</form>
                     {% else %}
-						<a href="{{ path('login') }}" >
-							<button name="order" value="order" class="btn btn-primary pull-right">Order</button>
-						</a>
+						<button class="btn btn-secondary pull-right">Login to proceed order</button>
                     {% endif %}
 
 				</div>

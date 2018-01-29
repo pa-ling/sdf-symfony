@@ -33,15 +33,16 @@ class PurchaseController extends Controller
         $message = null;
         $status = 'default';
 
-        $usr = $this->get('security.context')->getToken()->getUser();
-
-        if($usr){
+        $user = $this->getUser();
+        $userId = $user->getId();
+        
+        if(!$user){
             return $this->redirect('/login');
         }
 
         $purchases = $this->getDoctrine()
             ->getRepository(Purchase::class)
-            ->findBy( ['user' => $usr->getId()]);
+            ->findBy( ['user' => $userId]);
 
         $createdAt = array();
         if($purchases){
