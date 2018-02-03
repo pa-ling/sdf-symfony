@@ -20,9 +20,9 @@
                     {% if (loop.index % 3) == 1 %}
                     {% endif %}
                     <div class="col-md-3">
-                        <div class="product-main simpleCart_shelfItem">
+                        <div class="product-main"  style="text-align: center">
                             <a href="{{ path('shopowner', { 'shopownerID' : item.getUserId }) }}" class="mask">
-                                <img src="https://api.adorable.io/avatars/285/{{item.getUserId}}.png" width="200" height="200" class="navHorizontalCenter" sizes="(max-width: 200px) 100vw, 200px">
+                                <img src="https://api.adorable.io/avatars/285/{{item.getUserId}}.png" width="200" height="200" class="navHorizontalCenter">
                             </a>
                             <div class="product-bottom">
                                 <h3>{{ item.firstname }} {{ item.lastname }}</h3>
@@ -34,12 +34,10 @@
                     </div>
                     {% if (loop.index % 3) == 0 or (loop.index) == (loop.last)%}
                         <div class="clearfix"></div>
-                        </div>
                     {% endif %}
                 {% else %}
                 {% endif %}
             {% endfor %}
-        </div>
-    {# </div> #}
+    </div>
 </div>
 {% endblock %}
