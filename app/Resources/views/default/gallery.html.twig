@@ -48,7 +48,7 @@
         {% if message %}
 			<div class="alert alert-{{ status }}">
 				{{ message }}
-            </div>		
+            </div>
 		{% endif %}
         <div>
             <p>Add images from your computer</p>
@@ -79,15 +79,17 @@
                                 {{ item.getName|length > 10 ? item.getName|slice(0, 10) ~ '...' : item.getName  }}
                             </a>
                         </h4>
+                {% if loop.length != 1 %}
                         <span class="pull-right">
                             <a href="/gallery/image/delete/{{item.id}}/{{gallery.slug}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a>
                         </span>
+                    {% endif %}
                     </div>
                 </div>
             </article>
-            {% endfor %}                                            
+            {% endfor %}
         </section>
     </div> <!-- /container -->
-</div> 
+</div>
 
 {% endblock %}
