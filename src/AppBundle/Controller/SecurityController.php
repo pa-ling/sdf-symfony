@@ -194,11 +194,18 @@ class SecurityController extends Controller
 
     /**
      * @Route("/myprofile", name="showProfile")
+     * @Method({"GET","POST"})
      */
     public function showProfile(Request $request)
 	{  
         $status = 'default';
         $message = null;
+
+        $query = $request->query->all();
+        if(count($query)>0){
+            $status = $query['status']; 
+            $message = $this->status($query['code']); 
+        }
 
         $user = $this->getUser();
 
@@ -215,83 +222,19 @@ class SecurityController extends Controller
             return $this->redirect('/info?code=301&status=warning');
         }else{
             $em = $this->getDoctrine()->getManager();
-            $userData = $em->getRepository('AppBundle:UserData')
+            
+
+            $genders = ['Male','Female'];
+            $date = new Datetime();
+            
+            if ($request->getMethod() == 'GET') {
+                $userData = $em->getRepository('AppBundle:UserData')
                 ->findOneBy(
                     ['userid' => $userId]
                 );
-
-            $date = new Datetime();
-
-            if (!$userData) {
-                $userData = [];
-                $userData['userid'] = $userId;
-                $userData['gender'] = null;
-                $userData['firstname'] = null;
-                $userData['lastname'] = null;
-                $userData['location'] = null;
-                $userData['phone'] = null;
-                $userData['updatedAt'] = $date;
-                $updatedAt = $this->time_elapsed_string($date->format("Y-m-d H:i:s"));
-            }else{
-                $updatedAt = $this->time_elapsed_string($userData->getUpdatedAt()->format("Y-m-d H:i:s"));
-            }
-
-            return $this->render('security/show_profile.html.twig',
-                array(
-                    'user' => $user,
-                    'userData' => $userData,
-                    'status' => $status,
-                    'message' => $message,
-                    'updatedAt' => $updatedAt,
-                    'photographer'=>$photographer
-                )
-            );
-        }
-    }
-
-    /**
-     * @Route("/profile/edit", name="editProfile")
-     * @Method({"GET","POST"})
-     */
-    public function editProfile(Request $request)
-	{      
-        $status = 'default';
-        $message = null;
-
-        $query = $request->query->all();
-        if(count($query)>0){
-            $status = $query['status']; 
-            $message = $this->status($query['code']); 
-        }
-
-        $user = $this->getUser();
-        $userId = $user->getId();
-
-        $roles = $user->getRoles();
-        $photographer = false;
-        if( in_array( "ROLE_PHOTOGRAPH" ,$roles ) )
-        {
-            $photographer= true;
-        }
-
-        $em = $this->getDoctrine()->getManager();
-
-        if (!$user) {
-            return $this->redirect('/info?code=301&status=warning');
-        }else{
-            $date = new Datetime();
-
-            if ($request->getMethod() == 'GET') {
-                $genders = ['Male','Female'];
-        
-                $userData = $em->getRepository('AppBundle:UserData')
-                    ->findOneBy(
-                        ['userid' => $userId]
-                    );
                 if (!$userData) {
-                    $userid = $user;
                     $userData = [];
-                    $userData['userid'] = $userid;
+                    $userData['userid'] = $userId;
                     $userData['gender'] = null;
                     $userData['firstname'] = null;
                     $userData['lastname'] = null;
@@ -302,19 +245,18 @@ class SecurityController extends Controller
                 }else{
                     $updatedAt = $this->time_elapsed_string($userData->getUpdatedAt()->format("Y-m-d H:i:s"));
                 }
-
-                return $this->render('security/edit_profile.html.twig',
+    
+                return $this->render('security/show_profile.html.twig',
                     array(
-                        'userData' => $userData,
                         'genders' => $genders,
+                        'user' => $user,
+                        'userData' => $userData,
                         'status' => $status,
                         'message' => $message,
                         'updatedAt' => $updatedAt,
-                        'photographer' => $photographer,
-                        'userId' => $userId
+                        'photographer'=>$photographer
                     )
                 );
-
             }else{
                 $data = $request->request->all();
                 $firstname = $data['firstname'];
@@ -360,7 +302,7 @@ class SecurityController extends Controller
                     $userData->setUpdatedAt($date);
                 }
                 $em->flush();
-                return $this->redirect('/profile/edit?status=success&code=204');
+                return $this->redirect('/myprofile?status=success&code=204');
             }
         }
     }

@@ -23,69 +23,186 @@ file that was distributed with this source code.
         </div>
         <ol class="breadcrumb breadcrumb-arrow">
             <li class="active">My Profile</li>
+            <li>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+                Edit Profile
+                </button>
+            </li>
         </ol>
         <hr>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-            <h3 class="panel-title">{{ user.username }}</h3>
-            </div>
-            <div class="panel-body">
-            <div class="row">
-                <div class="col-md-3 col-lg-3 " align="center"> 
-                    <img alt="User Pic"  width="100%" class="img-circle img-responsive" src="https://api.adorable.io/avatars/285/{{userData.userid}}.png" width="300" height="300" class="navHorizontalCenter" sizes="(max-width: 300px) 100vw, 300px">
-                </div>
-                
-                <div class=" col-md-9 col-lg-9 "> 
-                <table class="table table-user-information">
-                    <tbody>
-                        <tr>
-                            <td>Name:</td>
-                            <td>{{userData.firstname}} {{userData.lastname}}</td>
-                        </tr>
-                            <td>Gender</td>
-                            <td>{{userData.gender}}</td>
-                        </tr>
-                        <tr>
-                            <td>Email</td>
-                            <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
-                        </tr>
-                        </tr>
-                            <td>Location</td>
-                            <td>{{userData.location}}</td>
-                        </tr>
-                        <tr>
-                            <td>Phone Number</td>
-                            <td>{{userData.phone}}
-                            </td>
-                        </tr>
-                        {% if photographer %}
-                        <tr>
-                            <td>Short Description</td>
-                            <td>
-                                {{userData.shortdescr ? userData.shortdescr:''}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Long Description</td>
-                            <td>
-                                {{userData.longdescr ? userData.longdescr: ''}}
-                            </td>
-                        </tr>
-                        {% endif %}
-                                                <tr>
-                            <td>Last updated</td>
-                            <td>{{updatedAt}}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <a href="/profile/edit" class="btn btn-primary">Edit Profile</a>
+
+        {% if message %}
+            <div class="alert alert-{{ status }}">
+                {{ message }}
+            </div>		
+        {% endif %}
+        
+        <div class="col-md-4 col-sm-12">
+            <img class="img-circle img-responsive" src="https://api.adorable.io/avatars/285/{{user.id}}.png" width="300" height="300" class="navHorizontalCenter" sizes="(max-width: 300px) 100vw, 300px">
+        </div>
+        <div class="col-md-8 col-sm-12">
+            <div class="col-sm-12">
+                <label class="col-sm-3 control-label">Username </label>
+                <div class="col-sm-9">
+                    <span>{{ user.username }}</span>
                 </div>
             </div>
+            <hr> 
+
+            <div class="col-sm-12">
+                <label class="col-sm-3 control-label">Last Updated </label>
+                <div class="col-sm-9">
+                    <span>{{updatedAt}}</span>
+                </div>
             </div>
+             <hr>
+
+            <div class="col-sm-12">
+                <label class="col-sm-3 control-label">Name </label>
+                <div class="col-sm-9">
+                    <span>{{ userData.firstname }} {{ userData.lastname }}</span>
+                </div>
+            </div>
+            <hr> 
+            
+            <div class="col-sm-12">
+                <label class="col-sm-3 control-label">Gender </label>
+                <div class="col-sm-9">
+                    <span>{{ userData.gender }}</span>
+                </div>
+            </div>
+             <hr>
+
+            <div class="col-sm-12">
+                <label class="col-sm-3 control-label">Email </label>
+                <div class="col-sm-9">
+                    <span><a href="mailto:{{ user.email }}">{{ user.email }}</a></span>
+                </div>
+            </div>
+             <hr>
+
+             <div class="col-sm-12">
+                <label class="col-sm-3 control-label">Location </label>
+                <div class="col-sm-9">
+                    <span>{{userData.location}}</span>
+                </div>
+            </div>
+             <hr>
+
+            <div class="col-sm-12">
+                <label class="col-sm-3 control-label">Phone Number </label>
+                <div class="col-sm-9">
+                    <span>{{userData.phone}}</span>
+                </div>
+            </div>
+             <hr>
+
+             {% if photographer %}
+             <div class="col-sm-12">
+                <label class="col-sm-3 control-label">Short Description </label>
+                <div class="col-sm-9">
+                    <span>{{userData.shortdescr ? userData.shortdescr:''}}</span>
+                </div>
+            </div>
+             <hr>
+             <div class="col-sm-12">
+                <label class="col-sm-3 control-label">Long Description </label>
+                <div class="col-sm-9">
+                    <span>{{userData.longdescr ? userData.longdescr: ''}}</span>
+                </div>
+            </div>
+             <hr>
+             {% endif %}
+
         </div>
     </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Edit Profile</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" action="/myprofile" method="POST">
+                <fieldset>
+
+                <input type="hidden" name="userid" value="{{ user.id }}">
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="textinput">First Name</label>
+                    <div class="col-sm-8">
+                    <input type="text" maxlength="100" value="{{ userData.firstname }}" name="firstname" placeholder="First Name" class="form-control" title="Firstname has a character maximum of 100">
+                    </div>
+                </div>
+
+                    <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="textinput">Last Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" maxlength="100" value="{{ userData.lastname }}" name="lastname" placeholder="Last Name" class="form-control" title="Lastname has a character maximum of 100">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="gender">Gender</label>
+                    <div class="col-sm-8">          
+                        <select class="form-control" name="gender" id="gender">
+                            {% for gender in genders %}
+                                <option value="{{ gender }}" {{ userData.gender == gender ? 'selected':''}}>{{ gender }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="textinput">Location</label>
+                    <div class="col-sm-8">
+                        <input type="text" maxlength="100" value="{{ userData.location }}" name="location" placeholder="Location" class="form-control" placeholder="First Name" class="form-control" title="Location has a character maximum of 100">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="textinput">Telephone</label>
+                    <div class="col-sm-8">
+                        <input type="number" min="1" max="999999999999999" value="{{ userData.phone }}" name="phone" placeholder="Telephone" class="form-control" title="Number has a character maximum of 15">
+                    </div>
+                </div>
+
+                {% if photographer %}
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="shortdescr">Short Description</label>
+                    <div class="col-sm-8">
+                        <textarea rows="2" cols="50" type="text" name="shortdescr" placeholder="Short Description" class="form-control" title="Short description has a character maximum of 100" maxlength="100">{{ userData.shortdescr }}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="longdescr">Long Description</label>
+                    <div class="col-sm-8">
+                        <textarea rows="6" cols="50" type="text" name="longdescr" placeholder="Long Description" class="form-control" title="Long description has a character maximum of 500" maxlength="500">{{ userData.longdescr }}</textarea>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                    </div>
+                </div>
+
+                </fieldset>
+            </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
